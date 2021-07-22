@@ -1,7 +1,6 @@
 const { runSql } = require("../db/runsSql");
 const SQL = require("../db/bookingsSql");
 
-
 // USED FOR EXPORTING THE FUNCTIONS BELOW
 const Booking = {};
 
@@ -21,9 +20,8 @@ const Booking = {};
 // GET ALL BOOKINGS
 Booking.get = async () => {
     try {
-        const { rows } = await runSql(SQL.GET_BOOKINGS, []);
+        const { rows } = await runSql(SQL.GET_OPEN_BOOKINGS, []);
         return { bookings: rows };
-
     } catch (error) {
         console.log(error);
         return error;
