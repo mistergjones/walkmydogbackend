@@ -153,6 +153,7 @@ INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leas
 INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('Poki','notapplied','corgi','S','FALSE',19);
 INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('Soki','notapplied','terrier','S','TRUE',20);
 INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('fido','notapplied','sausage','S','TRUE',21);
+
 INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('charlie','notapplied','alsatian','L','FALSE',22);
 INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('mick','notapplied','mutt','M','TRUE',23);
 INSERT INTO DOGS (dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed, user_id) VALUES  ('jess','notapplied','collie','M','TRUE',24);
@@ -235,6 +236,7 @@ INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,se
 INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,service_id,dog_id,user_id) VALUES ('2021-07-25','1627207200','1627209000',1800,'blank','blank',20,2,'FALSE','na','O','blank',3,1,3);
 INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,service_id,dog_id,user_id) VALUES ('2021-07-25','1627209000','1627210800',1800,'blank','blank',35,3.5,'FALSE','na','A','blank',4,2,4);
 INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,service_id,dog_id,user_id) VALUES ('2021-07-25','1627210800','1627212600',1800,'blank','blank',25,2.5,'FALSE','na','A','blank',1,3,5);
+
 INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,service_id,dog_id,user_id) VALUES ('2021-07-25','1627212600','1627214400',1800,'blank','blank',40,4,'FALSE','na','A','blank',2,4,1);
 INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,service_id,dog_id,user_id) VALUES ('2021-07-25','1627214400','1627216200',1800,'blank','blank',20,2,'FALSE','na','F','blank',3,2,2);
 INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,service_id,dog_id,user_id) VALUES ('2021-07-25','1627216200','1627218000',1800,'blank','blank',35,3.5,'FALSE','na','F','blank',4,3,3);
