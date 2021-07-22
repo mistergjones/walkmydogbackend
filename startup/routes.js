@@ -12,10 +12,13 @@ const bookings = require("../routes/bookings");
 // const logger = require("../middleware/logger");
 // const error = require("../middleware/error");
 
+var cors = require("cors");
+
 module.exports = function (app) {
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
     app.use(express.static("public"));
+    app.use(cors());
     // app.use(helmet());
     // app.use(logger);
     // app.use(auth);
