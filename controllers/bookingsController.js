@@ -22,16 +22,16 @@ const getBookings = async () => {
 //         return error
 //     }
 // }
-// // GET SINGLE USER BY ID
-// const getUserById = async (id) => {
-//     try {
-//         const user = await User.getUserById(id);
-//         return user;
-//     } catch (error) {
-//         console.log("Error from getUserById()", error);
-//         return error
-//     }
-// }
+// GET SINGLE BOOKING BY ID
+const getBookingById = async (id) => {
+    try {
+        const booking = await Booking.getBookingById(id);
+        return booking;
+    } catch (error) {
+        console.log("Error from getBookingId()", error);
+        return error
+    }
+}
 
 // // CREATE USER
 // const createUser = async (username, password) => {
@@ -79,7 +79,7 @@ const getBookings = async () => {
 module.exports = {
     getBookings,
     // getUserByEmail,
-    // getUserById,
+    getBookingById,
     // createUser,
     // updateUser,
     // deleteUser
