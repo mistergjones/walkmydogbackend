@@ -21,7 +21,7 @@ const Booking = {};
 Booking.get = async () => {
     try {
         const { rows } = await runSql(SQL.GET_OPEN_BOOKINGS, []);
-        return { bookings: rows };
+        return rows;
     } catch (error) {
         console.log(error);
         return error;
@@ -41,17 +41,17 @@ Booking.get = async () => {
 //     }
 // };
 
-// Booking.getUserById = async (id) => {
+Booking.getBookingById = async (id) => {
 
-//     try {
-//         const { rows } = await runSql(SQL.GET_USER_BY_ID, [id]);
-//         return { user: rows };
+    try {
+        const { rows } = await runSql(SQL.GET_BOOKING_BY_ID, [id]);
+        return rows;
 
-//     } catch (error) {
-//         console.log(error);
-//         return error;
-//     }
-// };
+    } catch (error) {
+        console.log(error);
+        return error;
+    }
+};
 
 // // UPDATE A USER
 // Booking.update = async (id, email) => {

@@ -27,16 +27,16 @@ router.get("/", async (req, res) => {
     }
 });
 
-// router.get("/:id", async (req, res) => {
-//     try {
-//         const user = await userController.getUserById(req.params.id);
-//         res.send(user)
+router.get("/:id", async (req, res) => {
+    try {
+        const booking = await controller.getBookingById(req.params.id);
+        res.send(booking)
 
-//     } catch (error) {
-//         console.log(error);
-//         res.status(403).send(error);
-//     }
-// });
+    } catch (error) {
+        console.log(error);
+        res.status(403).send(error);
+    }
+});
 
 // router.put("/", async (req, res) => {
 //     const { id, email } = req.body
