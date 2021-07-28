@@ -24,6 +24,7 @@ insert into services (service_type, service_fee) VALUES ('30WO', 25);
 insert into services (service_type, service_fee) VALUES ('60WO', 40);
 insert into services (service_type, service_fee) VALUES ('30HV', 20);
 insert into services (service_type, service_fee) VALUES ('60HV', 35);
+SELECT count(*) FROM services;
 
 
 
@@ -41,7 +42,7 @@ INSERT INTO sizepreferences (size_preference) VALUES ('S&M');
 INSERT INTO sizepreferences (size_preference) VALUES ('M&L');
 INSERT INTO sizepreferences (size_preference) VALUES ('S&L');
 INSERT INTO sizepreferences (size_preference) VALUES ('NA');
-
+SELECT count(*) FROM sizepreferences;
 
 
 -- CREATE USERS
@@ -54,7 +55,7 @@ CREATE TABLE users (
     postcode INTEGER NOT NULL,
     mobile VARCHAR(10) NOT NULL,
     email VARCHAR(30) NOT NULL,
-    password VARCHAR(20) NOT NULL,
+    password VARCHAR(60) NOT NULL,
     dob DATE NOT NULL,
     licence_num VARCHAR(10),
     licence_photo VARCHAR(100),
@@ -70,13 +71,18 @@ CREATE TABLE users (
     active_membership BOOLEAN DEFAULT TRUE,
     size_id INTEGER,
     FOREIGN KEY (size_id) REFERENCES sizepreferences(size_id),
-    UNIQUE(email),
-    UNIQUE(mobile)
-
+    UNIQUE(email)
+    -- UNIQUE(mobile)
 );
 
-INSERT INTO USERS (firstname,lastname,street_address,town,postcode,mobile,email,password,dob,licence_num,licence_photo,bankName,bankBSB,bankAcctNum,overall_rating,type,walker_30WO,walker_60WO,walker_30HV,walker_60HV,active_membership,size_id) VALUES('generic','generic','11 Generic Street','Frankston',3199,'0400999999','gg@ggeneric.com','zzz122','2000-01-05','111111111','notapplied','CBA',063133,12345678,5,'O',0,0,0,0,'TRUE',1);
+-- INSERT INTO USERS (firstname,lastname,street_address,town,postcode,mobile,email,password,dob,licence_num,licence_photo,bankName,bankBSB,bankAcctNum,overall_rating,type,walker_30WO,walker_60WO,walker_30HV,walker_60HV,active_membership,size_id) VALUES('aa','aa','14 Oherns Road','Epping',3076,'0401000039','a@a.com','$2a$10$c3sGPEb8F0BkYaEc2bmImu76w5V.7o0pP8yDAIkSOMTldyK/cLs6y','2000-01-01','111111151','notapplied','CBA',063172,12345678,4,'W',1,0,0,4,'TRUE',8);
 
+-- INSERT INTO USERS (firstname,lastname,street_address,town,postcode,mobile,email,password,dob,licence_num,licence_photo,bankName,bankBSB,bankAcctNum,overall_rating,type,walker_30WO,walker_60WO,walker_30HV,walker_60HV,active_membership,size_id) VALUES('zz','zz','14 Oherns Road','Epping',3076,'0401000040','z@z.com','$2a$10$Z6azH5M2KhKdYfs0qZXz9eVFZR0uL491lS0eg0jatFIAxYDT4A/Za','2000-01-01','111111151','notapplied','CBA',063172,12345678,4,'W',1,0,0,4,'TRUE',8);
+
+-- INSERT INTO USERS (firstname,lastname,street_address,town,postcode,mobile,email,password,dob,licence_num,licence_photo,bankName,bankBSB,bankAcctNum,overall_rating,type,walker_30WO,walker_60WO,walker_30HV,walker_60HV,active_membership,size_id) VALUES('zz','zz','','',0000,'','abc@abc.com','$2a$10$Z6azH5M2KhKdYfs0qZXz9eVFZR0uL491lS0eg0jatFIAxYDT4A/Za','1900-01-01','','','',000000,00000000,0,'N',0,0,0,0,'FALSE',8);
+
+
+INSERT INTO USERS (firstname,lastname,street_address,town,postcode,mobile,email,password,dob,licence_num,licence_photo,bankName,bankBSB,bankAcctNum,overall_rating,type,walker_30WO,walker_60WO,walker_30HV,walker_60HV,active_membership,size_id) VALUES('generic','generic','11 Generic Street','Frankston',3199,'0400999999','gg@ggeneric.com','zzz122','2000-01-05','111111111','notapplied','CBA',063133,12345678,5,'O',0,0,0,0,'TRUE',1);
 INSERT INTO USERS (firstname,lastname,street_address,town,postcode,mobile,email,password,dob,licence_num,licence_photo,bankName,bankBSB,bankAcctNum,overall_rating,type,walker_30WO,walker_60WO,walker_30HV,walker_60HV,active_membership,size_id) VALUES('andre','reid','11 Playne Street','Frankston',3199,'0400000000','ar@areid.com','zzz123','2000-01-01','111111112','notapplied','CBA',063134,12345678,1,'O',0,0,0,0,'TRUE',1);
 INSERT INTO USERS (firstname,lastname,street_address,town,postcode,mobile,email,password,dob,licence_num,licence_photo,bankName,bankBSB,bankAcctNum,overall_rating,type,walker_30WO,walker_60WO,walker_30HV,walker_60HV,active_membership,size_id) VALUES('paddy','piper','11 Austin Road','Seaford',3198,'0401000001','pp@ppiper.com','zzz124','2000-01-02','111111113','notapplied','CBA',063135,12345678,2,'O',0,0,0,0,'TRUE',1);
 INSERT INTO USERS (firstname,lastname,street_address,town,postcode,mobile,email,password,dob,licence_num,licence_photo,bankName,bankBSB,bankAcctNum,overall_rating,type,walker_30WO,walker_60WO,walker_30HV,walker_60HV,active_membership,size_id) VALUES('riccardo','goodwin','11 Walkers Road','Carrum',3197,'0401000002','rg@rgoodwin.com','zzz125','2000-01-03','111111114','notapplied','CBA',063136,12345678,3,'O',0,0,0,0,'TRUE',1);
@@ -116,6 +122,9 @@ INSERT INTO USERS (firstname,lastname,street_address,town,postcode,mobile,email,
 INSERT INTO USERS (firstname,lastname,street_address,town,postcode,mobile,email,password,dob,licence_num,licence_photo,bankName,bankBSB,bankAcctNum,overall_rating,type,walker_30WO,walker_60WO,walker_30HV,walker_60HV,active_membership,size_id) VALUES('gurpreet','cowan','14 Cheddar Road','Reservoir',3073,'0401000036','gc@gcowan.com','zzz159','2000-01-18','111111148','notapplied','CBA',063170,12345678,2,'W',0,0,3,4,'TRUE',7);
 INSERT INTO USERS (firstname,lastname,street_address,town,postcode,mobile,email,password,dob,licence_num,licence_photo,bankName,bankBSB,bankAcctNum,overall_rating,type,walker_30WO,walker_60WO,walker_30HV,walker_60HV,active_membership,size_id) VALUES('aaliya','henry','14 The Blvd','Thomastown',3074,'0401000037','ah@ahenry.com','zzz160','2000-01-19','111111149','notapplied','CBA',063171,12345678,3,'W',1,0,3,4,'TRUE',8);
 INSERT INTO USERS (firstname,lastname,street_address,town,postcode,mobile,email,password,dob,licence_num,licence_photo,bankName,bankBSB,bankAcctNum,overall_rating,type,walker_30WO,walker_60WO,walker_30HV,walker_60HV,active_membership,size_id) VALUES('becky','hayden','14 Oherns Road','Epping',3076,'0401000038','bh@bhayden.com','zzz161','2000-01-01','111111150','notapplied','CBA',063172,12345678,4,'W',1,0,0,4,'TRUE',8);
+SELECT count(*) FROM users;
+
+
 
 -- THIS TABLE CREATE DOGS
 CREATE TABLE dogs (
@@ -259,3 +268,4 @@ INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,se
 INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,service_id,dog_id,user_id) VALUES ('2021-07-26','1627275600','1627279200',3600,'blank','blank',35,3.5,'FALSE','na','F','blank',4,4,2);
 INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,service_id,dog_id,user_id) VALUES ('2021-07-26','1627279200','1627282800',3600,'blank','blank',25,2.5,'TRUE','1','C','blank',1,2,1);
 INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,service_id,dog_id,user_id) VALUES ('2021-07-26','1627282800','1627286400',3600,'blank','blank',40,4,'TRUE','2','C','blank',2,3,2);
+SELECT count(*) FROM bookings;

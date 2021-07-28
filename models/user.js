@@ -1,17 +1,21 @@
 const { runSql } = require("../db/runsSql");
 const SQL = require("../db/usersSql.js");
 
-
 // USED FOR EXPORTING THE FUNCTIONS BELOW
 const User = {};
 
 // CREATE A USER
-User.create = async (username, password) => {
+User.create = async (firstname, lastname, email, hashedPassword) => {
     try {
-        await runSql(SQL.CREATE_USER, [username, password]);
-        const { rows } = await runSql(SQL.GET_USER_BY_EMAIL, [username]);
-        return { user: rows[0] };
-
+        await runSql(SQL.INSERT_USER, [
+            firstname,
+            lastname,
+            email,
+            hashedPassword,
+        ]);
+        const { rows } = await runSql(SQL.GET_USER_BY_EMAIL, [email]);
+        // return the first row as an array
+        return rows[0];
     } catch (error) {
         console.log(error);
         return error;
@@ -22,8 +26,7 @@ User.create = async (username, password) => {
 User.get = async () => {
     try {
         const { rows } = await runSql(SQL.GET_USERS, []);
-        return rows;
-
+        return { users: rows };
     } catch (error) {
         console.log(error);
         return error;
@@ -32,11 +35,9 @@ User.get = async () => {
 
 // GET SINGLE USER
 User.getUserByEmail = async (email) => {
-
     try {
         const { rows } = await runSql(SQL.GET_USER_BY_EMAIL, [email]);
-        return rows[0];
-
+        return { user: rows[0] };
     } catch (error) {
         console.log(error);
         return error;
@@ -44,11 +45,9 @@ User.getUserByEmail = async (email) => {
 };
 
 User.getUserById = async (id) => {
-
     try {
         const { rows } = await runSql(SQL.GET_USER_BY_ID, [id]);
-        return rows[0];
-
+        return { user: rows };
     } catch (error) {
         console.log(error);
         return error;
@@ -60,8 +59,7 @@ User.update = async (id, email) => {
     try {
         await runSql(SQL.UPDATE_USER, [email, id]);
         const { rows } = await runSql(SQL.GET_USER_BY_ID, [id]);
-        return rows[0];
-
+        return { user: rows[0] };
     } catch (error) {
         console.log(error);
         return error;
@@ -84,6 +82,6 @@ User.delete = async (id) => {
 User.validate = (user) => {
     // MAYBE USE YUP FOR VALIDATION SCHEMA
     return true;
-}
+};
 
 module.exports = User;
