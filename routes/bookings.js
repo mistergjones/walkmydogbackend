@@ -37,6 +37,19 @@ router.get("/:id", async (req, res) => {
         res.status(403).send(error);
     }
 });
+router.get("/:id/:type", async (req, res) => {
+    const { id, type } = req.params;
+    console.log("we made it to route with id = " + id + "and type = " + type);
+    try {
+        const booking = await controller.getBookingByIdAndType(id, type);
+        console.log(booking);
+        res.send(booking)
+
+    } catch (error) {
+        console.log(error);
+        res.status(403).send(error);
+    }
+});
 
 // router.put("/", async (req, res) => {
 //     const { id, email } = req.body

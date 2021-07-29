@@ -28,6 +28,7 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
+
     try {
         const user = await controller.getUserById(req.params.id);
         res.send(user)
