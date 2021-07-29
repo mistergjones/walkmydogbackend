@@ -22,7 +22,7 @@ User.create = async (username, password) => {
 User.get = async () => {
     try {
         const { rows } = await runSql(SQL.GET_USERS, []);
-        return { users: rows };
+        return rows;
 
     } catch (error) {
         console.log(error);
@@ -35,7 +35,7 @@ User.getUserByEmail = async (email) => {
 
     try {
         const { rows } = await runSql(SQL.GET_USER_BY_EMAIL, [email]);
-        return { user: rows[0] };
+        return rows[0];
 
     } catch (error) {
         console.log(error);
@@ -47,7 +47,7 @@ User.getUserById = async (id) => {
 
     try {
         const { rows } = await runSql(SQL.GET_USER_BY_ID, [id]);
-        return { user: rows };
+        return rows[0];
 
     } catch (error) {
         console.log(error);
@@ -60,7 +60,7 @@ User.update = async (id, email) => {
     try {
         await runSql(SQL.UPDATE_USER, [email, id]);
         const { rows } = await runSql(SQL.GET_USER_BY_ID, [id]);
-        return { user: rows[0] };
+        return rows[0];
 
     } catch (error) {
         console.log(error);

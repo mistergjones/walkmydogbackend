@@ -1,18 +1,18 @@
 
 // REQUIRE MODEL
-const Booking = require("../models/booking.js");
+const Dog = require("../models/dogs");
 
-// GET ALL BOOKINGS
-const getBookings = async () => {
-    try {
-        const bookings = await Booking.get();
-        return bookings;
-    } catch (error) {
-        console.log("Error from getBookings()", error);
-        return error
-    }
-}
-// GET SINGLE USER BY EMAIL
+// // GET ALL USERS
+// const getUsers = async () => {
+//     try {
+//         const users = await User.get();
+//         return users;
+//     } catch (error) {
+//         console.log("Error from getUser()", error);
+//         return error
+//     }
+// }
+// // GET SINGLE USER BY EMAIL
 // const getUserByEmail = async (email) => {
 //     try {
 //         const user = await User.getUserByEmail(email);
@@ -22,27 +22,18 @@ const getBookings = async () => {
 //         return error
 //     }
 // }
-// GET SINGLE BOOKING BY ID
-const getBookingById = async (id) => {
+// GET SINGLE USER BY ID
+const getDogById = async (id) => {
     try {
-        const booking = await Booking.getBookingById(id);
-        return booking;
+        const dog = await Dog.getDogById(id);
+        return dog;
     } catch (error) {
-        console.log("Error from getBookingId()", error);
-        return error
-    }
-}
-const getBookingByIdAndType = async (id, type) => {
-    try {
-        const booking = await Booking.getBookingByIdAndType(id, type);
-        return booking;
-    } catch (error) {
-        console.log("Error from getBookingId()", error);
+        console.log("Error from getUserById()", error);
         return error
     }
 }
 
-// // CREATE USER
+// CREATE USER
 // const createUser = async (username, password) => {
 //     // NEED VALIDATION LOGIC HERE
 //     if (!User.validate(username)) return "Validation error";
@@ -56,7 +47,7 @@ const getBookingByIdAndType = async (id, type) => {
 //     }
 // }
 
-// // UPDATE USER
+// UPDATE USER
 // const updateUser = async (id, email) => {
 //     // NEED VALIDATION LOGIC HERE
 //     if (!User.validate(email)) return "Validation error";
@@ -71,7 +62,7 @@ const getBookingByIdAndType = async (id, type) => {
 
 // }
 
-// // DELETE USER
+// DELETE USER
 // const deleteUser = async (id) => {
 
 //     try {
@@ -86,10 +77,9 @@ const getBookingByIdAndType = async (id, type) => {
 
 
 module.exports = {
-    getBookings,
+    // getUsers,
     // getUserByEmail,
-    getBookingById,
-    getBookingByIdAndType
+    getDogById,
     // createUser,
     // updateUser,
     // deleteUser

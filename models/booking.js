@@ -18,9 +18,9 @@ const Booking = {};
 // };
 
 // GET ALL BOOKINGS
-Booking.get = async () => {
+Booking.get = async (userType) => {
     try {
-        const { rows } = await runSql(SQL.GET_OPEN_BOOKINGS, []);
+        const { rows } = await runSql(SQL.GET_OPEN_BOOKINGS_WALKER, []);
         return rows;
     } catch (error) {
         console.log(error);
@@ -41,11 +41,30 @@ Booking.get = async () => {
 //     }
 // };
 
-Booking.getBookingById = async (id) => {
+Booking.getBookingById = async (id, type) => {
 
     try {
         const { rows } = await runSql(SQL.GET_BOOKING_BY_ID, [id]);
-        return rows;
+        const dogInfo = {};
+        dogInfo.dog_firstname = rows[0].dog_firstname;
+        dogInfo.dog_breed = rows[0].dog_breed;
+        dogInfo.dog_size = rows[0].dog_size;
+        dogInfo.dog_always_leashed = rows[0].dog_always_leashed;
+
+        console.log("rows[0] = ", { ...rows[0], dogInfo });
+        return { ...rows[0], dogInfo };
+
+    } catch (error) {
+        console.log(error);
+        return error;
+    }
+};
+
+Booking.getBookingByIdAndType = async (id, type) => {
+
+    try {
+        const { rows } = await runSql(SQL.GET_BOOKING_DETAILS, [id, type]);
+        return rows[0];
 
     } catch (error) {
         console.log(error);
