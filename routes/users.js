@@ -1,5 +1,5 @@
 const express = require("express");
-const auth = require("../middleware/auth")
+const auth = require("../middleware/auth");
 const router = express.Router();
 
 const controller = require("../controllers/usersController");
@@ -29,37 +29,25 @@ router.post("/", async (req, res) => {
     const { email, password, type, firstname, lastname } = req.body;
 
     try {
-        const user = await controller.insertUser(
+        const { user, token } = await controller.insertUser(
             email,
             password,
             type,
             firstname,
             lastname
         );
-        //console.log("********* router.post: ", user);
-        res.send(user);
+
+        console.log("inside create user: ", user);
 
         // ***** Changes for jwt token in response
-        // res
-        //     .header("x-auth-token", token)
-        //     .header("access-control-expose-headers", "x-auth-token")
-        //     .send(user);
+        res.header("x-auth-token", token)
+            .header("access-control-expose-headers", "x-auth-token")
+            .send(user);
     } catch (error) {
         console.log(error);
         res.status(403).send(error);
     }
 });
-
-// router.post("/", async (req, res) => {
-//     const { username, password } = req.body;
-//     try {
-//         const user = await controller.createUser(username, password);
-//         res.send(user);
-//     } catch (error) {
-//         console.log(error);
-//         res.status(403).send(error);
-//     }
-// });
 
 router.get("/", async (req, res) => {
     try {
@@ -71,21 +59,27 @@ router.get("/", async (req, res) => {
     }
 });
 
-router.get("/:id", async (req, res) => {
-    try {
-        const user = await controller.getUserByEmail(req.params.id);
-        res.send(user);
-    } catch (error) {
-        console.log(error);
-        res.status(403).send(error);
-    }
-});
+// router.get("/:id", async (req, res) => {
+//     try {
+//         const user = await controller.getUserByEmail(req.params.id);
+//         res.send(user);
+//     } catch (error) {
+//         console.log(error);
+//         res.status(403).send(error);
+//     }
+// });
 
 // 27/07 - GLEN PLAYING AROUND
 router.get("/:email", async (req, res) => {
     try {
-        const user = await controller.getUserByEmail(req.params.email);
-        res.send(user);
+        const { user, token } = await controller.getUserByEmail(
+            req.params.email
+        );
+        console.log("inside get email: ", user);
+        // ***** Changes for jwt token in response
+        res.header("x-auth-token", token)
+            .header("access-control-expose-headers", "x-auth-token")
+            .send(user);
     } catch (error) {
         console.log(error);
         res.status(403).send(error);
@@ -104,16 +98,15 @@ router.put("/", async (req, res) => {
     }
 });
 router.post("/profile", auth, async (req, res) => {
-
     const profile = req.body.profile;
     console.log("route post profile", profile);
     const result = await controller.updateProfile(profile);
-    console.log("/profile result = " + result)
+    console.log("/profile result = " + result);
 
     res.header("x-auth-token", result)
         .header("access-control-expose-headers", "x-auth-token")
         .send("ok");
-})
+});
 
 router.post("/:id", async (req, res) => {
     try {
@@ -124,6 +117,5 @@ router.post("/:id", async (req, res) => {
         res.status(403).send(error);
     }
 });
-
 
 module.exports = router;

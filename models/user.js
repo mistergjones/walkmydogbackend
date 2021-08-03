@@ -12,24 +12,15 @@ User.create = async (email, hashedPassword, type) => {
         await runSql(SQL.INSERT_USER, [email, hashedPassword, type]);
         const { rows } = await runSql(SQL.GET_USER_BY_EMAIL, [email]);
         // return the first row as an array
-        return rows[0];
-        // CREATE A USER
-        // Need to incorporate JWT Token
-        // User.create = async (firstname, lastname, email, hashedPassword, type) => {
-        //     console.log("users.create");
-        //     try {
-        //         if (type === "O") {
+        // return rows[0];
+        const token = generateAuthToken(
+            rows[0].credential_id,
+            rows[0].type,
+            rows[0].email,
+            false
+        );
 
-        //             await runSql(SQL.INSERT_OWNER, [
-        //                 email,
-        //                 hashedPassword,
-        //             ]);
-        //             const { rows } = await runSql(SQL.GET_USER_BY_EMAIL, [email]);
-        //             // return the first row as an array
-        //             const token = generateAuthToken(rows[0].credential_id, "O", rows[0].email, false);
-
-        //             return { user: rows[0], token };
-        //         }
+        return { user: rows[0], token };
     } catch (error) {
         console.log(error);
         return error;
@@ -51,7 +42,17 @@ User.get = async () => {
 User.getUserByEmail = async (email) => {
     try {
         const { rows } = await runSql(SQL.GET_USER_BY_EMAIL, [email]);
-        return { user: rows[0] };
+
+        console.log("Getting single user by email: ", rows);
+
+        const token = generateAuthToken(
+            rows[0].credential_id,
+            rows[0].type,
+            rows[0].email,
+            false
+        );
+
+        return { user: rows[0], token };
     } catch (error) {
         console.log(error);
         return error;
@@ -106,7 +107,7 @@ User.validate = (user) => {
 };
 
 User.updateProfile = (profile) => {
-    console.log("User update profile = ", profile)
+    console.log("User update profile = ", profile);
     const { id, type, email, phone } = profile;
     try {
         // const result = await runSql(SQL.UPDATE_PROFILE, [phone]);
@@ -117,7 +118,7 @@ User.updateProfile = (profile) => {
         console.log(error);
         return error;
     }
-}
+};
 
 generateAuthToken = function (id, type, email, profile) {
     const token = jwt.sign(
