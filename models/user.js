@@ -4,15 +4,10 @@ const SQL = require("../db/usersSql.js");
 // USED FOR EXPORTING THE FUNCTIONS BELOW
 const User = {};
 
-// CREATE A USER
-User.create = async (firstname, lastname, email, hashedPassword) => {
+// 01/08/2021: GJ: attempting to insert a user into the CRDENTIALS table
+User.create = async (email, hashedPassword, type) => {
     try {
-        await runSql(SQL.INSERT_USER, [
-            firstname,
-            lastname,
-            email,
-            hashedPassword,
-        ]);
+        await runSql(SQL.INSERT_USER, [email, hashedPassword, type]);
         const { rows } = await runSql(SQL.GET_USER_BY_EMAIL, [email]);
         // return the first row as an array
         return rows[0];
@@ -54,11 +49,18 @@ User.getUserById = async (id) => {
     }
 };
 
-// UPDATE A USER
-User.update = async (id, email) => {
+// UPDATE A WALKER
+User.update = async (firstname, lastname, mobile, email, credential_id) => {
     try {
-        await runSql(SQL.UPDATE_USER, [email, id]);
-        const { rows } = await runSql(SQL.GET_USER_BY_ID, [id]);
+        await runSql(SQL.INSERT_WALKER, [
+            firstname,
+            lastname,
+            mobile,
+            email,
+            credential_id,
+        ]);
+        // now return a record set back to calling function. We may use this data
+        const { rows } = await runSql(SQL.GET_USER_BY_EMAIL, [email]);
         return { user: rows[0] };
     } catch (error) {
         console.log(error);
