@@ -1,4 +1,5 @@
 const express = require("express");
+const auth = require("../middleware/auth")
 const router = express.Router();
 
 const controller = require("../controllers/usersController");
@@ -37,6 +38,12 @@ router.post("/", async (req, res) => {
         );
         //console.log("********* router.post: ", user);
         res.send(user);
+
+        // ***** Changes for jwt token in response
+        // res
+        //     .header("x-auth-token", token)
+        //     .header("access-control-expose-headers", "x-auth-token")
+        //     .send(user);
     } catch (error) {
         console.log(error);
         res.status(403).send(error);
@@ -96,6 +103,17 @@ router.put("/", async (req, res) => {
         res.status(403).send(error);
     }
 });
+router.post("/profile", auth, async (req, res) => {
+
+    const profile = req.body.profile;
+    console.log("route post profile", profile);
+    const result = await controller.updateProfile(profile);
+    console.log("/profile result = " + result)
+
+    res.header("x-auth-token", result)
+        .header("access-control-expose-headers", "x-auth-token")
+        .send("ok");
+})
 
 router.post("/:id", async (req, res) => {
     try {
@@ -106,5 +124,6 @@ router.post("/:id", async (req, res) => {
         res.status(403).send(error);
     }
 });
+
 
 module.exports = router;

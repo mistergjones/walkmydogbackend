@@ -307,3 +307,6 @@ INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,se
 INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-08-03','1627970400','1627974000','3600','notapplied','notapplied',35,3.5,'FALSE','na','O','no notes',0,1,13);
 INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-08-03','1627974000','1627977600','3600','notapplied','notapplied',35,3.5,'FALSE','na','O','no notes',0,1,14);
 SELECT count(*) FROM bookings;
+
+
+select  walkers.firstname, walkers.suburb, walkers.overall_rating from bookings, walkers where bookings.walker_assigned = walkers.walker_id and booking_status = 'A' and booking_id = 16

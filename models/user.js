@@ -1,3 +1,5 @@
+const jwt = require("jsonwebtoken");
+// const config = require("config");
 const { runSql } = require("../db/runsSql");
 const SQL = require("../db/usersSql.js");
 
@@ -11,6 +13,23 @@ User.create = async (email, hashedPassword, type) => {
         const { rows } = await runSql(SQL.GET_USER_BY_EMAIL, [email]);
         // return the first row as an array
         return rows[0];
+        // CREATE A USER
+        // Need to incorporate JWT Token
+        // User.create = async (firstname, lastname, email, hashedPassword, type) => {
+        //     console.log("users.create");
+        //     try {
+        //         if (type === "O") {
+
+        //             await runSql(SQL.INSERT_OWNER, [
+        //                 email,
+        //                 hashedPassword,
+        //             ]);
+        //             const { rows } = await runSql(SQL.GET_USER_BY_EMAIL, [email]);
+        //             // return the first row as an array
+        //             const token = generateAuthToken(rows[0].credential_id, "O", rows[0].email, false);
+
+        //             return { user: rows[0], token };
+        //         }
     } catch (error) {
         console.log(error);
         return error;
@@ -86,4 +105,26 @@ User.validate = (user) => {
     return true;
 };
 
+User.updateProfile = (profile) => {
+    console.log("User update profile = ", profile)
+    const { id, type, email, phone } = profile;
+    try {
+        // const result = await runSql(SQL.UPDATE_PROFILE, [phone]);
+        const token = generateAuthToken(id, type, email, true);
+        console.log("user update profile token = ", token);
+        return token;
+    } catch (error) {
+        console.log(error);
+        return error;
+    }
+}
+
+generateAuthToken = function (id, type, email, profile) {
+    const token = jwt.sign(
+        { id: id, type: type, email, hasProfile: profile },
+        "1111"
+        // config.get("jwtPrivateKey")
+    );
+    return token;
+};
 module.exports = User;

@@ -45,14 +45,7 @@ Booking.getBookingById = async (id, type) => {
 
     try {
         const { rows } = await runSql(SQL.GET_BOOKING_BY_ID, [id]);
-        const dogInfo = {};
-        dogInfo.dog_firstname = rows[0].dog_firstname;
-        dogInfo.dog_breed = rows[0].dog_breed;
-        dogInfo.dog_size = rows[0].dog_size;
-        dogInfo.dog_always_leashed = rows[0].dog_always_leashed;
-
-        console.log("rows[0] = ", { ...rows[0], dogInfo });
-        return { ...rows[0], dogInfo };
+        return rows[0];
 
     } catch (error) {
         console.log(error);
@@ -60,11 +53,55 @@ Booking.getBookingById = async (id, type) => {
     }
 };
 
+
+
 Booking.getBookingByIdAndType = async (id, type) => {
 
     try {
-        const { rows } = await runSql(SQL.GET_BOOKING_DETAILS, [id, type]);
-        return rows[0];
+        const { rows } = await runSql(SQL.GET_BOOKING_BY_ID, [id]);
+
+        let jobInfo = {};
+
+        if (rows.length === 1) {
+
+            jobInfo.startTime = rows[0].start_time;
+            jobInfo.suburb = rows[0].suburb;
+            jobInfo.serviceType = rows[0].service_type;
+            jobInfo.serviceFee = rows[0].service_fee;
+        }
+        else {
+            jobInfo = null;
+        }
+
+        if (type === "W") {
+            const { rows } = await runSql(SQL.GET_BOOKING_DETAILS_WALKER, [id]);
+
+            let dogInfo = {};
+
+            if (rows.length === 1) {
+                dogInfo.dogFirstname = rows[0].dog_firstname;
+                dogInfo.dogBreed = rows[0].dog_breed;
+                dogInfo.dogSize = rows[0].dog_size;
+                dogInfo.dogAlwaysLeashed = rows[0].dog_always_leashed;
+            } else {
+                dogInfo = null;
+            }
+            return { jobInfo, dogInfo };
+        }
+        else if (type === "O") {
+
+            const { rows } = await runSql(SQL.GET_BOOKING_DETAILS_OWNER, [id]);
+            let walkerInfo = {};
+            if (rows.length === 1) {
+                walkerInfo.firstname = rows[0].firstname;
+                walkerInfo.suburb = rows[0].suburb;
+                walkerInfo.rating = rows[0].overall_rating;
+            } else {
+                walkerInfo = null;
+            }
+
+            return { jobInfo, walkerInfo };
+        }
 
     } catch (error) {
         console.log(error);
