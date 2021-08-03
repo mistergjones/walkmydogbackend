@@ -125,6 +125,17 @@ const insertUser = async (email, password, type, firstname, lastname) => {
     }
 };
 
+const updateProfile = async (profile) => {
+    console.log("controller update profile = ", profile);
+    try {
+        const result = await User.updateProfile(profile);
+        console.log("controller update profile result = ", result);
+        return result;
+    } catch (error) {
+        console.log("error from update profile = " + error)
+    }
+}
+
 module.exports = {
     getUsers,
     getUserByEmail,
@@ -134,4 +145,5 @@ module.exports = {
     deleteUser,
     // 27/07 - Glen playing around
     insertUser,
+    updateProfile
 };
