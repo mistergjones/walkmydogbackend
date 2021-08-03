@@ -4,17 +4,38 @@ const router = express.Router();
 const controller = require("../controllers/usersController");
 
 // 27/07 - GLEN PLAYING AROUND TO INSERT A RECORD INTO USERS
+// router.post("/", async (req, res) => {
+//     const { firstname, lastname, email, hashedPassword } = req.body;
+
+//     try {
+//         const user = await controller.insertUser(
+//             firstname,
+//             lastname,
+//             email,
+//             hashedPassword
+//         );
+//         console.log("********* router.post: ", user);
+//         res.send(user);
+//     } catch (error) {
+//         console.log(error);
+//         res.status(403).send(error);
+//     }
+// });
+
+// 01/08: GJ: attempting to insert credentials
 router.post("/", async (req, res) => {
-    const { firstname, lastname, email, hashedPassword } = req.body;
+    // NOTE: firsntame and lastname are just being passed through for later use
+    const { email, password, type, firstname, lastname } = req.body;
 
     try {
         const user = await controller.insertUser(
-            firstname,
-            lastname,
             email,
-            hashedPassword
+            password,
+            type,
+            firstname,
+            lastname
         );
-        console.log("********* router.post: ", user);
+        //console.log("********* router.post: ", user);
         res.send(user);
     } catch (error) {
         console.log(error);
@@ -44,7 +65,6 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
-
     try {
         const user = await controller.getUserByEmail(req.params.id);
         res.send(user);

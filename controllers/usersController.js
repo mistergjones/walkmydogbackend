@@ -1,10 +1,14 @@
 // REQUIRE MODEL
 const User = require("../models/user.js");
+// Require BCRYPT for encrypting the password
+const bcrypt = require("bcryptjs");
 
 // GET ALL USERS
 const getUsers = async () => {
+    // just get the WALKERS only
     try {
         const users = await User.get();
+
         return users;
     } catch (error) {
         console.log("Error from getUser()", error);
@@ -73,15 +77,47 @@ const deleteUser = async (id) => {
 };
 
 // 27/07 - GLEN PLAYING AROUND - INSERT USER
-const insertUser = async (firstname, lastname, email, hashedPassword) => {
+// const insertUser = async (firstname, lastname, email, hashedPassword) => {
+//     // NEED VALIDATION LOGIC HERE
+//     try {
+//         const user = await User.create(
+//             firstname,
+//             lastname,
+//             email,
+//             hashedPassword
+//         );
+//         return user;
+//     } catch (error) {
+//         console.log("Error from insertUser()", error);
+//         return error;
+//     }
+// };
+
+// 01/08: GJ: inserting credentials
+const insertUser = async (email, password, type, firstname, lastname) => {
     // NEED VALIDATION LOGIC HERE
     try {
-        const user = await User.create(
+        // 1.0 need to hash the password before insertion
+        var salt = bcrypt.genSaltSync(10);
+        var hashedPassword = bcrypt.hashSync(password, salt);
+        // 2.0 insert the data into the CREDENTIALS table
+        const user = await User.create(email, hashedPassword, type);
+        // 3.0 obtain the credential_id based on the email. This is required to either update the WALKER or OWNERS table based on 'type'.
+        const tempUser = await User.getUserByEmail(email);
+
+        // 4.0 generate a random number for the unique mobile number database constraint in the table
+        const mobile = Math.ceil(Math.random() * 100000000);
+
+        // 5.0 USE tempuser fields and firstname, lastname to update the WALKER table. Add mobile too.
+        const walker = await User.update(
             firstname,
             lastname,
-            email,
-            hashedPassword
+            // to cater for unique mobile numbers
+            mobile,
+            tempUser.user.email,
+            tempUser.user.credential_id
         );
+
         return user;
     } catch (error) {
         console.log("Error from insertUser()", error);
