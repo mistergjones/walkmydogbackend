@@ -18,8 +18,8 @@ const getUsers = async () => {
 // GET SINGLE USER BY EMAIL
 const getUserByEmail = async (email) => {
     try {
-        // console.log("getUserByEmail is working");
         const user = await User.getUserByEmail(email);
+
         return user;
     } catch (error) {
         console.log("Error from getUserByEmail()", error);
@@ -76,24 +76,7 @@ const deleteUser = async (id) => {
     }
 };
 
-// 27/07 - GLEN PLAYING AROUND - INSERT USER
-// const insertUser = async (firstname, lastname, email, hashedPassword) => {
-//     // NEED VALIDATION LOGIC HERE
-//     try {
-//         const user = await User.create(
-//             firstname,
-//             lastname,
-//             email,
-//             hashedPassword
-//         );
-//         return user;
-//     } catch (error) {
-//         console.log("Error from insertUser()", error);
-//         return error;
-//     }
-// };
-
-// 01/08: GJ: inserting credentials
+// 01/08: GJ: inserting user details into table credentials
 const insertUser = async (email, password, type, firstname, lastname) => {
     // NEED VALIDATION LOGIC HERE
     try {
@@ -115,14 +98,16 @@ const insertUser = async (email, password, type, firstname, lastname) => {
         // 4.0 generate a random number for the unique mobile number database constraint in the table
         const mobile = Math.ceil(Math.random() * 100000000);
 
-        // 5.0 USE tempuser fields and firstname, lastname to update the WALKER table. Add mobile too.
+        // 5.0 USE tempuser's fields and TYPE pass to User.update to determine if WALKER or OWNER also gets updated on a new signup.
         const walker = await User.update(
             firstname,
             lastname,
             // to cater for unique mobile numbers
             mobile,
             tempUser.user.email,
-            tempUser.user.credential_id
+            tempUser.user.credential_id,
+            // pass "type" onwards to next function to determine if WALKER or OWNER table to be updated
+            tempUser.user.type
         );
 
         return user;
@@ -139,9 +124,9 @@ const updateProfile = async (profile) => {
         console.log("controller update profile result = ", result);
         return result;
     } catch (error) {
-        console.log("error from update profile = " + error)
+        console.log("error from update profile = " + error);
     }
-}
+};
 
 module.exports = {
     getUsers,
@@ -152,5 +137,5 @@ module.exports = {
     deleteUser,
     // 27/07 - Glen playing around
     insertUser,
-    updateProfile
+    updateProfile,
 };
