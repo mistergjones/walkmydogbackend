@@ -19,7 +19,9 @@ const auth = require("../middleware/auth");
 
 router.get("/", async (req, res) => {
     try {
+        console.log("bookings route before");
         const bookings = await controller.getBookings();
+        console.log("bookings route after bookings = ", bookings);
         res.send(bookings)
 
     } catch (error) {
@@ -38,9 +40,9 @@ router.get("/:id", async (req, res) => {
         res.status(403).send(error);
     }
 });
-router.get("/:id/:type", async (req, res) => {
+router.get("/:id/:type", auth, async (req, res) => {
     const { id, type } = req.params;
-    // console.log("we made it to route with id = " + id + "and type = " + type);
+    console.log("we made it to route with id = " + id + "and type = " + type);
     try {
         const booking = await controller.getBookingByIdAndType(id, type);
         // console.log(booking);
