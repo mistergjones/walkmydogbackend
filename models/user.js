@@ -9,6 +9,9 @@ const User = {};
 // 01/08/2021: GJ: attempting to insert a user into the CRDENTIALS table
 User.create = async (email, hashedPassword, type) => {
     try {
+        const { rows: rowsBefore } = await runSql(SQL.GET_USER_BY_EMAIL, [email]);
+        console.log("rows before = ", rowsBefore.length)
+        if (rowsBefore.length > 0) return { user: null, token: null, error: "user already exists" };
         await runSql(SQL.INSERT_USER, [email, hashedPassword, type]);
         const { rows } = await runSql(SQL.GET_USER_BY_EMAIL, [email]);
         // return the first row as an array
@@ -49,7 +52,7 @@ User.getUserByEmail = async (email) => {
             rows[0].credential_id,
             rows[0].type,
             rows[0].email,
-            false
+            true
         );
 
         return { user: rows[0], token };

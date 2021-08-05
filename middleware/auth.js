@@ -6,10 +6,13 @@ module.exports = function (req, res, next) {
     if (!token) return res.status(401).send("Acess denied. No token provided.");
 
     try {
+        console.log("auth try");
         const decoded = jwt.verify(token, "1111");
         req.user = decoded;
+
         next();
     } catch (error) {
+        console.log("Auth catch", error)
         res.status(400).send("Invalid token.");
     }
 };

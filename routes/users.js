@@ -29,7 +29,7 @@ router.post("/", async (req, res) => {
     const { email, password, type, firstname, lastname } = req.body;
 
     try {
-        const { user, token } = await controller.insertUser(
+        const { user, token, error } = await controller.insertUser(
             email,
             password,
             type,
@@ -37,8 +37,11 @@ router.post("/", async (req, res) => {
             lastname
         );
 
-        console.log("inside create user: ", user);
-
+        console.log("inside create user: ", error);
+        if (error) {
+            console.log("inside error");
+            return res.status(400).send(error);
+        }
         // ***** Changes for jwt token in response
         res.header("x-auth-token", token)
             .header("access-control-expose-headers", "x-auth-token")

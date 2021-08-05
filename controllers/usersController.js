@@ -102,6 +102,13 @@ const insertUser = async (email, password, type, firstname, lastname) => {
         var hashedPassword = bcrypt.hashSync(password, salt);
         // 2.0 insert the data into the CREDENTIALS table
         const user = await User.create(email, hashedPassword, type);
+        console.log("user $$$ = ", user)
+        if (user.error) {
+            console.log("return statement");
+
+            return user;
+        }
+
         // 3.0 obtain the credential_id based on the email. This is required to either update the WALKER or OWNERS table based on 'type'.
         const tempUser = await User.getUserByEmail(email);
 
