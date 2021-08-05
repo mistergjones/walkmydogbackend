@@ -51,50 +51,52 @@ CREATE TABLE credentials (
     credential_id SERIAL PRIMARY KEY NOT NULL,
     email VARCHAR(20) NOT NULL,
     password VARCHAR(60) NOT NULL,
-    type VARCHAR(1) NOT NULL
+    type VARCHAR(1) NOT NULL,
+    is_profile_established BOOLEAN DEFAULT FALSE,
+    UNIQUE(email)
 );
 
 -- CREATE CREDENTIAL DATA
-INSERT INTO CREDENTIALS (email, password,type) values ('ar@areid.com','111','O');
-INSERT INTO CREDENTIALS (email, password,type) values ('pp@ppiper.com','111','O');
-INSERT INTO CREDENTIALS (email, password,type) values ('rg@rgoodwin.com','111','O');
-INSERT INTO CREDENTIALS (email, password,type) values ('aj@ajacobson.com','111','O');
-INSERT INTO CREDENTIALS (email, password,type) values ('cm@cmora.com','111','O');
-INSERT INTO CREDENTIALS (email, password,type) values ('jm@jmorrison.com','111','O');
-INSERT INTO CREDENTIALS (email, password,type) values ('mw@mwheatley.com','111','O');
-INSERT INTO CREDENTIALS (email, password,type) values ('sb@sblaese.com','111','O');
-INSERT INTO CREDENTIALS (email, password,type) values ('pj@pjennings.com','111','O');
-INSERT INTO CREDENTIALS (email, password,type) values ('pm@pmohamed.com','111','O');
-INSERT INTO CREDENTIALS (email, password,type) values ('ss@ssharpe.com','111','O');
-INSERT INTO CREDENTIALS (email, password,type) values ('at@atruong.com','111','O');
-INSERT INTO CREDENTIALS (email, password,type) values ('nm@nmassey.com','111','O');
-INSERT INTO CREDENTIALS (email, password,type) values ('zh@zhook.com','111','O');
-INSERT INTO CREDENTIALS (email, password,type) values ('tr@tramirez.com','111','O');
-INSERT INTO CREDENTIALS (email, password,type) values ('mf@mfischer.com','111','O');
-INSERT INTO CREDENTIALS (email, password,type) values ('mh@mhewitt.com','111','O');
-INSERT INTO CREDENTIALS (email, password,type) values ('mt@mtalley.com','111','O');
-INSERT INTO CREDENTIALS (email, password,type) values ('ap@aperalta.com','111','O');
-INSERT INTO CREDENTIALS (email, password,type) values ('kw@kwilder.com','111','O');
-INSERT INTO CREDENTIALS (email, password,type) values ('kl@kleonard.com','111','W');
-INSERT INTO CREDENTIALS (email, password,type) values ('cr@crangel.com','111','W');
-INSERT INTO CREDENTIALS (email, password,type) values ('rc@rcopeland.com','111','W');
-INSERT INTO CREDENTIALS (email, password,type) values ('kd@kdickinson.com','111','W');
-INSERT INTO CREDENTIALS (email, password,type) values ('ln@lnorton.com','111','W');
-INSERT INTO CREDENTIALS (email, password,type) values ('sm@smellor.com','111','W');
-INSERT INTO CREDENTIALS (email, password,type) values ('dc@dcottrell.com','111','W');
-INSERT INTO CREDENTIALS (email, password,type) values ('bs@bsawyer.com','111','W');
-INSERT INTO CREDENTIALS (email, password,type) values ('em@emustafa.com','111','W');
-INSERT INTO CREDENTIALS (email, password,type) values ('am@amartin.com','111','W');
-INSERT INTO CREDENTIALS (email, password,type) values ('gt@gthornton.com','111','W');
-INSERT INTO CREDENTIALS (email, password,type) values ('ad@adenton.com','111','W');
-INSERT INTO CREDENTIALS (email, password,type) values ('vm@vmayer.com','111','W');
-INSERT INTO CREDENTIALS (email, password,type) values ('ak@akelly.com','111','W');
-INSERT INTO CREDENTIALS (email, password,type) values ('cm@cmcfarland.com','111','W');
-INSERT INTO CREDENTIALS (email, password,type) values ('cm@cmcphee.com','111','W');
-INSERT INTO CREDENTIALS (email, password,type) values ('gc@gcowan.com','111','W');
-INSERT INTO CREDENTIALS (email, password,type) values ('ah@ahenry.com','111','W');
-INSERT INTO CREDENTIALS (email, password,type) values ('bh@bhayden.com','111','W');
-INSERT INTO CREDENTIALS (email, password,type) values ('lb@lbyers.com','111','W');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('ar@areid.com','111','O','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('pp@ppiper.com','111','O','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('rg@rgoodwin.com','111','O','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('aj@ajacobson.com','111','O','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('cm@cmora.com','111','O','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('jm@jmorrison.com','111','O','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('mw@mwheatley.com','111','O','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('sb@sblaese.com','111','O','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('pj@pjennings.com','111','O','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('pm@pmohamed.com','111','O','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('ss@ssharpe.com','111','O','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('at@atruong.com','111','O','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('nm@nmassey.com','111','O','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('zh@zhook.com','111','O','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('tr@tramirez.com','111','O','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('mf@mfischer.com','111','O','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('mh@mhewitt.com','111','O','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('mt@mtalley.com','111','O','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('ap@aperalta.com','111','O','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('kw@kwilder.com','111','O','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('kl@kleonard.com','111','W','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('cr@crangel.com','111','W','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('rc@rcopeland.com','111','W','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('kd@kdickinson.com','111','W','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('ln@lnorton.com','111','W','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('sm@smellor.com','111','W','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('dc@dcottrell.com','111','W','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('bs@bsawyer.com','111','W','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('em@emustafa.com','111','W','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('am@amartin.com','111','W','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('gt@gthornton.com','111','W','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('ad@adenton.com','111','W','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('vm@vmayer.com','111','W','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('ak@akelly.com','111','W','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('cm@cmcfarland.com','111','W','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('cm@cmcphee.com','111','W','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('gc@gcowan.com','111','W','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('ah@ahenry.com','111','W','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('bh@bhayden.com','111','W','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('lb@lbyers.com','111','W','FALSE');
 SELECT count(*) FROM credentials;
 
 -- CREATE OWNERS

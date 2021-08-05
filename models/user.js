@@ -9,10 +9,22 @@ const User = {};
 // 01/08/2021: GJ: attempting to insert a user into the CRDENTIALS table
 User.create = async (email, hashedPassword, type) => {
     try {
-        const { rows: rowsBefore } = await runSql(SQL.GET_USER_BY_EMAIL, [email]);
-        console.log("rows before = ", rowsBefore.length)
-        if (rowsBefore.length > 0) return { user: null, token: null, error: "user already exists" };
-        await runSql(SQL.INSERT_USER, [email, hashedPassword, type]);
+        // checking if user alrady exists via email
+        const { rows: rowsBefore } = await runSql(SQL.GET_USER_BY_EMAIL, [
+            email,
+        ]);
+        console.log("rows before = ", rowsBefore.length);
+        // if the email does EXIST, return an error message
+        if (rowsBefore.length > 0)
+            return { user: null, token: null, error: "user already exists" };
+
+        // if not error, inser the user
+        await runSql(SQL.INSERT_USER_INTO_CREDENTIALS, [
+            email,
+            hashedPassword,
+            type,
+        ]);
+
         const { rows } = await runSql(SQL.GET_USER_BY_EMAIL, [email]);
         // return the first row as an array
         // return rows[0];
@@ -46,15 +58,12 @@ User.getUserByEmail = async (email) => {
     try {
         const { rows } = await runSql(SQL.GET_USER_BY_EMAIL, [email]);
 
-        console.log("Getting single user by email: ", rows);
-
         const token = generateAuthToken(
             rows[0].credential_id,
             rows[0].type,
             rows[0].email,
             true
         );
-
         return { user: rows[0], token };
     } catch (error) {
         console.log(error);
@@ -72,19 +81,52 @@ User.getUserById = async (id) => {
     }
 };
 
-// UPDATE A WALKER
-User.update = async (firstname, lastname, mobile, email, credential_id) => {
+// GJ: IF SIGNING UP a NEW USER, NEED TO UPDATE WALKER OR OWNER based on TYPE
+User.update = async (
+    firstname,
+    lastname,
+    mobile,
+    email,
+    credential_id,
+    type
+) => {
+    // DETERMINE WHICH TABLE TO UPDATE BASED ON THE INSERTION OF A NEW USER INTO CREDENTIALS
     try {
-        await runSql(SQL.INSERT_WALKER, [
-            firstname,
-            lastname,
-            mobile,
-            email,
-            credential_id,
-        ]);
+        if (type == "W") {
+            await runSql(SQL.INSERT_WALKER, [
+                firstname,
+                lastname,
+                mobile,
+                email,
+                credential_id,
+            ]);
+        } else {
+            await runSql(SQL.INSERT_OWNER, [
+                firstname,
+                lastname,
+                mobile,
+                email,
+                credential_id,
+            ]);
+        }
+        // await runSql(SQL.INSERT_WALKER, [
+        //     firstname,
+        //     lastname,
+        //     mobile,
+        //     email,
+        //     credential_id,
+        // ]);
         // now return a record set back to calling function. We may use this data
         const { rows } = await runSql(SQL.GET_USER_BY_EMAIL, [email]);
-        return { user: rows[0] };
+
+        const token = generateAuthToken(
+            rows[0].credential_id,
+            rows[0].type,
+            rows[0].email,
+            false
+        );
+
+        return { user: rows[0], token };
     } catch (error) {
         console.log(error);
         return error;
