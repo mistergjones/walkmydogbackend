@@ -62,13 +62,16 @@ router.get("/", async (req, res) => {
 router.get("/:email", async (req, res) => {
     console.log("email = ", req.params.email)
     try {
-        const { user, token } = await controller.getUserByEmail(
+        const { user, token, error } = await controller.getUserByEmail(
             req.params.email
         );
-        console.log(
-            "inside ROUTES/users.js/router.get(:email) --> get email: ",
-            user
-        );
+
+        console.log("inside :/email route: ", error);
+        if (error) {
+            console.log("inside :/email route error");
+            return res.status(400).send(error);
+        }
+
         // ***** Changes for jwt token in response
         res.header("x-auth-token", token)
             .header("access-control-expose-headers", "x-auth-token")
