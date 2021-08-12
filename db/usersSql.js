@@ -1,6 +1,6 @@
 module.exports = {
     CREATE_USER: "INSERT INTO USERS (email, password) VALUES($1, $2);",
-    GET_USERS: "SELECT firstname, lastname, email, password FROM credentials;",
+    GET_USERS: "SELECT email FROM credentials;",
     GET_USER_BY_EMAIL:
         "SELECT credential_id, email, password, type FROM credentials WHERE email = $1;",
     GET_WALKER_BY_ID:

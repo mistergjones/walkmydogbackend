@@ -16,14 +16,29 @@ const getUsers = async () => {
     }
 };
 // GET SINGLE USER BY EMAIL
-const getUserByEmail = async (email) => {
-    try {
-        const user = await User.getUserByEmail(email);
 
-        return user;
+//PH 06/07/21 CALL USER MODEL GET USER BY EMAIL
+// IF CALL DOESN'T RECEIVE A USER OR THE LENGHT IS NOT EQUAL TO 1
+// RETURN ERROR MSG OTHERWISE RETURN USER AND ERROR IS NULL.
+
+const getUserByEmail = async (email) => {
+
+    try {
+        const { data, error } = await User.getUserByEmail(email);
+
+        if (error) return { data: null, error };
+        // Check we have user and is only one entry
+        const { user } = data;
+
+        if (!user || user.length !== 1) {
+            return { data: null, error: "EMAIL NOT RETRIEVED" }
+        }
+
+        return { data: { user: user[0] }, error: null };
+
     } catch (error) {
         console.log("Error from getUserByEmail()", error);
-        return error;
+        return { data: null, error };
     }
 };
 // GET SINGLE USER BY ID
@@ -84,33 +99,33 @@ const insertUser = async (email, password, type, firstname, lastname) => {
         var salt = bcrypt.genSaltSync(10);
         var hashedPassword = bcrypt.hashSync(password, salt);
         // 2.0 insert the data into the CREDENTIALS table
-        const user = await User.create(email, hashedPassword, type);
-        console.log("user $$$ = ", user)
-        if (user.error) {
-            console.log("return statement");
+        const { data, error } = await User.create(email, hashedPassword, type);
+        console.log("user $$$ = ", data)
+        if (error) {
+            console.log("return statement error =", error);
 
-            return user;
+            return { data, error };
         }
 
         // 3.0 obtain the credential_id based on the email. This is required to either update the WALKER or OWNERS table based on 'type'.
-        const tempUser = await User.getUserByEmail(email);
+        //const tempUser = await User.getUserByEmail(email);
 
         // 4.0 generate a random number for the unique mobile number database constraint in the table
         const mobile = Math.ceil(Math.random() * 100000000);
-
+        const { user, token } = data;
         // 5.0 USE tempuser's fields and TYPE pass to User.update to determine if WALKER or OWNER also gets updated on a new signup.
         const walker = await User.update(
             firstname,
             lastname,
             // to cater for unique mobile numbers
             mobile,
-            tempUser.user.email,
-            tempUser.user.credential_id,
+            user.email,
+            user.credential_id,
             // pass "type" onwards to next function to determine if WALKER or OWNER table to be updated
-            tempUser.user.type
+            user.type
         );
 
-        return user;
+        return { data, error };
     } catch (error) {
         console.log("Error from insertUser()", error);
         return error;
@@ -118,15 +133,51 @@ const insertUser = async (email, password, type, firstname, lastname) => {
 };
 
 const updateProfile = async (profile) => {
-    console.log("controller update profile = ", profile);
     try {
-        const result = await User.updateProfile(profile);
-        console.log("controller update profile result = ", result);
-        return result;
+        const { data, error } = await User.updateProfile(profile);
+        if (error) return { data: null, error: error };
+        return { data, error: null };
     } catch (error) {
         console.log("error from update profile = " + error);
+        return ({ data: null, error });
     }
 };
+
+// PH 06/08/21 COMPARE PASSWORD FUNCTION 
+// IF we have a match return token otherwise return error msg;
+
+const comparePassword = (requestPassword, dbUser) => {
+    let token = null;
+    let error = null;
+    let user = null;
+
+    // Compare passwords if match create token else create error message 
+    if (bcrypt.compareSync(requestPassword, dbUser.password)) {
+        const { credential_id, type, email, is_profile_established } = dbUser;
+
+        token = User.generateAuthToken(
+            credential_id,
+            type,
+            email,
+            is_profile_established
+        );
+
+        user = {
+            id: credential_id,
+            email,
+            type,
+            hasProfile: is_profile_established
+        }
+
+    } else {
+        console.log("no match")
+        // We don't have a match
+        error = "Email Password Error!";
+    }
+
+    return { data: { token, user }, error };
+}
+
 
 module.exports = {
     getUsers,
@@ -138,4 +189,5 @@ module.exports = {
     // 27/07 - Glen playing around
     insertUser,
     updateProfile,
+    comparePassword,
 };
