@@ -1,10 +1,24 @@
 const { runSql } = require("../db/runsSql");
 const SQL = require("../db/dogsSql");
 
-
 // USED FOR EXPORTING THE FUNCTIONS BELOW
 const Dog = {};
 
+Dog.insert = async (dogName, dogBreed, dogSize, requiresLeash) => {
+    try {
+        const gj = await runSql(SQL.INSERT_DOG, [
+            dogName,
+            dogBreed,
+            dogSize,
+            requiresLeash,
+        ]);
+        console.log("models -> dogs.js -> insert", gj);
+        return gj;
+    } catch (error) {
+        console.log("ERROR in models -> dogs.js -> insert", error);
+        return error;
+    }
+};
 // CREATE A USER
 // User.create = async (username, password) => {
 //     try {
@@ -32,13 +46,10 @@ const Dog = {};
 
 // GET SINGLE DOG
 
-
 Dog.getDogById = async (id) => {
-
     try {
         const { rows } = await runSql(SQL.GET_DOG_BY_ID, [id]);
         return rows[0];
-
     } catch (error) {
         console.log(error);
         return error;

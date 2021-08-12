@@ -1,6 +1,20 @@
-
 // REQUIRE MODEL
 const Dog = require("../models/dogs");
+
+// INSERT DOG
+const insertDog = async (dogName, dogBreed, dogSize, requiresLeash) => {
+    try {
+        const dog = await Dog.insert(dogName, dogBreed, dogSize, requiresLeash);
+        console.log("dogsController -> insert() -->", dog);
+        return dog;
+    } catch (error) {
+        console.log(
+            "ERROR inserting DOG --> dogsController -> insert() -->",
+            error
+        );
+        return error;
+    }
+};
 
 // // GET ALL USERS
 // const getUsers = async () => {
@@ -29,9 +43,9 @@ const getDogById = async (id) => {
         return dog;
     } catch (error) {
         console.log("Error from getUserById()", error);
-        return error
+        return error;
     }
-}
+};
 
 // CREATE USER
 // const createUser = async (username, password) => {
@@ -75,11 +89,11 @@ const getDogById = async (id) => {
 
 // }
 
-
 module.exports = {
     // getUsers,
     // getUserByEmail,
     getDogById,
+    insertDog,
     // createUser,
     // updateUser,
     // deleteUser
