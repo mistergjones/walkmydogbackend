@@ -6,6 +6,7 @@ const express = require("express");
 const users = require("../routes/users");
 const bookings = require("../routes/bookings");
 const dogs = require("../routes/dogs");
+const owners = require("../routes/owners");
 // const auth = require("../routes/auth");
 // const returns = require("../routes/returns");
 
@@ -30,6 +31,7 @@ module.exports = function (app) {
     app.use("/api/users", users);
     app.use("/api/bookings", bookings);
     app.use("/api/dogs", dogs);
+    app.use("/api/owners", owners);
     // app.use("/api/auth", auth);
     // app.use("/api/returns", returns);
     // app.use(error);

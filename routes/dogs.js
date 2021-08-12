@@ -3,18 +3,27 @@ const router = express.Router();
 
 const controller = require("../controllers/dogsController");
 
-// router.post("/", async (req, res) => {
-//     const { username, password } = req.body;
-//     try {
-//         const user = await controller.createUser(username, password);
-//         res.send(user);
+router.post("/", async (req, res) => {
+    console.log("GJ", req.body);
 
-//     } catch (error) {
-//         console.log(error);
-//         res.status(403).send(error);
-//     }
-
-// })
+    // 1.0 unpack the req.body into its variables
+    const dogName = req.body.dogName;
+    const dogBreed = req.body.dogBreed;
+    const dogSize = req.body.dogSize;
+    const requiresLeash = req.body.requiresLeash;
+    try {
+        const dog = await controller.insertDog(
+            dogName,
+            dogBreed,
+            dogSize,
+            requiresLeash
+        );
+        res.send(dog);
+    } catch (error) {
+        console.log(error);
+        res.status(403).send(error);
+    }
+});
 
 // router.get("/", async (req, res) => {
 //     try {
@@ -31,7 +40,6 @@ router.get("/:id", async (req, res) => {
     try {
         const dog = await controller.getDogById(req.params.id);
         res.send(dog);
-
     } catch (error) {
         console.log(error);
         res.status(403).send(error);

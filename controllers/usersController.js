@@ -2,6 +2,8 @@
 const User = require("../models/user.js");
 // Require BCRYPT for encrypting the password
 const bcrypt = require("bcryptjs");
+// Require helper functions to determine if data is good before database insertion
+const DataValidation = require("../helpers/databaseFieldValidations");
 
 // GET ALL USERS
 const getUsers = async () => {
@@ -93,8 +95,21 @@ const deleteUser = async (id) => {
 
 // 01/08: GJ: inserting user details into table credentials
 const insertUser = async (email, password, type, firstname, lastname) => {
-    // NEED VALIDATION LOGIC HERE
     try {
+        // 1.0 Check if firstname and lastname fields contain valid LETTERS only
+        if (
+            DataValidation.checkValidInputFields(firstname, lastname) === false
+        ) {
+            return {
+                user: null,
+                token: null,
+                error: "Please ensure letters only in Firstname and Lastname",
+            };
+        }
+
+        // 2.0 Check if INVALID email address. If so, return ERROR MESSAGE OBJECT
+        DataValidation.checkValidEmailAddress(email);
+
         // 1.0 need to hash the password before insertion
         var salt = bcrypt.genSaltSync(10);
         var hashedPassword = bcrypt.hashSync(password, salt);
