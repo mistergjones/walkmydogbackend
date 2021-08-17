@@ -18,6 +18,20 @@ Owner.get = async () => {
     }
 };
 
+// GET 1 OWNER
+Owner.getOwnerByCredentialId = async (credentialId) => {
+    try {
+        const { rows } = await runSql(SQL.GET_OWNER_BY_CREDENTIAL_ID, [
+            credentialId,
+        ]);
+        console.log("GOT 1 SPECIFIC OWNER?", rows);
+        return { owner: rows };
+    } catch (error) {
+        console.log(error);
+        return error;
+    }
+};
+
 // UPDATE THE OWNER WITH THEIR PROFILE INFORMATION
 Owner.update = async (
     firstname,

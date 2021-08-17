@@ -17,6 +17,21 @@ const getOwners = async () => {
     }
 };
 
+const getOwnerByCredentialId = async (credentialId) => {
+    // just get 1 owner only only
+    try {
+        const owner = await Owner.getOwnerByCredentialId(credentialId);
+
+        return owner;
+    } catch (error) {
+        console.log(
+            "ownersController: Error from getOwnerByCredentialId()",
+            error
+        );
+        return error;
+    }
+};
+
 // UPDATE THE OWNER. Pass all the paramters
 const updateOwner = async (
     firstname,
@@ -56,4 +71,5 @@ const updateOwner = async (
 module.exports = {
     getOwners,
     updateOwner,
+    getOwnerByCredentialId,
 };

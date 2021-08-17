@@ -2,17 +2,21 @@
 const Dog = require("../models/dogs");
 
 // INSERT DOG
-const insertDog = async (dogName, dogBreed, dogSize, requiresLeash) => {
+// Pass the dog object into it. Saves in passing many parameters
+const insertDog = async (dogInfoObj) => {
     try {
-        const dog = await Dog.insert(dogName, dogBreed, dogSize, requiresLeash);
-        console.log("dogsController -> insert() -->", dog);
-        return dog;
+        const successfulDogInsert = await Dog.insert(dogInfoObj);
+        // console.log(
+        //     "dogsController -> insert() --> DOG INFO",
+        //     successfulDogInsert.data
+        // );
+        return { data: successfulDogInsert, error: null };
     } catch (error) {
-        console.log(
-            "ERROR inserting DOG --> dogsController -> insert() -->",
-            error
-        );
-        return error;
+        // console.log(
+        //     "ERROR inserting DOG --> dogsController -> insert() -->",
+        //     error
+        // );
+        return { data: null, error: error };
     }
 };
 

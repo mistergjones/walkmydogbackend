@@ -1,23 +1,17 @@
 const express = require("express");
 const router = express.Router();
 
+const { insertDogInfoSchemaValidator } = require("../middleware/validator");
+
 const controller = require("../controllers/dogsController");
 
-router.post("/", async (req, res) => {
-    console.log("GJ", req.body);
+router.post("/", insertDogInfoSchemaValidator, async (req, res) => {
+    // 1.0 extract dog info from req.body to new data object
+    const dogInfoObj = req.body;
+    console.log("route.js -> dog post: ", req.body);
 
-    // 1.0 unpack the req.body into its variables
-    const dogName = req.body.dogName;
-    const dogBreed = req.body.dogBreed;
-    const dogSize = req.body.dogSize;
-    const requiresLeash = req.body.requiresLeash;
     try {
-        const dog = await controller.insertDog(
-            dogName,
-            dogBreed,
-            dogSize,
-            requiresLeash
-        );
+        const dog = await controller.insertDog(dogInfoObj);
         res.send(dog);
     } catch (error) {
         console.log(error);

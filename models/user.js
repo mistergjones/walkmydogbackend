@@ -3,18 +3,15 @@ const jwt = require("jsonwebtoken");
 const { runSql } = require("../db/runsSql");
 const SQL = require("../db/usersSql.js");
 const walkerSql = require("../db/walkerSql.js");
-const wlakerSQL = require("../db/walkerSql.js")
+const wlakerSQL = require("../db/walkerSql.js");
 
 // USED FOR EXPORTING THE FUNCTIONS BELOW
 const User = {};
-
 
 // 01/08/2021: GJ: attempting to insert a user into the CRDENTIALS table
 User.create = async (email, hashedPassword, type) => {
     try {
         // checking if user alrady exists via email
-
-
         const { rows: rowsBefore } = await runSql(SQL.GET_USER_BY_EMAIL, [
             email,
         ]);
@@ -35,12 +32,12 @@ User.create = async (email, hashedPassword, type) => {
 
         const { rows } = await runSql(SQL.GET_USER_BY_EMAIL, [email]);
 
-        console.log("User.create = ", rows)
+        console.log("User.create = ", rows);
         // return the first row as an array
         // return rows[0];
 
         const user = rows[0];
-        console.log("%%%% user = ", user)
+        console.log("%%%% user = ", user);
 
         //14:07/21 PH MOVED GENERATE AUTH TOKEN TO CONTROLLER
         return { data: { user }, error: null };
@@ -66,7 +63,6 @@ User.get = async () => {
 // PH 06/07/21 Method is only responsible for running query and
 // returning result
 User.getUserByEmail = async (email) => {
-
     try {
         const { rows: user } = await runSql(SQL.GET_USER_BY_EMAIL, [email]);
         return { data: { user: user }, error: null };
@@ -167,13 +163,12 @@ User.updateProfile = async (profile) => {
         bsb,
         accountNumber,
         size,
-        serviceType
+        serviceType,
     } = profile;
     try {
         if (type === "O") {
             // SQL UPDATE OWNER NEEDED HERE
         } else if (type === "W") {
-
             await runSql(walkerSql.UPDATE_WALKER, [
                 firstName,
                 lastName,
@@ -186,15 +181,21 @@ User.updateProfile = async (profile) => {
                 bankName,
                 bsb,
                 accountNumber,
-                size.sort().join(""),// PREFERENCES ALPHABETICALLY"LMS".
-                id
-
+                size.sort().join(""), // PREFERENCES ALPHABETICALLY"LMS".
+                id,
             ]);
 
             await runSql(SQL.UPDATE_USER_PROFILE, [id]);
             // TODO error checking update worked
         }
-        const token = User.generateAuthToken(id, type, email, true, firstName, lastName);
+        const token = User.generateAuthToken(
+            id,
+            type,
+            email,
+            true,
+            firstName,
+            lastName
+        );
         console.log("user update profile token = ", token);
         return { data: { token }, error: null };
     } catch (error) {
@@ -214,20 +215,18 @@ User.generateAuthToken = (id, type, email, profile, firstname, lastname) => {
     return token;
 };
 
-
 // GET USER INFO DEPENDING ON TYPE.
-//PH: 14/07/21 
+//PH: 14/07/21
 User.getUserDetails = async (id, type) => {
     console.log("id = " + id, " type = " + type);
     let info = {};
     let error = null;
 
-
     if (type === "W") {
         const { rows } = await runSql(walkerSql.GET_WALKER, [id]);
         // SQL CALL SHOULD RETURN ONE ROW
         if (rows.length !== 1) {
-            error = "error from get user details."
+            error = "error from get user details.";
         } else {
             info = rows[0];
         }
@@ -235,6 +234,6 @@ User.getUserDetails = async (id, type) => {
         //TODO:
     }
     return { data: { userDetails: info }, error };
-}
+};
 
 module.exports = User;

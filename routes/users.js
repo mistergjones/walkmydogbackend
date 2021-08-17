@@ -1,13 +1,13 @@
 const express = require("express");
 const auth = require("../middleware/auth");
-const { loginValidator } = require("../middleware/validator");
+const { loginValidator, signupValidator } = require("../middleware/validator");
 const router = express.Router();
 
 const controller = require("../controllers/usersController");
 
 // 01/08: GJ: Insert a USER INTO credentials. No need to pass "is_profile_established" as
 // the database automatically adds this as FALSE to each record
-router.post("/", async (req, res) => {
+router.post("/", signupValidator, async (req, res) => {
     // NOTE: firsntame and lastname are just being passed through for later use
     const { email, password, type, firstname, lastname } = req.body;
 
