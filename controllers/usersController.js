@@ -5,7 +5,6 @@ const bcrypt = require("bcryptjs");
 // Require helper functions to determine if data is good before database insertion
 const DataValidation = require("../helpers/databaseFieldValidations");
 
-
 // GET ALL USERS
 const getUsers = async () => {
     // just get the WALKERS only
@@ -25,7 +24,6 @@ const getUsers = async () => {
 // RETURN ERROR MSG OTHERWISE RETURN USER AND ERROR IS NULL.
 
 const getUserByEmail = async (email) => {
-
     try {
         const { data, error } = await User.getUserByEmail(email);
 
@@ -34,14 +32,19 @@ const getUserByEmail = async (email) => {
         const { user } = data;
 
         if (!user || user.length !== 1) {
-            return { data: null, error: "EMAIL NOT RETRIEVED" }
+            return { data: null, error: "EMAIL NOT RETRIEVED" };
         }
 
         // PH : 14/07 21 GET First Name & LAST Name of owner or walker.
-        const { data: userInfo } = await User.getUserDetails(user[0].credential_id, user[0].type);
+        const { data: userInfo } = await User.getUserDetails(
+            user[0].credential_id,
+            user[0].type
+        );
 
-        return { data: { user: { ...user[0], ...userInfo.userDetails } }, error: null };
-
+        return {
+            data: { user: { ...user[0], ...userInfo.userDetails } },
+            error: null,
+        };
     } catch (error) {
         console.log("Error from getUserByEmail()", error);
         return { data: null, error };
@@ -97,7 +100,7 @@ const deleteUser = async (id) => {
     }
 };
 
-// 01/08: GJ: inserting user details into table credentials
+// 01/08: GJ: inserting user details into TABLE: CREDENTIALS ON SIGNUP
 const insertUser = async (email, password, type, firstname, lastname) => {
     try {
         // 1.0 Check if firstname and lastname fields contain valid LETTERS only
@@ -119,7 +122,7 @@ const insertUser = async (email, password, type, firstname, lastname) => {
         var hashedPassword = bcrypt.hashSync(password, salt);
         // 2.0 insert the data into the CREDENTIALS table
         const { data, error } = await User.create(email, hashedPassword, type);
-        console.log("user $$$ = ", data)
+        console.log("user $$$ = ", data);
         if (error) {
             console.log("return statement error =", error);
 
@@ -168,11 +171,11 @@ const updateProfile = async (profile) => {
         return { data, error: null };
     } catch (error) {
         console.log("error from update profile = " + error);
-        return ({ data: null, error });
+        return { data: null, error };
     }
 };
 
-// PH 06/08/21 COMPARE PASSWORD FUNCTION 
+// PH 06/08/21 COMPARE PASSWORD FUNCTION
 // IF we have a match return token otherwise return error msg;
 
 const comparePassword = (requestPassword, dbUser) => {
@@ -180,9 +183,16 @@ const comparePassword = (requestPassword, dbUser) => {
     let error = null;
     let user = null;
 
-    // Compare passwords if match create token else create error message 
+    // Compare passwords if match create token else create error message
     if (bcrypt.compareSync(requestPassword, dbUser.password)) {
-        const { credential_id, type, email, is_profile_established, firstname, lastname } = dbUser;
+        const {
+            credential_id,
+            type,
+            email,
+            is_profile_established,
+            firstname,
+            lastname,
+        } = dbUser;
 
         token = User.generateAuthToken(
             credential_id,
@@ -190,7 +200,7 @@ const comparePassword = (requestPassword, dbUser) => {
             email,
             is_profile_established,
             firstname,
-            lastname,
+            lastname
         );
 
         user = {
@@ -199,18 +209,16 @@ const comparePassword = (requestPassword, dbUser) => {
             type,
             hasProfile: is_profile_established,
             firstname,
-            lastname
-        }
-
+            lastname,
+        };
     } else {
-        console.log("no match")
+        console.log("no match");
         // We don't have a match
         error = "Email Password Error!";
     }
 
     return { data: { token, user }, error };
-}
-
+};
 
 module.exports = {
     getUsers,

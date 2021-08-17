@@ -2,6 +2,8 @@ const express = require("express");
 const auth = require("../middleware/auth");
 const router = express.Router();
 
+const { loginValidator } = require("../middleware/validator");
+
 const controller = require("../controllers/ownersController");
 
 // THIS WILL RETRIVE ALL OWNERS
@@ -9,6 +11,20 @@ router.get("/", async (req, res) => {
     try {
         const owners = await controller.getOwners();
         res.send(owners);
+    } catch (error) {
+        console.log(error);
+        res.status(403).send(error);
+    }
+});
+
+// THIS WILL RETREIVE 1 SPECIFIC OWNER BASED ON THEIR CREDENTIAL ID
+router.get("/:credentialId", async (req, res) => {
+    console.log("CREDNEITAL ID: ", req.params);
+    try {
+        const owner = await controller.getOwnerByCredentialId(
+            req.params.credentialId
+        );
+        res.send(owner);
     } catch (error) {
         console.log(error);
         res.status(403).send(error);

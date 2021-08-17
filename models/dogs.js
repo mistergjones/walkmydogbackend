@@ -4,19 +4,24 @@ const SQL = require("../db/dogsSql");
 // USED FOR EXPORTING THE FUNCTIONS BELOW
 const Dog = {};
 
-Dog.insert = async (dogName, dogBreed, dogSize, requiresLeash) => {
+Dog.insert = async (dogInfoObj) => {
     try {
-        const gj = await runSql(SQL.INSERT_DOG, [
-            dogName,
-            dogBreed,
-            dogSize,
-            requiresLeash,
+        const succesfulDogInsert = await runSql(SQL.INSERT_DOG, [
+            dogInfoObj.dogName,
+            dogInfoObj.dogBreed,
+            dogInfoObj.dogSize,
+            dogInfoObj.requiresLeash,
+            dogInfoObj.owner_id,
         ]);
-        console.log("models -> dogs.js -> insert", gj);
-        return gj;
+        // console.log("models -> dogs.js -> insert", succesfulDogInsert);
+        // return succesfulDogInsert;
+        return { data: succesfulDogInsert, error: null };
     } catch (error) {
-        console.log("ERROR in models -> dogs.js -> insert", error);
-        return error;
+        // console.log(
+        //     "models.js -> ERROR in inserting dog -> dogs.js -> insert",
+        //     error
+        // );
+        return { data: null, error: "Error inserting Dog Information" };
     }
 };
 // CREATE A USER

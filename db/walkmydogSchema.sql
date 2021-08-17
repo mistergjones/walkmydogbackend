@@ -50,7 +50,7 @@ SELECT count(*) FROM sizepreferences;
 -- CREATE CREDENTIALS
 CREATE TABLE credentials (
     credential_id SERIAL PRIMARY KEY NOT NULL,
-    email VARCHAR(20) NOT NULL,
+    email VARCHAR(50) NOT NULL,
     password VARCHAR(60) NOT NULL,
     type VARCHAR(1) NOT NULL,
     is_profile_established BOOLEAN DEFAULT FALSE,
@@ -109,7 +109,7 @@ CREATE TABLE owners (
     suburb VARCHAR(50) NOT NULL,
     postcode INTEGER NOT NULL,
     mobile VARCHAR(10) NOT NULL,
-    email VARCHAR(30) NOT NULL,
+    email VARCHAR(50) NOT NULL,
     dob DATE NOT NULL,
     licence_num VARCHAR(10),
     licence_photo VARCHAR(100),
@@ -159,7 +159,7 @@ CREATE TABLE walkers (
     suburb VARCHAR(50) NOT NULL,
     postcode INTEGER NOT NULL,
     mobile VARCHAR(10) NOT NULL,
-    email VARCHAR(30) NOT NULL,
+    email VARCHAR(50) NOT NULL,
     dob DATE NOT NULL,
     licence_num VARCHAR(10),
     licence_photo VARCHAR(100),
