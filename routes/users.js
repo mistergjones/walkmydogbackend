@@ -100,6 +100,7 @@ router.post("/login", loginValidator, async (req, res) => {
         } = await controller.getUserByEmail(email);
         if (emailErrorMsg) return res.status(400).send(emailErrorMsg);
 
+
         // COMPARE PASSWORD IF NO ERROR WILL RECEIVE TOKEN AND USER OBJECT WITHOUT PASSWORD.
         const {
             data: passwordData,

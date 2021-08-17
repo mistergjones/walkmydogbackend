@@ -5,6 +5,7 @@ const bcrypt = require("bcryptjs");
 // Require helper functions to determine if data is good before database insertion
 const DataValidation = require("../helpers/databaseFieldValidations");
 
+
 // GET ALL USERS
 const getUsers = async () => {
     // just get the WALKERS only
@@ -36,7 +37,10 @@ const getUserByEmail = async (email) => {
             return { data: null, error: "EMAIL NOT RETRIEVED" }
         }
 
-        return { data: { user: user[0] }, error: null };
+        // PH : 14/07 21 GET First Name & LAST Name of owner or walker.
+        const { data: userInfo } = await User.getUserDetails(user[0].credential_id, user[0].type);
+
+        return { data: { user: { ...user[0], ...userInfo.userDetails } }, error: null };
 
     } catch (error) {
         console.log("Error from getUserByEmail()", error);
@@ -127,7 +131,7 @@ const insertUser = async (email, password, type, firstname, lastname) => {
 
         // 4.0 generate a random number for the unique mobile number database constraint in the table
         const mobile = Math.ceil(Math.random() * 100000000);
-        const { user, token } = data;
+        const { user } = data;
         // 5.0 USE tempuser's fields and TYPE pass to User.update to determine if WALKER or OWNER also gets updated on a new signup.
         const walker = await User.update(
             firstname,
@@ -140,7 +144,17 @@ const insertUser = async (email, password, type, firstname, lastname) => {
             user.type
         );
 
-        return { data, error };
+        // PH: 14/07/21 GENERATE AUTH TOKEN WITH FIRST NAME, LASTNAME
+        const token = User.generateAuthToken(
+            user.credential_id,
+            user.type,
+            user.email,
+            false,
+            firstname,
+            lastname
+        );
+
+        return { data: { user, token }, error };
     } catch (error) {
         console.log("Error from insertUser()", error);
         return error;
@@ -168,20 +182,24 @@ const comparePassword = (requestPassword, dbUser) => {
 
     // Compare passwords if match create token else create error message 
     if (bcrypt.compareSync(requestPassword, dbUser.password)) {
-        const { credential_id, type, email, is_profile_established } = dbUser;
+        const { credential_id, type, email, is_profile_established, firstname, lastname } = dbUser;
 
         token = User.generateAuthToken(
             credential_id,
             type,
             email,
-            is_profile_established
+            is_profile_established,
+            firstname,
+            lastname,
         );
 
         user = {
             id: credential_id,
             email,
             type,
-            hasProfile: is_profile_established
+            hasProfile: is_profile_established,
+            firstname,
+            lastname
         }
 
     } else {
