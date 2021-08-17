@@ -2,6 +2,8 @@ const jwt = require("jsonwebtoken");
 // const config = require("config");
 const { runSql } = require("../db/runsSql");
 const SQL = require("../db/usersSql.js");
+const walkerSql = require("../db/walkerSql.js");
+const wlakerSQL = require("../db/walkerSql.js")
 
 // USED FOR EXPORTING THE FUNCTIONS BELOW
 const User = {};
@@ -36,15 +38,12 @@ User.create = async (email, hashedPassword, type) => {
         console.log("User.create = ", rows)
         // return the first row as an array
         // return rows[0];
-        const token = User.generateAuthToken(
-            rows[0].credential_id,
-            rows[0].type,
-            rows[0].email,
-            false
-        );
+
         const user = rows[0];
         console.log("%%%% user = ", user)
-        return { data: { user, token }, error: null };
+
+        //14:07/21 PH MOVED GENERATE AUTH TOKEN TO CONTROLLER
+        return { data: { user }, error: null };
     } catch (error) {
         console.log(error);
         return error;
@@ -150,13 +149,52 @@ User.delete = async (id) => {
     }
 };
 
-
-User.updateProfile = (profile) => {
+User.updateProfile = async (profile) => {
     console.log("User update profile = ", profile);
-    const { id, type, email, phone } = profile;
+    const {
+        id,
+        type,
+        email,
+        firstName,
+        lastName,
+        streetAddress,
+        suburb,
+        postCode,
+        phone,
+        dateOfBirth,
+        licenseNumber,
+        bankName,
+        bsb,
+        accountNumber,
+        size,
+        serviceType
+    } = profile;
     try {
-        // const result = await runSql(SQL.UPDATE_PROFILE, [phone]);
-        const token = User.generateAuthToken(id, type, email, true);
+        if (type === "O") {
+            // SQL UPDATE OWNER NEEDED HERE
+        } else if (type === "W") {
+
+            await runSql(walkerSql.UPDATE_WALKER, [
+                firstName,
+                lastName,
+                streetAddress,
+                suburb,
+                postCode,
+                phone,
+                dateOfBirth,
+                licenseNumber,
+                bankName,
+                bsb,
+                accountNumber,
+                size.sort().join(""),// PREFERENCES ALPHABETICALLY"LMS".
+                id
+
+            ]);
+
+            await runSql(SQL.UPDATE_USER_PROFILE, [id]);
+            // TODO error checking update worked
+        }
+        const token = User.generateAuthToken(id, type, email, true, firstName, lastName);
         console.log("user update profile token = ", token);
         return { data: { token }, error: null };
     } catch (error) {
@@ -165,15 +203,38 @@ User.updateProfile = (profile) => {
     }
 };
 
-User.generateAuthToken = (id, type, email, profile) => {
+//PH: 14/07/21 ADDED Firstname and lastname to token.
+User.generateAuthToken = (id, type, email, profile, firstname, lastname) => {
     console.log("id = ", id);
     const token = jwt.sign(
-        { id, type, email, hasProfile: profile },
+        { id, type, email, hasProfile: profile, firstname, lastname },
         "1111"
         // config.get("jwtPrivateKey")
     );
     return token;
 };
 
+
+// GET USER INFO DEPENDING ON TYPE.
+//PH: 14/07/21 
+User.getUserDetails = async (id, type) => {
+    console.log("id = " + id, " type = " + type);
+    let info = {};
+    let error = null;
+
+
+    if (type === "W") {
+        const { rows } = await runSql(walkerSql.GET_WALKER, [id]);
+        // SQL CALL SHOULD RETURN ONE ROW
+        if (rows.length !== 1) {
+            error = "error from get user details."
+        } else {
+            info = rows[0];
+        }
+    } else if (type === "O") {
+        //TODO:
+    }
+    return { data: { userDetails: info }, error };
+}
 
 module.exports = User;

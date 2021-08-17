@@ -34,13 +34,14 @@ CREATE TABLE sizepreferences (
 );
 
 
-INSERT INTO sizepreferences (size_preference) VALUES ('SML');
-INSERT INTO sizepreferences (size_preference) VALUES ('S');
-INSERT INTO sizepreferences (size_preference) VALUES ('M');
+INSERT INTO sizepreferences (size_preference) VALUES ('LMS');
+INSERT INTO sizepreferences (size_preference) VALUES ('LM');
+INSERT INTO sizepreferences (size_preference) VALUES ('LS');
 INSERT INTO sizepreferences (size_preference) VALUES ('L');
-INSERT INTO sizepreferences (size_preference) VALUES ('S&M');
-INSERT INTO sizepreferences (size_preference) VALUES ('M&L');
-INSERT INTO sizepreferences (size_preference) VALUES ('S&L');
+INSERT INTO sizepreferences (size_preference) VALUES ('MS');
+INSERT INTO sizepreferences (size_preference) VALUES ('ML');
+INSERT INTO sizepreferences (size_preference) VALUES ('M');
+INSERT INTO sizepreferences (size_preference) VALUES ('S');
 INSERT INTO sizepreferences (size_preference) VALUES ('NA');
 SELECT count(*) FROM sizepreferences;
 
