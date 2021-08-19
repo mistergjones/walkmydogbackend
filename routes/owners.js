@@ -17,7 +17,7 @@ router.get("/", async (req, res) => {
     }
 });
 
-// THIS WILL RETREIVE 1 SPECIFIC OWNER BASED ON THEIR CREDENTIAL ID
+// OWNER TABLE: THIS WILL RETREIVE 1 SPECIFIC OWNER BASED ON THEIR CREDENTIAL ID
 router.get("/:credentialId", async (req, res) => {
     console.log("CREDNEITAL ID: ", req.params);
     try {
@@ -31,42 +31,29 @@ router.get("/:credentialId", async (req, res) => {
     }
 });
 
-// THIS WILL POST OWNER INFORMATION INTO THE OWNERS TABLE
-router.post("/", async (req, res) => {
-    // destructure and extract all column names from req.body
-    const {
-        firstname,
-        lastname,
-        streetAddress,
-        suburb,
-        postcode,
-        mobile,
-        dob,
-        driverLicence,
-        bankName,
-        BSB,
-        accountNumber,
-    } = req.body;
-
-    try {
-        const newOwner = await controller.updateOwner(
-            firstname,
-            lastname,
-            streetAddress,
-            suburb,
-            postcode,
-            mobile,
-            dob,
-            driverLicence,
-            bankName,
-            BSB,
-            accountNumber
-        );
-        res.sendStatus(200).send(newOwner);
-        console.log("routes/owners.js ==> router.post", newOwner);
-    } catch (error) {
-        res.status(403).send(error);
-    }
+router.post("/profile", async (req, res) => {
+    // now need to update the owner and dog info
+    const { data, error } = await controller.updateProfile(req.body.profile);
+    if (error) res.status(400).send(error);
+    console.log("route profile data = ", data);
+    res.header("x-auth-token", data.token)
+        .header("access-control-expose-headers", "x-auth-token")
+        .send("ok");
 });
+
+// THIS WILL UPDATE THE OWNER INFORMATION INTO THE OWNERS TABLE WHEN A USER HAS SIGNED UP AS A OWNER
+// router.post("/", async (req, res) => {
+//     try {
+//         // 1.0 Package the req.body into an object for easy paramter passing.
+//         const ownerInfoDataObj = req.body;
+
+//         // 2.0 IF successful insert, return an object with the data and error
+//         const newOwner = await controller.updateOwner(ownerInfoDataObj);
+//         res.sendStatus(200).send(newOwner);
+//         console.log("routes/owners.js ==> router.post", newOwner);
+//     } catch (error) {
+//         res.status(403).send(error);
+//     }
+// });
 
 module.exports = router;

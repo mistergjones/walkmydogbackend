@@ -8,20 +8,20 @@ const walkerSql = require("../db/walkerSql.js");
 // USED FOR EXPORTING THE FUNCTIONS BELOW
 const User = {};
 
-// 01/08/2021: GJ: attempting to insert a user into the CRDENTIALS table
+// 01/08/2021: GJ: This is called when a user SIGNS UP. It inserts a user into TABLE: CREDENTIALS
 User.create = async (email, hashedPassword, type) => {
     try {
-        // checking if user alrady exists via email
+        // 1.0 checking if user alrady exists via email
         const { rows: rowsBefore } = await runSql(SQL.GET_USER_BY_EMAIL, [
             email,
         ]);
 
         console.log("rows before = ", rowsBefore.length);
-        // if the email does EXIST, return an error message
+        // 2.0 If the email does EXIST, return an error message
         if (rowsBefore.length > 0)
             return { user: null, token: null, error: "user already exists" };
 
-        // if not error, inser the user
+        // 3.0 if no error, insert the user
         const result = await runSql(SQL.INSERT_USER_INTO_CREDENTIALS, [
             email,
             hashedPassword,
@@ -30,6 +30,7 @@ User.create = async (email, hashedPassword, type) => {
 
         console.log(result);
 
+        // 4.0 Obtain user details from TABLE: CREDENTIALS
         const { rows } = await runSql(SQL.GET_USER_BY_EMAIL, [email]);
 
         console.log("User.create = ", rows);

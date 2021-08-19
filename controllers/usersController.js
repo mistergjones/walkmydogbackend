@@ -7,7 +7,6 @@ const DataValidation = require("../helpers/databaseFieldValidations");
 
 // GET ALL USERS
 const getUsers = async () => {
-    // just get the WALKERS only
     try {
         const users = await User.get();
 

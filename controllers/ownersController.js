@@ -17,11 +17,12 @@ const getOwners = async () => {
     }
 };
 
+// This query obtains 1 owner from TABLE: owners
 const getOwnerByCredentialId = async (credentialId) => {
-    // just get 1 owner only only
+    console.log("CREDENTIAL ID: ", credentialId);
     try {
         const owner = await Owner.getOwnerByCredentialId(credentialId);
-
+        console.log("DO I HAVE AN OWNER???", owner);
         return owner;
     } catch (error) {
         console.log(
@@ -32,44 +33,39 @@ const getOwnerByCredentialId = async (credentialId) => {
     }
 };
 
-// UPDATE THE OWNER. Pass all the paramters
-const updateOwner = async (
-    firstname,
-    lastname,
-    streetAddress,
-    suburb,
-    postcode,
-    mobile,
-    dob,
-    driverLicence,
-    bankName,
-    BSB,
-    accountNumber
-) => {
+// // UPDATE THE OWNER. Pass all the paramters
+// const updateOwner = async (ownerInfoDataObj) => {
+//     try {
+//         const newOwner = await Owner.update(ownerInfoDataObj);
+//         console.log(
+//             "owners.js -> updateOwner -> Success is if Row Count === 1: -->",
+//             newOwner
+//         );
+//         return newOwner;
+//     } catch (error) {
+//         console.log("owners.js Error from updateOwner()", error);
+//         return error;
+//     }
+// };
+
+const updateProfile = async (profile) => {
     try {
-        const newOwner = await Owner.update(
-            firstname,
-            lastname,
-            streetAddress,
-            suburb,
-            postcode,
-            mobile,
-            dob,
-            driverLicence,
-            bankName,
-            BSB,
-            accountNumber
+        console.log(
+            "ownersController.js -> updateProfile -> data is:",
+            profile
         );
-        console.log("owners.js -> updateOwner -> ", newOwner);
-        return newOwner;
+        const { data, error } = await Owner.updateProfile(profile);
+        if (error) return { data: null, error: error };
+        return { data, error: null };
     } catch (error) {
-        console.log("owners.js Error from updateOwner()", error);
-        return error;
+        console.log("error from update profile = " + error);
+        return { data: null, error };
     }
 };
 
 module.exports = {
     getOwners,
-    updateOwner,
+    // updateOwner,
     getOwnerByCredentialId,
+    updateProfile,
 };

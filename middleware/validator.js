@@ -22,25 +22,26 @@ const loginValidator = async (req, res, next) => {
 
 // GJ: VALIDATE REQUEST FOR CORRECT SIGN UP. JUST STICKING TO THE FIRST 4 FIELDS TO CHECK LOGIC
 signUpSchema = Yup.object({
-    firstName: Yup.string()
+    firstname: Yup.string()
         .min(2, "Must be 2 chacters or greater")
         .max(15, "Must be 15 characters or less")
         .required("Firstname is Required"),
-    lastName: Yup.string()
+    lastname: Yup.string()
         .min(2, "Must be 2 chacters or greater")
         .max(20, "Must be 20 characters or less")
-        .required("Lastanme is Required"),
+        .required("Lastname is Required"),
     email: Yup.string().email("Email is invalid").required("Email is required"),
     password: Yup.string()
         .min(3, "Password must be at least 3 characters or more")
         .required("Password is required"),
+    // type: Yup.string().required("You must select an Owner or Walker option"),
 });
 
 const signupValidator = async (req, res, next) => {
-    const { firstName, lastName, email, password } = req.body;
+    const { firstname, lastname, email, password } = req.body;
     console.log("validator.js -> sigmupValidator():", req.body);
     try {
-        await signUpSchema.validate({ firstName, lastName, email, password });
+        await signUpSchema.validate({ firstname, lastname, email, password });
         console.log("Signup Validator: we are here SO ALL GOOD");
         next();
     } catch (error) {
@@ -57,9 +58,8 @@ insertDogInfoSchema = Yup.object({
         .min(2, "Dog breed must be >= 2 letters")
         .required("Dog breedRequired"),
     dogSize: Yup.string().required("Please select your dog size"),
-    requiresLeash: Yup.bool().oneOf(
-        [true],
-        "Does your dog require an always on leash?"
+    requiresLeash: Yup.string().required(
+        "Yes or No: Does your dog require an always on leash?"
     ),
 });
 
