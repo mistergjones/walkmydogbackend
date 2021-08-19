@@ -113,9 +113,9 @@ CREATE TABLE owners (
     dob DATE NOT NULL,
     licence_num VARCHAR(10),
     licence_photo VARCHAR(100),
-    bank_name VARCHAR(20) NOT NULL,
-    bank_BSB VARCHAR(6) NOT NULL,
-    bank_acct_num VARCHAR(10) NOT NULL,
+    bank_name VARCHAR(20) NOT NULL ,
+    bank_BSB VARCHAR(6) NOT NULL ,
+    bank_acct_num VARCHAR(10),
     overall_rating NUMERIC(2,1),
     type VARCHAR(1) NOT NULL,
     active_membership BOOLEAN DEFAULT TRUE,
@@ -213,33 +213,33 @@ dog_firstname VARCHAR(20) NOT NULL,
 dog_photo VARCHAR(100) NOT NULL,
 dog_breed VARCHAR(20) NOT NULL,
 dog_size VARCHAR(1) NOT NULL,
-dog_always_leashed BOOLEAN DEFAULT TRUE,
+dog_always_leashed VARCHAR(3) NOT NULL,
 owner_id INTEGER,
 FOREIGN KEY (owner_id) REFERENCES owners(owner_id)
 );
 
 
 -- DOGS DATA
-INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('fido','notfilled','sausage','S','TRUE',1);
-INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('charlie','notfilled','alsatian','L','TRUE',2);
-INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('mick','notfilled','mutt','M','TRUE',3);
-INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('jess','notfilled','collie','M','TRUE',4);
-INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('jessie','notfilled','lapdog','S','TRUE',5);
-INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('tito','notfilled','retreiver','L','TRUE',6);
-INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('brutus','notfilled','labrador','L','TRUE',7);
-INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('jen','notfilled','pug','S','TRUE',8);
-INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('tomtom','notfilled','corgi','S','TRUE',9);
-INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('daisy','notfilled','terrier','S','TRUE',10);
-INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('Loki','notfilled','sausage','S','FALSE',11);
-INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('Toki','notfilled','alsatian','L','FALSE',12);
-INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('Miko','notfilled','mutt','M','FALSE',13);
-INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('Joki','notfilled','collie','M','FALSE',14);
-INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('Noki','notfilled','lapdog','S','FALSE',15);
-INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('Roki','notfilled','retreiver','L','FALSE',16);
-INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('Zoki','notfilled','labrador','L','FALSE',17);
-INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('Woki','notfilled','pug','S','FALSE',18);
-INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('Poki','notfilled','corgi','S','FALSE',19);
-INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('Soki','notfilled','terrier','S','FALSE',20);
+INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('fido','notfilled','sausage','S','YES',1);
+INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('charlie','notfilled','alsatian','L','YES',2);
+INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('mick','notfilled','mutt','M','YES',3);
+INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('jess','notfilled','collie','M','YES',4);
+INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('jessie','notfilled','lapdog','S','YES',5);
+INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('tito','notfilled','retreiver','L','YES',6);
+INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('brutus','notfilled','labrador','L','YES',7);
+INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('jen','notfilled','pug','S','YES',8);
+INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('tomtom','notfilled','corgi','S','YES',9);
+INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('daisy','notfilled','terrier','S','YES',10);
+INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('Loki','notfilled','sausage','S','NO',11);
+INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('Toki','notfilled','alsatian','L','NO',12);
+INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('Miko','notfilled','mutt','M','NO',13);
+INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('Joki','notfilled','collie','M','NO',14);
+INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('Noki','notfilled','lapdog','S','NO',15);
+INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('Roki','notfilled','retreiver','L','NO',16);
+INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('Zoki','notfilled','labrador','L','NO',17);
+INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('Woki','notfilled','pug','S','NO',18);
+INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('Poki','notfilled','corgi','S','NO',19);
+INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('Soki','notfilled','terrier','S','NO',20);
 SELECT count(*) FROM dogs;
 
 

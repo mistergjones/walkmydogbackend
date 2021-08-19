@@ -26,7 +26,7 @@ router.post("/", signupValidator, async (req, res) => {
             return res.status(400).send(error);
         }
 
-        console.log("users post token = ", data.token)
+        console.log("users post token = ", data.token);
         // ***** Changes for jwt token in response
         res.header("x-auth-token", data.token)
             .header("access-control-expose-headers", "x-auth-token")
@@ -101,7 +101,6 @@ router.post("/login", loginValidator, async (req, res) => {
             error: emailErrorMsg,
         } = await controller.getUserByEmail(email);
         if (emailErrorMsg) return res.status(400).send(emailErrorMsg);
-
 
         // COMPARE PASSWORD IF NO ERROR WILL RECEIVE TOKEN AND USER OBJECT WITHOUT PASSWORD.
         const {
