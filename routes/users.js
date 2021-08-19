@@ -9,15 +9,15 @@ const controller = require("../controllers/usersController");
 // the database automatically adds this as FALSE to each record
 router.post("/", signupValidator, async (req, res) => {
     // NOTE: firsntame and lastname are just being passed through for later use
-    const { email, password, type, firstname, lastname } = req.body;
+    const { email, password, type, firstName, lastName } = req.body;
 
     try {
         const { data, error } = await controller.insertUser(
             email,
             password,
             type,
-            firstname,
-            lastname
+            firstName,
+            lastName
         );
 
         console.log("inside create user: ", error);
@@ -25,6 +25,8 @@ router.post("/", signupValidator, async (req, res) => {
             console.log("inside error");
             return res.status(400).send(error);
         }
+
+        console.log("users post token = ", data.token)
         // ***** Changes for jwt token in response
         res.header("x-auth-token", data.token)
             .header("access-control-expose-headers", "x-auth-token")

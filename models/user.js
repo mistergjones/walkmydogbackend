@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const { runSql } = require("../db/runsSql");
 const SQL = require("../db/usersSql.js");
 const walkerSql = require("../db/walkerSql.js");
-const wlakerSQL = require("../db/walkerSql.js");
+
 
 // USED FOR EXPORTING THE FUNCTIONS BELOW
 const User = {};
@@ -165,6 +165,26 @@ User.updateProfile = async (profile) => {
         size,
         serviceType,
     } = profile;
+
+    // Need to make function
+    let walker30HV = 1;
+    let walker60HV = 1;
+    let walker30WO = 1;
+    let walker60WO = 1;
+
+    if (serviceType.includes("Walks")) {
+        walker30WO = 2;
+        walker60WO = 4;
+    };
+    if (serviceType.includes("Home")) {
+        walker30HV = 3;
+        walker60HV = 5;
+    };
+    console.log("30WO = ", walker30WO);
+    console.log("60WO = ", walker60WO);
+    console.log("30HV = ", walker30HV);
+    console.log("60HV = ", walker60HV);
+
     try {
         if (type === "O") {
             // SQL UPDATE OWNER NEEDED HERE
@@ -181,6 +201,10 @@ User.updateProfile = async (profile) => {
                 bankName,
                 bsb,
                 accountNumber,
+                walker30HV,
+                walker60HV,
+                walker30WO,
+                walker60WO,
                 size.sort().join(""), // PREFERENCES ALPHABETICALLY"LMS".
                 id,
             ]);
