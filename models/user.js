@@ -43,7 +43,7 @@ User.create = async (email, hashedPassword, type) => {
         //14:07/21 PH MOVED GENERATE AUTH TOKEN TO CONTROLLER
         return { data: { user }, error: null };
     } catch (error) {
-        console.log(error);
+        console.log("User.Create()" + error);
         return error;
     }
 };
@@ -125,7 +125,9 @@ User.update = async (
             rows[0].credential_id,
             rows[0].type,
             rows[0].email,
-            false
+            false,
+            firstname,
+            lastname,
         );
 
         return { user: rows[0], token };
@@ -146,92 +148,16 @@ User.delete = async (id) => {
     }
 };
 
-User.updateProfile = async (profile) => {
-    console.log("User update profile = ", profile);
-    const {
-        id,
-        type,
-        email,
-        firstName,
-        lastName,
-        streetAddress,
-        suburb,
-        postCode,
-        phone,
-        dateOfBirth,
-        licenseNumber,
-        bankName,
-        bsb,
-        accountNumber,
-        size,
-        serviceType,
-    } = profile;
 
-    // Need to make function
-    let walker30HV = 1;
-    let walker60HV = 1;
-    let walker30WO = 1;
-    let walker60WO = 1;
-
-    if (serviceType.includes("Walks")) {
-        walker30WO = 2;
-        walker60WO = 4;
-    };
-    if (serviceType.includes("Home")) {
-        walker30HV = 3;
-        walker60HV = 5;
-    };
-    console.log("30WO = ", walker30WO);
-    console.log("60WO = ", walker60WO);
-    console.log("30HV = ", walker30HV);
-    console.log("60HV = ", walker60HV);
-
-    try {
-        if (type === "O") {
-            // SQL UPDATE OWNER NEEDED HERE
-        } else if (type === "W") {
-            await runSql(walkerSql.UPDATE_WALKER, [
-                firstName,
-                lastName,
-                streetAddress,
-                suburb,
-                postCode,
-                phone,
-                dateOfBirth,
-                licenseNumber,
-                bankName,
-                bsb,
-                accountNumber,
-                walker30HV,
-                walker60HV,
-                walker30WO,
-                walker60WO,
-                size.sort().join(""), // PREFERENCES ALPHABETICALLY"LMS".
-                id,
-            ]);
-
-            await runSql(SQL.UPDATE_USER_PROFILE, [id]);
-            // TODO error checking update worked
-        }
-        const token = User.generateAuthToken(
-            id,
-            type,
-            email,
-            true,
-            firstName,
-            lastName
-        );
-        console.log("user update profile token = ", token);
-        return { data: { token }, error: null };
-    } catch (error) {
-        console.log(error);
-        return { data: null, error };
-    }
-};
 
 //PH: 14/07/21 ADDED Firstname and lastname to token.
 User.generateAuthToken = (id, type, email, profile, firstname, lastname) => {
-    console.log("id = ", id);
+    console.log("first name = ", firstname);
+    if (!id || !type || !email || !firstname || !lastname) {
+        console.log("error with data supplied generate token");
+        throw new Error("There has been an error in generate auth token.")
+    }
+
     const token = jwt.sign(
         { id, type, email, hasProfile: profile, firstname, lastname },
         "1111"
@@ -249,15 +175,19 @@ User.getUserDetails = async (id, type) => {
 
     if (type === "W") {
         const { rows } = await runSql(walkerSql.GET_WALKER, [id]);
+
         // SQL CALL SHOULD RETURN ONE ROW
         if (rows.length !== 1) {
             error = "error from get user details.";
+
         } else {
             info = rows[0];
+
         }
     } else if (type === "O") {
         //TODO:
     }
+    console.log("error getuserdetails == " + error)
     return { data: { userDetails: info }, error };
 };
 
