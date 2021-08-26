@@ -1,6 +1,6 @@
 const express = require("express");
 const auth = require("../middleware/auth");
-const { loginValidator, signupValidator } = require("../middleware/validator");
+const { loginValidator, signupValidator, walkerProfileValidator } = require("../middleware/validator");
 const router = express.Router();
 
 const controller = require("../controllers/usersController");
@@ -9,15 +9,15 @@ const controller = require("../controllers/usersController");
 // the database automatically adds this as FALSE to each record
 router.post("/", signupValidator, async (req, res) => {
     // NOTE: firsntame and lastname are just being passed through for later use
-    const { email, password, type, firstName, lastName } = req.body;
+    const { email, password, type, firstname, lastname } = req.body;
 
     try {
         const { data, error } = await controller.insertUser(
             email,
             password,
             type,
-            firstName,
-            lastName
+            firstname,
+            lastname
         );
 
         console.log("inside create user: ", error);
@@ -32,7 +32,7 @@ router.post("/", signupValidator, async (req, res) => {
             .header("access-control-expose-headers", "x-auth-token")
             .send(data.user);
     } catch (error) {
-        console.log(error);
+        console.log("++++++++" + error);
         res.status(403).send(error);
     }
 });
@@ -100,6 +100,8 @@ router.post("/login", loginValidator, async (req, res) => {
             data: emailData,
             error: emailErrorMsg,
         } = await controller.getUserByEmail(email);
+
+
         if (emailErrorMsg) return res.status(400).send(emailErrorMsg);
 
         // COMPARE PASSWORD IF NO ERROR WILL RECEIVE TOKEN AND USER OBJECT WITHOUT PASSWORD.
@@ -129,14 +131,7 @@ router.put("/", async (req, res) => {
         res.status(403).send(error);
     }
 });
-router.post("/profile", auth, async (req, res) => {
-    const { data, error } = await controller.updateProfile(req.body.profile);
-    if (error) res.status(400).send(error);
-    console.log("route profile data = ", data);
-    res.header("x-auth-token", data.token)
-        .header("access-control-expose-headers", "x-auth-token")
-        .send("ok");
-});
+
 
 router.post("/:id", async (req, res) => {
     try {

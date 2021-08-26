@@ -34,12 +34,15 @@ const getUserByEmail = async (email) => {
             return { data: null, error: "EMAIL NOT RETRIEVED" };
         }
 
+        console.log(user[0])
         // PH : 14/07 21 GET First Name & LAST Name of owner or walker.
-        const { data: userInfo } = await User.getUserDetails(
+        const { data: userInfo, error: userInfoError } = await User.getUserDetails(
             user[0].credential_id,
             user[0].type
         );
-
+        if (userInfoError) {
+            return { data: null, error: userInfoError }
+        }
         return {
             data: { user: { ...user[0], ...userInfo.userDetails } },
             error: null,
@@ -159,20 +162,11 @@ const insertUser = async (email, password, type, firstname, lastname) => {
         return { data: { user, token }, error };
     } catch (error) {
         console.log("Error from insertUser()", error);
-        return error;
+        throw new Error(error);
     }
 };
 
-const updateProfile = async (profile) => {
-    try {
-        const { data, error } = await User.updateProfile(profile);
-        if (error) return { data: null, error: error };
-        return { data, error: null };
-    } catch (error) {
-        console.log("error from update profile = " + error);
-        return { data: null, error };
-    }
-};
+
 
 // PH 06/08/21 COMPARE PASSWORD FUNCTION
 // IF we have a match return token otherwise return error msg;
@@ -192,7 +186,7 @@ const comparePassword = (requestPassword, dbUser) => {
             firstname,
             lastname,
         } = dbUser;
-
+        console.log("dbuser = " + Object.keys(dbUser));
         token = User.generateAuthToken(
             credential_id,
             type,
@@ -228,6 +222,6 @@ module.exports = {
     deleteUser,
     // 27/07 - Glen playing around
     insertUser,
-    updateProfile,
+
     comparePassword,
 };
