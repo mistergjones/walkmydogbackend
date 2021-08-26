@@ -1,8 +1,8 @@
 module.exports = {
     // CREATE_USER: "INSERT INTO USERS (email, password) VALUES($1, $2);",
-    GET_WALKER: "SELECT firstname, lastname FROM walkers WHERE credential_id = $1;",
-    UPDATE_WALKER:
-        `UPDATE walkers SET firstname = $1,
+    GET_WALKER:
+        "SELECT firstname, lastname FROM walkers WHERE credential_id = $1;",
+    UPDATE_WALKER: `UPDATE walkers SET firstname = $1,
             lastname = $2,
             street_address=$3,
             suburb=$4,
@@ -22,8 +22,7 @@ module.exports = {
             walker_60WO = $15 
             FROM sizepreferences
             where sizepreferences.size_preference = $16
-            AND credential_id=$17;`
-
+            AND credential_id=$17;`,
 
     //         walker_30WO INTEGER,
     // walker_30HV INTEGER,
