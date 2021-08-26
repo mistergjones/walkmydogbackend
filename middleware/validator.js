@@ -108,21 +108,17 @@ const walkeProfileSchema = Yup.object({
         .min(10, "Phone number must bet 10 digits")
         .max(10, "Phone number must be 10 didits")
         .required("Phone number is required"),
-    dateOfBirth: Yup.date()
-        .required("Date of birth is required"),
-    licenseNumber: Yup.string()
-        .required("License Number is required"),
-    bankName: Yup.string()
-        .required("Bank name is required"),
-    bsb: Yup.number()
-        .required("BSB is required"),
-    accountNumber: Yup.number()
-        .required("Account number is required"),
+    dob: Yup.date().required("Date of birth is required"),
+    licenseNumber: Yup.string().required("License Number is required"),
+    bankName: Yup.string().required("Bank name is required"),
+    bsb: Yup.string().required("BSB is required"),
+    accountNumber: Yup.string().required("Account number is required"),
     size: Yup.array()
-        .min(1, "Need to select at least 1 dog size").required("Required"),
+        .min(1, "Need to select at least 1 dog size")
+        .required("Required"),
     serviceType: Yup.array()
         .min(1, "Need to select at least 1 service type")
-        .required("Required")
+        .required("Required"),
 });
 
 const walkerProfileValidator = async (req, res, next) => {
@@ -140,5 +136,5 @@ module.exports = {
     loginValidator,
     signupValidator,
     insertDogInfoSchemaValidator,
-    walkerProfileValidator
+    walkerProfileValidator,
 };

@@ -3,7 +3,6 @@ const SQL = require("../db/usersSql.js");
 const walkerSql = require("../db/walkerSql.js");
 const User = require("./user");
 
-
 const Walker = {};
 Walker.updateProfile = async (profile) => {
     console.log("User update profile = ", profile);
@@ -17,7 +16,7 @@ Walker.updateProfile = async (profile) => {
         suburb,
         postCode,
         phone,
-        dateOfBirth,
+        dob,
         licenseNumber,
         bankName,
         bsb,
@@ -35,18 +34,17 @@ Walker.updateProfile = async (profile) => {
     if (serviceType.includes("Walks")) {
         walker30WO = 2;
         walker60WO = 4;
-    };
+    }
     if (serviceType.includes("Home")) {
         walker30HV = 3;
         walker60HV = 5;
-    };
+    }
     console.log("30WO = ", walker30WO);
     console.log("60WO = ", walker60WO);
     console.log("30HV = ", walker30HV);
     console.log("60HV = ", walker60HV);
 
     try {
-
         await runSql(walkerSql.UPDATE_WALKER, [
             firstname,
             lastname,
@@ -54,7 +52,7 @@ Walker.updateProfile = async (profile) => {
             suburb,
             postCode,
             phone,
-            dateOfBirth,
+            dob,
             licenseNumber,
             bankName,
             bsb,
