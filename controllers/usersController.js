@@ -117,14 +117,24 @@ const insertUser = async (email, password, type, firstname, lastname) => {
         }
 
         // 2.0 Check if INVALID email address. If so, return ERROR MESSAGE OBJECT
-        DataValidation.checkValidEmailAddress(email);
+        // DataValidation.checkValidEmailAddress(email);
+        if (
+            /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email) ===
+            false
+        ) {
+            return {
+                user: null,
+                token: null,
+                error: "Please ensure valid email address",
+            };
+        }
 
         // 1.0 need to hash the password before insertion
         var salt = bcrypt.genSaltSync(10);
         var hashedPassword = bcrypt.hashSync(password, salt);
         // 2.0 insert the data into the CREDENTIALS table
         const { data, error } = await User.create(email, hashedPassword, type);
-        console.log("user $$$ = ", data);
+        // console.log("user $$$ = ", data);
         if (error) {
             console.log("return statement error =", error);
 
