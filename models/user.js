@@ -4,7 +4,6 @@ const { runSql } = require("../db/runsSql");
 const SQL = require("../db/usersSql.js");
 const walkerSql = require("../db/walkerSql.js");
 
-
 // USED FOR EXPORTING THE FUNCTIONS BELOW
 const User = {};
 
@@ -16,10 +15,10 @@ User.create = async (email, hashedPassword, type) => {
             email,
         ]);
 
-        console.log("rows before = ", rowsBefore.length);
+        // console.log("rows before = ", rowsBefore.length);
         // 2.0 If the email does EXIST, return an error message
         if (rowsBefore.length > 0)
-            return { user: null, token: null, error: "user already exists" };
+            return { user: null, token: null, error: "email already exists" };
 
         // 3.0 if no error, insert the user
         const result = await runSql(SQL.INSERT_USER_INTO_CREDENTIALS, [
@@ -28,17 +27,17 @@ User.create = async (email, hashedPassword, type) => {
             type,
         ]);
 
-        console.log(result);
+        // console.log(result);
 
         // 4.0 Obtain user details from TABLE: CREDENTIALS
         const { rows } = await runSql(SQL.GET_USER_BY_EMAIL, [email]);
 
-        console.log("User.create = ", rows);
+        // console.log("User.create = ", rows);
         // return the first row as an array
         // return rows[0];
 
         const user = rows[0];
-        console.log("%%%% user = ", user);
+        // console.log("%%%% user = ", user);
 
         //14:07/21 PH MOVED GENERATE AUTH TOKEN TO CONTROLLER
         return { data: { user }, error: null };
@@ -127,7 +126,7 @@ User.update = async (
             rows[0].email,
             false,
             firstname,
-            lastname,
+            lastname
         );
 
         return { user: rows[0], token };
@@ -148,14 +147,12 @@ User.delete = async (id) => {
     }
 };
 
-
-
 //PH: 14/07/21 ADDED Firstname and lastname to token.
 User.generateAuthToken = (id, type, email, profile, firstname, lastname) => {
     console.log("first name = ", firstname);
     if (!id || !type || !email || !firstname || !lastname) {
         console.log("error with data supplied generate token");
-        throw new Error("There has been an error in generate auth token.")
+        throw new Error("There has been an error in generate auth token.");
     }
 
     const token = jwt.sign(
@@ -179,15 +176,13 @@ User.getUserDetails = async (id, type) => {
         // SQL CALL SHOULD RETURN ONE ROW
         if (rows.length !== 1) {
             error = "error from get user details.";
-
         } else {
             info = rows[0];
-
         }
     } else if (type === "O") {
         //TODO:
     }
-    console.log("error getuserdetails == " + error)
+    console.log("error getuserdetails == " + error);
     return { data: { userDetails: info }, error };
 };
 
