@@ -6,23 +6,24 @@ module.exports = {
             lastname = $2,
             street_address=$3,
             suburb=$4,
-            postcode=$5,
-            mobile=$6,
-            dob=$7,
-            licence_num=$8,
-            bank_name=$9,
-            bank_BSB=$10,
-            bank_acct_num=$11,
+            state=$5,
+            postcode=$6,
+            mobile=$7,
+            dob=$8,
+            licence_num=$9,
+            bank_name=$10,
+            bank_BSB=$11,
+            bank_acct_num=$12,
             overall_rating=5,
             active_membership=TRUE,
             size_id = sizepreferences.size_id,
-            walker_30HV = $12,
-            walker_60HV = $13,
-            walker_30WO = $14,
-            walker_60WO = $15 
+            walker_30HV = $13,
+            walker_60HV = $14,
+            walker_30WO = $15,
+            walker_60WO = $16 
             FROM sizepreferences
-            where sizepreferences.size_preference = $16
-            AND credential_id=$17;`,
+            where sizepreferences.size_preference = $17
+            AND credential_id=$18;`,
 
     //         walker_30WO INTEGER,
     // walker_30HV INTEGER,

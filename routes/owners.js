@@ -2,7 +2,7 @@ const express = require("express");
 const auth = require("../middleware/auth");
 const router = express.Router();
 
-const { loginValidator } = require("../middleware/validator");
+const { ownerProfileValidator } = require("../middleware/validator");
 
 const controller = require("../controllers/ownersController");
 
@@ -31,7 +31,7 @@ router.get("/:credentialId", async (req, res) => {
     }
 });
 
-router.post("/profile", async (req, res) => {
+router.post("/profile", auth, ownerProfileValidator, async (req, res) => {
     // now need to update the owner and dog info
     const { data, error } = await controller.updateProfile(req.body.profile);
     if (error) res.status(400).send(error);

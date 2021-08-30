@@ -34,13 +34,14 @@ CREATE TABLE sizepreferences (
 );
 
 
-INSERT INTO sizepreferences (size_preference) VALUES ('SML');
-INSERT INTO sizepreferences (size_preference) VALUES ('S');
-INSERT INTO sizepreferences (size_preference) VALUES ('M');
+INSERT INTO sizepreferences (size_preference) VALUES ('LMS');
+INSERT INTO sizepreferences (size_preference) VALUES ('LM');
+INSERT INTO sizepreferences (size_preference) VALUES ('LS');
 INSERT INTO sizepreferences (size_preference) VALUES ('L');
-INSERT INTO sizepreferences (size_preference) VALUES ('S&M');
-INSERT INTO sizepreferences (size_preference) VALUES ('M&L');
-INSERT INTO sizepreferences (size_preference) VALUES ('S&L');
+INSERT INTO sizepreferences (size_preference) VALUES ('MS');
+INSERT INTO sizepreferences (size_preference) VALUES ('ML');
+INSERT INTO sizepreferences (size_preference) VALUES ('M');
+INSERT INTO sizepreferences (size_preference) VALUES ('S');
 INSERT INTO sizepreferences (size_preference) VALUES ('NA');
 SELECT count(*) FROM sizepreferences;
 
@@ -49,52 +50,54 @@ SELECT count(*) FROM sizepreferences;
 -- CREATE CREDENTIALS
 CREATE TABLE credentials (
     credential_id SERIAL PRIMARY KEY NOT NULL,
-    email VARCHAR(20) NOT NULL,
+    email VARCHAR(50) NOT NULL,
     password VARCHAR(60) NOT NULL,
-    type VARCHAR(1) NOT NULL
+    type VARCHAR(1) NOT NULL,
+    is_profile_established BOOLEAN DEFAULT FALSE,
+    UNIQUE(email)
 );
 
 -- CREATE CREDENTIAL DATA
-INSERT INTO CREDENTIALS (email, password,type) values ('ar@areid.com','111','O');
-INSERT INTO CREDENTIALS (email, password,type) values ('pp@ppiper.com','111','O');
-INSERT INTO CREDENTIALS (email, password,type) values ('rg@rgoodwin.com','111','O');
-INSERT INTO CREDENTIALS (email, password,type) values ('aj@ajacobson.com','111','O');
-INSERT INTO CREDENTIALS (email, password,type) values ('cm@cmora.com','111','O');
-INSERT INTO CREDENTIALS (email, password,type) values ('jm@jmorrison.com','111','O');
-INSERT INTO CREDENTIALS (email, password,type) values ('mw@mwheatley.com','111','O');
-INSERT INTO CREDENTIALS (email, password,type) values ('sb@sblaese.com','111','O');
-INSERT INTO CREDENTIALS (email, password,type) values ('pj@pjennings.com','111','O');
-INSERT INTO CREDENTIALS (email, password,type) values ('pm@pmohamed.com','111','O');
-INSERT INTO CREDENTIALS (email, password,type) values ('ss@ssharpe.com','111','O');
-INSERT INTO CREDENTIALS (email, password,type) values ('at@atruong.com','111','O');
-INSERT INTO CREDENTIALS (email, password,type) values ('nm@nmassey.com','111','O');
-INSERT INTO CREDENTIALS (email, password,type) values ('zh@zhook.com','111','O');
-INSERT INTO CREDENTIALS (email, password,type) values ('tr@tramirez.com','111','O');
-INSERT INTO CREDENTIALS (email, password,type) values ('mf@mfischer.com','111','O');
-INSERT INTO CREDENTIALS (email, password,type) values ('mh@mhewitt.com','111','O');
-INSERT INTO CREDENTIALS (email, password,type) values ('mt@mtalley.com','111','O');
-INSERT INTO CREDENTIALS (email, password,type) values ('ap@aperalta.com','111','O');
-INSERT INTO CREDENTIALS (email, password,type) values ('kw@kwilder.com','111','O');
-INSERT INTO CREDENTIALS (email, password,type) values ('kl@kleonard.com','111','W');
-INSERT INTO CREDENTIALS (email, password,type) values ('cr@crangel.com','111','W');
-INSERT INTO CREDENTIALS (email, password,type) values ('rc@rcopeland.com','111','W');
-INSERT INTO CREDENTIALS (email, password,type) values ('kd@kdickinson.com','111','W');
-INSERT INTO CREDENTIALS (email, password,type) values ('ln@lnorton.com','111','W');
-INSERT INTO CREDENTIALS (email, password,type) values ('sm@smellor.com','111','W');
-INSERT INTO CREDENTIALS (email, password,type) values ('dc@dcottrell.com','111','W');
-INSERT INTO CREDENTIALS (email, password,type) values ('bs@bsawyer.com','111','W');
-INSERT INTO CREDENTIALS (email, password,type) values ('em@emustafa.com','111','W');
-INSERT INTO CREDENTIALS (email, password,type) values ('am@amartin.com','111','W');
-INSERT INTO CREDENTIALS (email, password,type) values ('gt@gthornton.com','111','W');
-INSERT INTO CREDENTIALS (email, password,type) values ('ad@adenton.com','111','W');
-INSERT INTO CREDENTIALS (email, password,type) values ('vm@vmayer.com','111','W');
-INSERT INTO CREDENTIALS (email, password,type) values ('ak@akelly.com','111','W');
-INSERT INTO CREDENTIALS (email, password,type) values ('cm@cmcfarland.com','111','W');
-INSERT INTO CREDENTIALS (email, password,type) values ('cm@cmcphee.com','111','W');
-INSERT INTO CREDENTIALS (email, password,type) values ('gc@gcowan.com','111','W');
-INSERT INTO CREDENTIALS (email, password,type) values ('ah@ahenry.com','111','W');
-INSERT INTO CREDENTIALS (email, password,type) values ('bh@bhayden.com','111','W');
-INSERT INTO CREDENTIALS (email, password,type) values ('lb@lbyers.com','111','W');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('ar@areid.com','111','O','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('pp@ppiper.com','111','O','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('rg@rgoodwin.com','111','O','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('aj@ajacobson.com','111','O','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('cm@cmora.com','111','O','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('jm@jmorrison.com','111','O','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('mw@mwheatley.com','111','O','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('sb@sblaese.com','111','O','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('pj@pjennings.com','111','O','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('pm@pmohamed.com','111','O','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('ss@ssharpe.com','111','O','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('at@atruong.com','111','O','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('nm@nmassey.com','111','O','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('zh@zhook.com','111','O','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('tr@tramirez.com','111','O','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('mf@mfischer.com','111','O','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('mh@mhewitt.com','111','O','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('mt@mtalley.com','111','O','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('ap@aperalta.com','111','O','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('kw@kwilder.com','111','O','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('kl@kleonard.com','111','W','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('cr@crangel.com','111','W','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('rc@rcopeland.com','111','W','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('kd@kdickinson.com','111','W','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('ln@lnorton.com','111','W','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('sm@smellor.com','111','W','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('dc@dcottrell.com','111','W','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('bs@bsawyer.com','111','W','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('em@emustafa.com','111','W','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('am@amartin.com','111','W','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('gt@gthornton.com','111','W','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('ad@adenton.com','111','W','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('vm@vmayer.com','111','W','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('ak@akelly.com','111','W','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('cm@cmcfarland.com','111','W','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('cm@cmcphee.com','111','W','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('gc@gcowan.com','111','W','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('ah@ahenry.com','111','W','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('bh@bhayden.com','111','W','FALSE');
+INSERT INTO CREDENTIALS (email, password,type, is_profile_established) values ('lb@lbyers.com','111','W','FALSE');
 SELECT count(*) FROM credentials;
 
 -- CREATE OWNERS
@@ -106,13 +109,13 @@ CREATE TABLE owners (
     suburb VARCHAR(50) NOT NULL,
     postcode INTEGER NOT NULL,
     mobile VARCHAR(10) NOT NULL,
-    email VARCHAR(30) NOT NULL,
+    email VARCHAR(50) NOT NULL,
     dob DATE NOT NULL,
     licence_num VARCHAR(10),
     licence_photo VARCHAR(100),
-    bank_name VARCHAR(20) NOT NULL,
-    bank_BSB VARCHAR(6) NOT NULL,
-    bank_acct_num VARCHAR(10) NOT NULL,
+    bank_name VARCHAR(20) NOT NULL ,
+    bank_BSB VARCHAR(6) NOT NULL ,
+    bank_acct_num VARCHAR(10),
     overall_rating NUMERIC(2,1),
     type VARCHAR(1) NOT NULL,
     active_membership BOOLEAN DEFAULT TRUE,
@@ -156,7 +159,7 @@ CREATE TABLE walkers (
     suburb VARCHAR(50) NOT NULL,
     postcode INTEGER NOT NULL,
     mobile VARCHAR(10) NOT NULL,
-    email VARCHAR(30) NOT NULL,
+    email VARCHAR(50) NOT NULL,
     dob DATE NOT NULL,
     licence_num VARCHAR(10),
     licence_photo VARCHAR(100),
@@ -210,33 +213,33 @@ dog_firstname VARCHAR(20) NOT NULL,
 dog_photo VARCHAR(100) NOT NULL,
 dog_breed VARCHAR(20) NOT NULL,
 dog_size VARCHAR(1) NOT NULL,
-dog_always_leashed BOOLEAN DEFAULT TRUE,
+dog_always_leashed VARCHAR(3) NOT NULL,
 owner_id INTEGER,
 FOREIGN KEY (owner_id) REFERENCES owners(owner_id)
 );
 
 
 -- DOGS DATA
-INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('fido','notfilled','sausage','S','TRUE',1);
-INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('charlie','notfilled','alsatian','L','TRUE',2);
-INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('mick','notfilled','mutt','M','TRUE',3);
-INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('jess','notfilled','collie','M','TRUE',4);
-INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('jessie','notfilled','lapdog','S','TRUE',5);
-INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('tito','notfilled','retreiver','L','TRUE',6);
-INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('brutus','notfilled','labrador','L','TRUE',7);
-INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('jen','notfilled','pug','S','TRUE',8);
-INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('tomtom','notfilled','corgi','S','TRUE',9);
-INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('daisy','notfilled','terrier','S','TRUE',10);
-INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('Loki','notfilled','sausage','S','FALSE',11);
-INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('Toki','notfilled','alsatian','L','FALSE',12);
-INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('Miko','notfilled','mutt','M','FALSE',13);
-INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('Joki','notfilled','collie','M','FALSE',14);
-INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('Noki','notfilled','lapdog','S','FALSE',15);
-INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('Roki','notfilled','retreiver','L','FALSE',16);
-INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('Zoki','notfilled','labrador','L','FALSE',17);
-INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('Woki','notfilled','pug','S','FALSE',18);
-INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('Poki','notfilled','corgi','S','FALSE',19);
-INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('Soki','notfilled','terrier','S','FALSE',20);
+INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('fido','notfilled','sausage','S','YES',1);
+INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('charlie','notfilled','alsatian','L','YES',2);
+INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('mick','notfilled','mutt','M','YES',3);
+INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('jess','notfilled','collie','M','YES',4);
+INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('jessie','notfilled','lapdog','S','YES',5);
+INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('tito','notfilled','retreiver','L','YES',6);
+INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('brutus','notfilled','labrador','L','YES',7);
+INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('jen','notfilled','pug','S','YES',8);
+INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('tomtom','notfilled','corgi','S','YES',9);
+INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('daisy','notfilled','terrier','S','YES',10);
+INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('Loki','notfilled','sausage','S','NO',11);
+INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('Toki','notfilled','alsatian','L','NO',12);
+INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('Miko','notfilled','mutt','M','NO',13);
+INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('Joki','notfilled','collie','M','NO',14);
+INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('Noki','notfilled','lapdog','S','NO',15);
+INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('Roki','notfilled','retreiver','L','NO',16);
+INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('Zoki','notfilled','labrador','L','NO',17);
+INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('Woki','notfilled','pug','S','NO',18);
+INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('Poki','notfilled','corgi','S','NO',19);
+INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ('Soki','notfilled','terrier','S','NO',20);
 SELECT count(*) FROM dogs;
 
 
