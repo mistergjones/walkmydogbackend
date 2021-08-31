@@ -4,7 +4,7 @@ module.exports = {
     GET_OWNER_BY_CREDENTIAL_ID:
         "SELECT firstname, lastname, email, owner_id from OWNERS WHERE credential_id=$1;",
     UPDATE_OWNER:
-        "UPDATE owners SET firstname = $1, lastname = $2, street_address=$3 ,suburb=$4,postcode=$5,mobile=$6,dob=$7,licence_num=$8,bank_name=$9,bank_BSB=$10,bank_acct_num=$11, overall_rating=5, active_membership=TRUE WHERE credential_id=$12;",
+        "UPDATE owners SET firstname = $1, lastname = $2, street_address=$3 ,suburb=$4,state=$5, postcode=$6,mobile=$7,dob=$8,licence_num=$9,bank_name=$10,bank_BSB=$11,bank_acct_num=$12, overall_rating=5, active_membership=TRUE WHERE credential_id=$13;",
     UPDATE_USER_PROFILE:
         "UPDATE credentials SET is_profile_established = TRUE WHERE credential_id = $1",
     GET_USER_BY_CREDENTIAL_ID:
