@@ -6,12 +6,21 @@ const router = express.Router();
 const controller = require("../controllers/walkersController");
 
 router.get("/:walker_id", async (req, res) => {
-    const combinedDataset = {};
     try {
-        // pass the actual walker credential_id to the query to obtain completed walks
-        const walkerCompletedWalks = await controller.getWalkerHistoricalCompletions(
-            req.params.walker_id
+        // an object to capture the 2 datasets for walker
+        const combinedDataset = {};
+        // console.log(req.params);
+        const walkerCompletedWalks = await controller.getWalkerHistoricalCompletions();
+        const walkerCompletedIncome = await controller.getWalkerHistoricalIncomeAggregation();
+        // place each dataset into the combined dataset
+        console.log(
+            "GJ GJ GJ: ",
+            walkerCompletedIncome.data.verificationData.rows
         );
+        combinedDataset.walkerInfo =
+            walkerCompletedWalks.data.walkerHistoricalData.rows;
+        combinedDataset.walkerIncomeInfo =
+            walkerCompletedIncome.data.verificationData.rows;
 
         // IF a retried recrod is valid walker that has got at least 1 completed booking history..send all info back
         if (walkerCompletedWalks.data.historicalData.length > 0) {
@@ -55,7 +64,6 @@ router.post("/profile", auth, walkerProfileValidator, async (req, res) => {
         .send("ok");
 });
 
-
 router.get("/preferences/:credentialId", async (req, res) => {
     console.log("CREDNEITAL ID: ", req.params);
     try {
@@ -70,4 +78,3 @@ router.get("/preferences/:credentialId", async (req, res) => {
 });
 
 module.exports = router;
-
