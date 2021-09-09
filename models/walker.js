@@ -4,8 +4,52 @@ const walkerSql = require("../db/walkerSql.js");
 const User = require("./user");
 
 const Walker = {};
+
+//GJ: 07/09: GJ: The below query aggregates the walker's incomce by each service type
+Walker.getWalkerHistoricalIncomeAggregation = async () => {
+    // console.log("models.js => getWalkerHistoricalIncomeAggregation");
+    try {
+        const verificationData = await runSql(
+            walkerSql.GET_WALKER_HISTORICAL_INCOME_AGGREGATION,
+            []
+        );
+        // console.log("Do we have INCOME VERIFICADTION?", verificationData);
+        // return verificationData;
+        return { data: { verificationData }, error: null };
+    } catch (error) {
+        console.log(
+            "models.js => getWalkerHistoricalIncomeAggregation => Something wrong",
+            error
+        );
+        return { data: null, error };
+    }
+};
+
+//GJ: 07/09: The below simply obtains all completed bookings for the individual walker
+Walker.getWalkerHistoricalCompletions = async () => {
+    console.log("models.js => getWallkerHistorialCopmletions");
+    try {
+        const walkerHistoricalData = await runSql(
+            walkerSql.GET_WALKER_HISTORICAL_COMPLETIONS,
+            []
+        );
+        console.log(
+            "Do we have WALKER HISTORICAL INFo??",
+            walkerHistoricalData
+        );
+        // return walkerHistoricalData;
+        return { data: { walkerHistoricalData }, error: null };
+    } catch (error) {
+        console.log(
+            "models.js => getWallkerHistorialCopmletions => Something wrong",
+            error
+        );
+        return { data: null, error };
+    }
+};
+
 Walker.updateProfile = async (profile) => {
-    console.log("User update profile = ", profile);
+    // console.log("User update profile = ", profile);
     const {
         id,
         type,

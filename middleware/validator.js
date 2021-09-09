@@ -103,7 +103,7 @@ const walkerProfileSchema = Yup.object({
         .max(50, "Must be 50 characters or less")
         .required("Suburb is required"),
     state: Yup.string()
-        .max(3, "Must be 3 characters or less")
+        .max(30, "Must be 30 characters or less")
         .required("State is required"),
     postcode: Yup.string()
         .min(4, "Must be 4 digits")
@@ -152,7 +152,7 @@ const ownerProfileSchema = Yup.object().shape({
         .max(50, "Must be 50 characters or less")
         .required("Suburb is required"),
     state: Yup.string()
-        .max(3, "Must be 3 characters or less")
+        .max(30, "Must be 30 characters or less")
         .required("State is required"),
     postcode: Yup.number()
         .min(4, "Must be 4 digits")

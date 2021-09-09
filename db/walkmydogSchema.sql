@@ -67,7 +67,7 @@ CREATE TABLE owners (
     lastname VARCHAR(20) NOT NULL,
     street_address VARCHAR(50) NOT NULL,
     suburb VARCHAR(50) NOT NULL,
-    state VARCHAR(3) NOT NULL,
+    state VARCHAR(30) NOT NULL,
     postcode INTEGER NOT NULL,
     mobile VARCHAR(10) NOT NULL,
     email VARCHAR(50) NOT NULL,
@@ -80,11 +80,15 @@ CREATE TABLE owners (
     overall_rating NUMERIC(2,1),
     type VARCHAR(1) NOT NULL,
     active_membership BOOLEAN DEFAULT TRUE,
+    lat NUMERIC(9,6),
+    lng NUMERIC(9,6),
     credential_id INTEGER, 
     FOREIGN KEY (credential_id) REFERENCES credentials(credential_id),
     UNIQUE(email),
     UNIQUE(mobile)
 );
+
+
 
 -- OWNERS DATA
 -- SELECT count(*) FROM owners;
@@ -96,7 +100,7 @@ CREATE TABLE walkers (
     lastname VARCHAR(20) NOT NULL,
     street_address VARCHAR(50) NOT NULL,
     suburb VARCHAR(50) NOT NULL,
-    state VARCHAR(3) NOT NULL,
+    state VARCHAR(30) NOT NULL,
     postcode INTEGER NOT NULL,
     mobile VARCHAR(10) NOT NULL,
     email VARCHAR(50) NOT NULL,
@@ -113,6 +117,8 @@ CREATE TABLE walkers (
     walker_60WO INTEGER,
     walker_60HV INTEGER,
     active_membership BOOLEAN DEFAULT TRUE,
+    lat NUMERIC(9,6),
+    lng NUMERIC(9,6),
     size_id INTEGER,
     FOREIGN KEY (size_id) REFERENCES sizepreferences(size_id),
     credential_id INTEGER, 
@@ -166,48 +172,31 @@ CREATE TABLE bookings (
 
 
 -- BOOKIGNS DATA
-INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-07-26','1627254000','1627255800','1800','notapplied','notapplied',25,2.5,'FALSE','na','F','no notes',1,2,1);
-INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-07-26','1627255800','1627257600','1800','notapplied','notapplied',25,2.5,'FALSE','na','F','no notes',2,2,2);
-INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-07-26','1627257600','1627259400','1800','notapplied','notapplied',25,2.5,'FALSE','na','F','no notes',3,2,3);
-INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-07-26','1627259400','1627261200','1800','notapplied','notapplied',25,2.5,'FALSE','na','F','no notes',4,2,4);
-INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-07-26','1627261200','1627263000','1800','notapplied','notapplied',25,2.5,'FALSE','na','F','no notes',5,2,5);
-INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-07-26','1627263000','1627264800','1800','notapplied','notapplied',0,0,'TRUE','6','C','no notes',6,2,6);
-INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-07-26','1627264800','1627266600','1800','notapplied','notapplied',0,0,'TRUE','7','C','no notes',7,2,7);
-INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-07-26','1627266600','1627268400','1800','notapplied','notapplied',0,0,'TRUE','8','C','no notes',8,2,8);
-INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-07-26','1627268400','1627270200','1800','notapplied','notapplied',0,0,'TRUE','29','C','no notes',9,2,9);
-INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-07-26','1627270200','1627272000','1800','notapplied','notapplied',0,0,'TRUE','30','C','no notes',10,2,10);
-INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-07-26','1627272000','1627275600','3600','notapplied','notapplied',40,4,'FALSE','na','F','no notes',11,4,11);
-INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-07-26','1627275600','1627279200','3600','notapplied','notapplied',40,4,'FALSE','na','F','no notes',12,4,12);
-INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-07-26','1627279200','1627282800','3600','notapplied','notapplied',40,4,'FALSE','na','O','no notes',0,1,13);
-INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-07-26','1627282800','1627286400','3600','notapplied','notapplied',40,4,'FALSE','na','O','no notes',0,1,14);
-INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-07-30','1627599600','1627601400','1800','notapplied','notapplied',25,2.5,'FALSE','na','A','no notes',1,2,1);
-INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-07-30','1627601400','1627603200','1800','notapplied','notapplied',25,2.5,'FALSE','na','A','no notes',2,2,2);
-INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-07-30','1627603200','1627605000','1800','notapplied','notapplied',25,2.5,'FALSE','na','A','no notes',3,2,3);
-INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-07-30','1627605000','1627606800','1800','notapplied','notapplied',25,2.5,'FALSE','na','A','no notes',4,2,4);
-INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-07-30','1627606800','1627608600','1800','notapplied','notapplied',25,2.5,'FALSE','na','A','no notes',5,2,5);
-INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-07-30','1627608600','1627610400','1800','notapplied','notapplied',25,2.5,'FALSE','na','A','no notes',6,2,6);
-INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-07-30','1627610400','1627612200','1800','notapplied','notapplied',25,2.5,'FALSE','na','A','no notes',7,2,7);
-INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-07-30','1627612200','1627614000','1800','notapplied','notapplied',25,2.5,'FALSE','na','A','no notes',8,2,8);
-INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-07-30','1627614000','1627615800','1800','notapplied','notapplied',25,2.5,'FALSE','na','A','no notes',9,2,9);
-INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-07-30','1627615800','1627617600','1800','notapplied','notapplied',25,2.5,'FALSE','na','A','no notes',10,2,10);
-INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-07-30','1627617600','1627621200','3600','notapplied','notapplied',40,4,'FALSE','na','A','no notes',11,4,11);
-INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-07-30','1627621200','1627624800','3600','notapplied','notapplied',40,4,'FALSE','na','A','no notes',12,4,12);
-INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-07-30','1627624800','1627628400','3600','notapplied','notapplied',40,4,'FALSE','na','O','no notes',0,1,13);
-INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-07-30','1627628400','1627632000','3600','notapplied','notapplied',40,4,'FALSE','na','O','no notes',0,1,14);
-INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-08-03','1627945200','1627947000','1800','notapplied','notapplied',20,2,'FALSE','na','A','no notes',4,3,1);
-INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-08-03','1627947000','1627948800','1800','notapplied','notapplied',20,2,'FALSE','na','A','no notes',5,3,2);
-INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-08-03','1627948800','1627950600','1800','notapplied','notapplied',20,2,'FALSE','na','A','no notes',6,3,3);
-INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-08-03','1627950600','1627952400','1800','notapplied','notapplied',20,2,'FALSE','na','A','no notes',7,3,4);
-INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-08-03','1627952400','1627954200','1800','notapplied','notapplied',20,2,'FALSE','na','A','no notes',8,3,5);
-INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-08-03','1627954200','1627956000','1800','notapplied','notapplied',20,2,'FALSE','na','A','no notes',9,3,6);
-INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-08-03','1627956000','1627957800','1800','notapplied','notapplied',20,2,'FALSE','na','A','no notes',10,3,7);
-INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-08-03','1627957800','1627959600','1800','notapplied','notapplied',20,2,'FALSE','na','A','no notes',11,3,8);
-INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-08-03','1627959600','1627961400','1800','notapplied','notapplied',20,2,'FALSE','na','A','no notes',12,3,9);
-INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-08-03','1627961400','1627963200','1800','notapplied','notapplied',20,2,'FALSE','na','A','no notes',13,3,10);
-INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-08-03','1627963200','1627966800','3600','notapplied','notapplied',35,3.5,'FALSE','na','A','no notes',19,5,11);
-INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-08-03','1627966800','1627970400','3600','notapplied','notapplied',35,3.5,'FALSE','na','A','no notes',20,5,12);
-INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-08-03','1627970400','1627974000','3600','notapplied','notapplied',35,3.5,'FALSE','na','O','no notes',0,1,13);
-INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-08-03','1627974000','1627977600','3600','notapplied','notapplied',35,3.5,'FALSE','na','O','no notes',0,1,14);
+
+INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-09-06','1630897200','1630899000','1800','notapplied','notapplied',25,2.5,'FALSE','na','C','no notes',16,2,47);
+
+INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-09-06','1630904400','1630906200','1800','notapplied','notapplied',25,2.5,'FALSE','na','C','no notes',16,2,47);
+
+INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-09-06','1630911600','1630913400','1800','notapplied','notapplied',25,2.5,'FALSE','na','C','no notes',16,2,47);
+
+INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-09-06','1630915200','1630917000','1800','notapplied','notapplied',25,2.5,'FALSE','na','C','no notes',16,2,48);
+
+INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-09-06','1630922400','1630924200','1800','notapplied','notapplied',25,2.5,'FALSE','na','C','no notes',16,2,48);
+
+INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-09-05','1630922400','1630924200','1800','notapplied','notapplied',25,2.5,'FALSE','na','A','no notes',16,2,48);
+
+INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-09-05','1630922400','1630924200','1800','notapplied','notapplied',35,3.5,'FALSE','na','C','no notes',16,3,48);
+
+INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-09-05','1630922400','1630924200','1800','notapplied','notapplied',65,6.5,'FALSE','na','C','no notes',16,4,48);
+
+INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-09-05','1630922400','1630924200','1800','notapplied','notapplied',85,8.5,'FALSE','na','C','no notes',16,5,48);
+
+INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-09-05','1630922400','1630924200','1800','notapplied','notapplied',10,1,'FALSE','na','C','no notes',16,1,48);
+
+INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-09-05','1630922400','1630924200','1800','notapplied','notapplied',10,1,'FALSE','na','C','no notes',16,1,48);
+
+Select walkers.firstname, walkers.lastname, bookings.date, bookings.start_time, bookings.duration, bookings.booking_status, dogs.dog_firstname, bookings.service_fee FROM ((walkers INNER JOIN bookings ON walkers.walker_id = bookings.walker_assigned) INNER JOIN dogs ON bookings.owner_id = dogs.owner_id) WHERE walker_id = 16;
+
 SELECT count(*) FROM bookings;
 
 

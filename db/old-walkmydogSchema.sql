@@ -145,7 +145,9 @@ INSERT INTO OWNERS (firstname,lastname,street_address,suburb,postcode,mobile,ema
 INSERT INTO OWNERS (firstname,lastname,street_address,suburb,postcode,mobile,email,dob,licence_num,licence_photo,bank_name,bank_BSB,bank_acct_num,overall_rating,type,active_membership,credential_id) VALUES ('mila','hewitt','12 Cheddar Road','Reservoir',3073,'0401000016','mh@mhewitt.com','1970-10-11','111111128','notapplied','NAB','063150','12345678',2,'O',TRUE,17);
 INSERT INTO OWNERS (firstname,lastname,street_address,suburb,postcode,mobile,email,dob,licence_num,licence_photo,bank_name,bank_BSB,bank_acct_num,overall_rating,type,active_membership,credential_id) VALUES ('marian','talley','12 The Blvd','Thomastown',3074,'0401000017','mt@mtalley.com','1970-10-12','111111129','notapplied','NAB','063151','12345678',3,'O',TRUE,18);
 INSERT INTO OWNERS (firstname,lastname,street_address,suburb,postcode,mobile,email,dob,licence_num,licence_photo,bank_name,bank_BSB,bank_acct_num,overall_rating,type,active_membership,credential_id) VALUES ('alma','peralta','12 Oherns Road','Epping',3076,'0401000018','ap@aperalta.com','1970-10-13','111111130','notapplied','NAB','063152','12345678',4,'O',TRUE,19);
-INSERT INTO OWNERS (firstname,lastname,street_address,suburb,postcode,mobile,email,dob,licence_num,licence_photo,bank_name,bank_BSB,bank_acct_num,overall_rating,type,active_membership,credential_id) VALUES ('kacie','wilder','12 Bitburg Street','Jacana',3047,'0401000019','kw@kwilder.com','1970-10-14','111111131','notapplied','ANZ','063153','12345678',5,'O',TRUE,20);
+
+-- Modified to test the longitude and latitude new fields
+-- INSERT INTO OWNERS (firstname,lastname,street_address,suburb,state,postcode,mobile,email,dob,licence_num,licence_photo,bank_name,bank_BSB,bank_acct_num,overall_rating,type,active_membership,lat,lng,credential_id) VALUES ('kacie','wilder','12 Bitburg Street','Jacana','Vic',3047,'0401000019','kw@kwilder.com','1970-10-14','111111131','notapplied','ANZ','063153','12345678',5,'O',TRUE,-235.345, -123.45,8);
 SELECT count(*) FROM owners;
 
 
