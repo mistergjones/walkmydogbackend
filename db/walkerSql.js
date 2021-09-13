@@ -25,9 +25,9 @@ module.exports = {
             where sizepreferences.size_preference = $17
             AND credential_id=$18;`,
     // GJ: The below query gets all "bookings" for an individual walker that has completed.
-    GET_WALKER_HISTORICAL_COMPLETIONS: `Select walkers.firstname, walkers.lastname, bookings.date, bookings.start_time, services.service_type, bookings.booking_status, dogs.dog_firstname, bookings.service_fee FROM (((walkers INNER JOIN bookings ON walkers.walker_id = bookings.walker_assigned) INNER JOIN dogs ON bookings.owner_id = dogs.owner_id) INNER JOIN services ON bookings.service_id = services.service_id) WHERE walker_id = 16 AND booking_status = 'C';`,
+    GET_WALKER_HISTORICAL_COMPLETIONS: `Select walkers.walker_id, walkers.firstname, walkers.lastname, bookings.date, bookings.start_time, services.service_type, bookings.booking_status, dogs.dog_firstname, bookings.service_fee FROM (((walkers INNER JOIN bookings ON walkers.walker_id = bookings.walker_assigned) INNER JOIN dogs ON bookings.owner_id = dogs.owner_id) INNER JOIN services ON bookings.service_id = services.service_id) WHERE credential_id = $1 AND booking_status = 'C';`,
     // GJ: The below query aggregates the walker's incomce by each service type
-    GET_WALKER_HISTORICAL_INCOME_AGGREGATION: `SELECT services.service_type, bookings.booking_status, SUM(bookings.service_fee) as booked_income FROM services,bookings WHERE bookings.service_id = services.service_id AND walker_assigned = 16 AND booking_status = 'C' GROUP BY service_type, booking_status;`,
+    GET_WALKER_HISTORICAL_INCOME_AGGREGATION: `SELECT services.service_type, bookings.booking_status, SUM(bookings.service_fee) as booked_income FROM services,bookings WHERE bookings.service_id = services.service_id AND walker_assigned = $1 AND booking_status = 'C' GROUP BY service_type, booking_status;`,
 
     // walker_30WO INTEGER,
     // walker_30HV INTEGER,
