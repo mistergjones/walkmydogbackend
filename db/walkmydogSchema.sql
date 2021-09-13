@@ -126,6 +126,7 @@ CREATE TABLE walkers (
     UNIQUE(email),
     UNIQUE(mobile)
 );
+​
 
 -- SELECT count(*) FROM walkers;
 

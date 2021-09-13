@@ -56,8 +56,25 @@ const updateProfile = async (profile) => {
     }
 };
 
+const getWalkerPreferencesByCredentialId = async (credentialId) => {
+    console.log("CREDENTIAL ID: ", credentialId);
+    try {
+        const walkerPreferences = await Walker.getWalkerPreferencesByCredentialId(credentialId);
+        console.log("DO I HAVE A Walker???", walkerPreferences);
+        return walkerPreferences;
+    } catch (error) {
+        console.log(
+            "walkersontroller: Error from getWalkerByCredentialId()",
+            error
+        );
+        return error;
+    }
+};
+
 module.exports = {
     updateProfile,
     getWalkerHistoricalCompletions,
     getWalkerHistoricalIncomeAggregation,
-};
+    getWalkerPreferencesByCredentialId
+}
+

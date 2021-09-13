@@ -107,6 +107,8 @@ Owner.updateProfile = async (profile) => {
         dogSize,
         dogBreed,
         requiresLeash,
+        lat,
+        lng,
         owner_id,
     } = profile;
     try {
@@ -123,6 +125,8 @@ Owner.updateProfile = async (profile) => {
             bankName,
             bsb,
             accountNumber,
+            lat,
+            lng,
             id,
         ]);
         console.log("INSERTING OWNER", insertingOwnerResponse);

@@ -4,18 +4,34 @@ const SQL = require("../db/bookingsSql");
 // USED FOR EXPORTING THE FUNCTIONS BELOW
 const Booking = {};
 
-// CREATE A BOOKING
-// Booking.create = async (username, password) => {
-//     try {
-//         await runSql(SQL.CREATE_USER, [username, password]);
-//         const { rows } = await runSql(SQL.GET_USER_BY_EMAIL, [username]);
-//         return { user: rows[0] };
+// INSERT INTO BOOKINGS(date, start_time, end_time, duration, service_fee, our_comission, booking_status, booking_instructions, service_id, owner_id)
+// CREATE BOOKING
+Booking.create = async (bookingData) => {
+    const { date, startTime, endTime, duration, ourComission, serviceType, bookingStatus, bookingInstructions, ownerId } = bookingData;
+    try {
+        const serviceDetails = await runSql(SQL.GET_SERVICE_DETAILS, [serviceType]);
+        console.log("serviceDetails", serviceDetails)
+        await runSql(SQL.CREATE_BOOKING, [
+            date,
+            startTime,
+            endTime,
+            duration,
+            serviceDetails.rows[0].service_fee,
+            ourComission,
+            bookingStatus,
+            bookingInstructions,
+            serviceDetails.rows[0].service_id,
+            ownerId
 
-//     } catch (error) {
-//         console.log(error);
-//         return error;
-//     }
-// };
+
+        ]);
+
+
+    } catch (error) {
+        console.log("Model error =" + error);
+        return error;
+    }
+};
 
 // GET ALL BOOKINGS
 Booking.get = async (userType) => {
@@ -63,7 +79,7 @@ Booking.getBookingByIdAndType = async (id, type) => {
         let jobInfo = {};
 
         if (rows.length === 1) {
-
+            jobInfo.date = rows[0].date;
             jobInfo.startTime = rows[0].start_time;
             jobInfo.suburb = rows[0].suburb;
             jobInfo.serviceType = rows[0].service_type;
