@@ -199,10 +199,36 @@ const ownerProfileValidator = async (req, res, next) => {
     }
 };
 
+const createBookingSchema = Yup.object({
+
+    bookingDate: Yup.date()
+        .required("Booking Date is required"),
+    bookingTime: Yup.string()
+        .required("Booking time required"),
+    serviceType: Yup.string()
+        .required("Service Type required"),
+    mobile: Yup.string()
+        .min(10, "Mobile number must bet 10 digits")
+        .max(10, "Mobile number must be 10 didits")
+        .required("Mobile number is required"),
+});
+
+const createBookingValidator = async (req, res, next) => {
+    // Check we have correct values from request.
+    const { booking } = req.body;
+    try {
+        await createBookingSchema.validate({ ...booking });
+        next();
+    } catch (error) {
+        console.log("create booking validation failed", error.errors[0]);
+        res.status(402).send(error.errors[0]);
+    }
+};
 module.exports = {
     loginValidator,
     signupValidator,
     insertDogInfoSchemaValidator,
     walkerProfileValidator,
     ownerProfileValidator,
+    createBookingValidator
 };

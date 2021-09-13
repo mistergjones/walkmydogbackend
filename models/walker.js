@@ -24,6 +24,8 @@ Walker.updateProfile = async (profile) => {
         accountNumber,
         size,
         serviceType,
+        lat,
+        lng
     } = profile;
 
     // Need to make function
@@ -63,8 +65,10 @@ Walker.updateProfile = async (profile) => {
             walker60HV,
             walker30WO,
             walker60WO,
+            lat,
+            lng,
             size.sort().join(""), // PREFERENCES ALPHABETICALLY"LMS".
-            id,
+            id
         ]);
 
         await runSql(SQL.UPDATE_USER_PROFILE, [id]);
@@ -86,4 +90,16 @@ Walker.updateProfile = async (profile) => {
     }
 };
 
+Walker.getWalkerPreferencesByCredentialId = async (credentialId) => {
+    try {
+        const { rows } = await runSql(walkerSql.GET_WALKER_PREFERENCES_BY_CREDENTIAL_ID, [
+            credentialId,
+        ]);
+        console.log("GOT 1 SPECIFIC WALKER?", rows);
+        return rows[0];
+    } catch (error) {
+        console.log(error);
+        return error;
+    }
+};
 module.exports = Walker;
