@@ -20,10 +20,14 @@ module.exports = {
             walker_30HV = $13,
             walker_60HV = $14,
             walker_30WO = $15,
-            walker_60WO = $16 
+            walker_60WO = $16,
+            lat = $17,
+            lng = $18 
             FROM sizepreferences
-            where sizepreferences.size_preference = $17
-            AND credential_id=$18;`,
+            where sizepreferences.size_preference = $19
+            AND credential_id=$20;`,
+    GET_WALKER_PREFERENCES_BY_CREDENTIAL_ID:
+        "SELECT lat, lng, walker_30wo, walker_30hv, sizepreferences.size_preference FROM walkers, sizepreferences WHERE credential_id=$1 and walkers.size_id = sizepreferences.size_id;",
 
     //         walker_30WO INTEGER,
     // walker_30HV INTEGER,

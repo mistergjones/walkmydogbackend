@@ -3,6 +3,7 @@ const router = express.Router();
 
 const controller = require("../controllers/bookingsController");
 const auth = require("../middleware/auth");
+const { createBookingValidator } = require("../middleware/validator")
 
 // router.post("/", async (req, res) => {
 //     const { username, password } = req.body;
@@ -75,5 +76,19 @@ router.get("/:id/:type", auth, async (req, res) => {
 //         res.status(403).send(error);
 //     }
 // })
+
+router.post("/", auth, createBookingValidator, async (req, res) => {
+    console.log("reached post booking");
+    const { booking } = req.body;
+    console.log("booking =", booking);
+    try {
+
+        const result = await controller.createBooking(booking);
+        console.log("booking post result = ", result);
+        return res.send("create booking response.")
+    } catch (error) {
+        res.status(403).send("Error with create booking" + error)
+    }
+})
 
 module.exports = router;

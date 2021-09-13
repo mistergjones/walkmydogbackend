@@ -42,19 +42,56 @@ const getBookingByIdAndType = async (id, type) => {
     }
 }
 
-// // CREATE USER
-// const createUser = async (username, password) => {
-//     // NEED VALIDATION LOGIC HERE
-//     if (!User.validate(username)) return "Validation error";
+const getBookingData = (booking) => {
+    const { bookingDate, bookingTime, serviceType, mobile, specialInstructions, id } = booking;
+    let bookingData = {};
 
-//     try {
-//         const user = await User.create(username, password);
-//         return user;
-//     } catch (error) {
-//         console.log("Error from createUser()", error);
-//         return error
-//     }
-// }
+    // Extract data from booking date and time and create a date object
+    const day = bookingDate.split("-")[2];
+    const month = bookingDate.split("-")[1];
+    const year = bookingDate.split("-")[0];
+    const hour = bookingTime.split(":")[0];
+    const minute = bookingTime.split(":")[1];
+    const second = 30;
+    const convertedDate = new Date(year, month - 1, day, hour, minute, second);
+
+    // Calculate duration of service in milliseconds
+    const millisecondsInSecond = 1000;
+    const secondsInMinute = 60;
+    // if service type stars with 3 length is 30 mins otherwise its 60 mins
+    const serviceLengthInMinutes = serviceType.split("")[0] === 3 ? 30 : 60;
+    const serviceDurationInMilliseconds = serviceLengthInMinutes * secondsInMinute * millisecondsInSecond;
+
+    // assigng values to booking data to be used for insert query
+    const OPEN = "O";
+    bookingData.date = bookingDate;
+    bookingData.startTime = convertedDate.getTime() + convertedDate.getTimezoneOffset();
+    bookingData.endTime = bookingData.startTime + serviceDurationInMilliseconds;
+    bookingData.duration = serviceDurationInMilliseconds;
+    bookingData.serviceType = serviceType;
+    bookingData.ourComission = 5;
+    bookingData.bookingStatus = OPEN;
+    bookingData.bookingInstructions = specialInstructions;
+    bookingData.ownerId = id;
+
+    return bookingData;
+}
+
+// INSERT INTO BOOKINGS(date, start_time, end_time, duration, service_fee, our_comission, booking_status, booking_instructions, service_id, owner_id)
+// CREATE BOOKING
+const createBooking = async (booking) => {
+
+    const bookingData = getBookingData(booking);
+
+    try {
+        const result = await Booking.create(bookingData);
+        // console.log("result create booking controller = " + Object.keys(result));
+        return "Booking Created successfully";
+    } catch (error) {
+        console.log("Error from createBooking() = ", error);
+        return error
+    }
+}
 
 // // UPDATE USER
 // const updateUser = async (id, email) => {
@@ -89,8 +126,8 @@ module.exports = {
     getBookings,
     // getUserByEmail,
     getBookingById,
-    getBookingByIdAndType
-    // createUser,
+    getBookingByIdAndType,
+    createBooking,
     // updateUser,
     // deleteUser
 };

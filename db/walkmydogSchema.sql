@@ -67,7 +67,7 @@ CREATE TABLE owners (
     lastname VARCHAR(20) NOT NULL,
     street_address VARCHAR(50) NOT NULL,
     suburb VARCHAR(50) NOT NULL,
-    state VARCHAR(3) NOT NULL,
+    state VARCHAR(20) NOT NULL,
     postcode INTEGER NOT NULL,
     mobile VARCHAR(10) NOT NULL,
     email VARCHAR(50) NOT NULL,
@@ -80,6 +80,8 @@ CREATE TABLE owners (
     overall_rating NUMERIC(2,1),
     type VARCHAR(1) NOT NULL,
     active_membership BOOLEAN DEFAULT TRUE,
+    lat NUMERIC(9,6),
+    lng NUMERIC(9,6),
     credential_id INTEGER, 
     FOREIGN KEY (credential_id) REFERENCES credentials(credential_id),
     UNIQUE(email),
@@ -96,7 +98,7 @@ CREATE TABLE walkers (
     lastname VARCHAR(20) NOT NULL,
     street_address VARCHAR(50) NOT NULL,
     suburb VARCHAR(50) NOT NULL,
-    state VARCHAR(3) NOT NULL,
+    state VARCHAR(20) NOT NULL,
     postcode INTEGER NOT NULL,
     mobile VARCHAR(10) NOT NULL,
     email VARCHAR(50) NOT NULL,
@@ -113,6 +115,8 @@ CREATE TABLE walkers (
     walker_60WO INTEGER,
     walker_60HV INTEGER,
     active_membership BOOLEAN DEFAULT TRUE,
+    lat NUMERIC(9,6),
+    lng NUMERIC(9,6),
     size_id INTEGER,
     FOREIGN KEY (size_id) REFERENCES sizepreferences(size_id),
     credential_id INTEGER, 
@@ -120,6 +124,7 @@ CREATE TABLE walkers (
     UNIQUE(email),
     UNIQUE(mobile)
 );
+​
 
 -- SELECT count(*) FROM walkers;
 
