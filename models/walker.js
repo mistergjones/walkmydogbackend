@@ -69,7 +69,7 @@ Walker.updateProfile = async (profile) => {
         size,
         serviceType,
         lat,
-        lng
+        lng,
     } = profile;
 
     // Need to make function
@@ -112,7 +112,7 @@ Walker.updateProfile = async (profile) => {
             lat,
             lng,
             size.sort().join(""), // PREFERENCES ALPHABETICALLY"LMS".
-            id
+            id,
         ]);
 
         await runSql(SQL.UPDATE_USER_PROFILE, [id]);
@@ -136,7 +136,9 @@ Walker.updateProfile = async (profile) => {
 
 Walker.getWalkerPreferencesByCredentialId = async (credentialId) => {
     try {
-        const { rows } = await runSql(walkerSql.GET_WALKER_PREFERENCES_BY_CREDENTIAL_ID, [
+        const {
+            rows,
+        } = await runSql(walkerSql.GET_WALKER_PREFERENCES_BY_CREDENTIAL_ID, [
             credentialId,
         ]);
         console.log("GOT 1 SPECIFIC WALKER?", rows);
