@@ -45,6 +45,25 @@ const getWalkerHistoricalIncomeAggregation = async (tempWalkerID) => {
     }
 };
 
+// GJ: 14/09: the below simply retrives teh assigned walks to the walker
+const getWalkerAssignedWalks = async (tempWalkerID) => {
+    try {
+        const { data, error } = await Walker.getWalkerAssignedWalks(
+            tempWalkerID
+        );
+
+        console.log("walkerController.js => WalkerAssignedWalks = ", data);
+        if (error) return { data: null, error: error };
+        return { data, error: null };
+    } catch (error) {
+        console.log(
+            "walkerController.js => error from getWalkerAssignedWalks = " +
+                error
+        );
+        return { data: null, error };
+    }
+};
+
 const updateProfile = async (profile) => {
     try {
         const { data, error } = await Walker.updateProfile(profile);
@@ -86,6 +105,7 @@ module.exports = {
     updateProfile,
     getWalkerHistoricalCompletions,
     getWalkerHistoricalIncomeAggregation,
+    getWalkerAssignedWalks,
     getWalkerPreferencesByCredentialId,
     getWalkerProfile
 };

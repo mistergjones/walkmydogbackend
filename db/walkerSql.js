@@ -44,6 +44,9 @@ module.exports = {
 
 
 
+    // GJ: The below query obtains the assigned jobs to a walker
+    GET_WALKER_ASSIGNED_WALKS: `Select walkers.walker_id, walkers.firstname, walkers.lastname, bookings.date, bookings.start_time, services.service_type, bookings.booking_status, dogs.dog_firstname, bookings.service_fee FROM (((walkers INNER JOIN bookings ON walkers.walker_id = bookings.walker_assigned) INNER JOIN dogs ON bookings.owner_id = dogs.owner_id) INNER JOIN services ON bookings.service_id = services.service_id) WHERE credential_id = $1 AND booking_status = 'A';`,
+
     // walker_30WO INTEGER,
     // walker_30HV INTEGER,
     // walker_60WO INTEGER,

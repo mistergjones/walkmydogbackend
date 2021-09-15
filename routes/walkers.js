@@ -5,48 +5,66 @@ const router = express.Router();
 
 const controller = require("../controllers/walkersController");
 
-router.get("/:walker_id", async (req, res) => {
+// GJ: 14/09: this route is to obtain walker assigned walks by passing the credential id
+router.get("/assignedwalks/:credential_id", async (req, res) => {
     try {
-        // an object to capture the 2 datasets for walker
-        const combinedDataset = {};
-        // console.log(req.params);
-        const walkerCompletedWalks = await controller.getWalkerHistoricalCompletions();
-        const walkerCompletedIncome = await controller.getWalkerHistoricalIncomeAggregation();
-        // place each dataset into the combined dataset
-        console.log(
-            "GJ GJ GJ: ",
-            walkerCompletedIncome.data.verificationData.rows
+        const result = await controller.getWalkerAssignedWalks(
+            req.params.credential_id
         );
-        combinedDataset.walkerInfo =
-            walkerCompletedWalks.data.walkerHistoricalData.rows;
-        combinedDataset.walkerIncomeInfo =
-            walkerCompletedIncome.data.verificationData.rows;
+
+        console.log("GLEN GLEN GLEN", result.data.verificationData.rows);
+        res.send(result.data.verificationData.rows);
+    } catch (error) {
+        console.log("WTF WTF");
+    }
+});
+
+router.get("/:walker_id", async (req, res) => {
+    // an object to capture the 2 datasets for walker
+    const combinedDataset = {};
+    try {
+        // 1. extract teh actual Credential ID beging passed from teh frontend tokem form
+        const actualWalkerCredentialID = req.params.walker_id;
+
+        // attempt to obtain 2 data sets based on the walker credential id.
+        const walkerCompletedWalks = await controller.getWalkerHistoricalCompletions(
+            actualWalkerCredentialID
+        );
+        const walkerCompletedIncome = await controller.getWalkerHistoricalIncomeAggregation(
+            actualWalkerCredentialID
+        );
+
+        // if we have at least one record, proceed with getting all data
+        if (walkerCompletedWalks.data.historicalData.length > 0) {
+            combinedDataset.walkerInfo =
+                walkerCompletedWalks.data.walkerHistoricalData;
+            combinedDataset.walkerIncomeInfo =
+                walkerCompletedIncome.data.verificationData;
+        }
+        // ELSE : SEND blank dataset to frontend
+        else {
+            const nullDataset = {};
+            nullDataset.walkerInfo = [];
+            nullDataset.walkerIncomeInfo = [];
+            res.send(nullDataset);
+        }
 
         // IF a retried recrod is valid walker that has got at least 1 completed booking history..send all info back
         if (walkerCompletedWalks.data.historicalData.length > 0) {
-            // capture the first intance of the actual walker_id from the above query and pass to the below query to
-            // obtain income info FROM BOOKINGS TABLE.
-            // WallkerID is used in the Bookings Table for column "walker_assigned"
+            // 1. Capture the first intance of the actual walker_id from the above query and pass to the below query to then obtain income info FROM BOOKINGS TABLE.
+            // NOTE: WallkerID is used in the Bookings Table for column "walker_assigned"
             const tempWalkerID =
                 walkerCompletedWalks.data.historicalData[0].walker_id;
 
             const walkerCompletedIncome = await controller.getWalkerHistoricalIncomeAggregation(
                 tempWalkerID
             );
-            // place each dataset into the combined dataset
-            // console.log("GJ GJ GJ: ", walkerCompletedIncome.data.verificationData.rows);
+            // 2. Place each dataset into the COMBINED dataset
             combinedDataset.walkerInfo =
                 walkerCompletedWalks.data.historicalData;
             combinedDataset.walkerIncomeInfo =
                 walkerCompletedIncome.data.verificationData.rows;
-
-            console.log("Combined Dataset is:", combinedDataset);
-            res.send(combinedDataset);
-        } else {
-            // need to send a blank object back to the front end if walker has ZERO complmeted bookings
-            const nullDataset = {};
-            nullDataset.walkerInfo = {};
-            nullDataset.walkerIncomeInfo = {};
+            // 3. Send complete dataset to frontend
             res.send(combinedDataset);
         }
     } catch (error) {

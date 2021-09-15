@@ -212,3 +212,5 @@ SELECT count(*) FROM bookings;
 
 
 select  walkers.firstname, walkers.suburb, walkers.overall_rating from bookings, walkers where bookings.walker_assigned = walkers.walker_id and booking_status = 'A' and booking_id = 16
+
+
