@@ -48,6 +48,28 @@ Walker.getWalkerHistoricalIncomeAggregation = async (tempWalkerID) => {
     }
 };
 
+// GJ: 14/09: the below simply retrives teh assigned walks to the walker
+Walker.getWalkerAssignedWalks = async (tempWalkerID) => {
+    try {
+        const verificationData = await runSql(
+            walkerSql.GET_WALKER_ASSIGNED_WALKS,
+            [tempWalkerID]
+        );
+        console.log(
+            "Do we have ASSIGNED WALK VERIFICADTION?",
+            verificationData
+        );
+        // return verificationData;
+        return { data: { verificationData }, error: null };
+    } catch (error) {
+        console.log(
+            "models.js => getWalkerAssignedWalks => Something wrong",
+            error
+        );
+        return { data: null, error };
+    }
+};
+
 Walker.updateProfile = async (profile) => {
     // console.log("User update profile = ", profile);
     const {
