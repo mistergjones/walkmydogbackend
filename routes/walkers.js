@@ -77,4 +77,13 @@ router.get("/preferences/:credentialId", async (req, res) => {
     }
 });
 
+router.get("/profile/:credentialId", async (req, res) => {
+    try {
+        const walkerProfile = await controller.getWalkerProfile(req.params.credentialId);
+        res.send(walkerProfile);
+    } catch (error) {
+        console.log(error);
+        res.status(403).send(error);
+    }
+})
 module.exports = router;
