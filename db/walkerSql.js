@@ -40,12 +40,8 @@ module.exports = {
     GET_WALKER_POFILE_BY_CREDENTIAL_ID:
         "SELECT firstname, lastname, street_address, suburb, dob, state, postcode, mobile, licence_num, licence_photo, bank_name, bank_BSB, bank_acct_num, lat, lng, walker_30wo, walker_60wo, walker_60hv, walker_30hv, sizepreferences.size_preference FROM walkers, sizepreferences WHERE credential_id=$1 and walkers.size_id = sizepreferences.size_id;",
 
-
-
-
-
     // GJ: The below query obtains the assigned jobs to a walker
-    GET_WALKER_ASSIGNED_WALKS: `Select walkers.walker_id, walkers.firstname, walkers.lastname, bookings.date, bookings.start_time, services.service_type, bookings.booking_status, dogs.dog_firstname, bookings.service_fee FROM (((walkers INNER JOIN bookings ON walkers.walker_id = bookings.walker_assigned) INNER JOIN dogs ON bookings.owner_id = dogs.owner_id) INNER JOIN services ON bookings.service_id = services.service_id) WHERE credential_id = $1 AND booking_status = 'A';`,
+    GET_WALKER_ASSIGNED_WALKS: `SELECT walkers.walker_id, walkers.firstname, walkers.lastname, bookings.date, bookings.start_time, services.service_type, bookings.booking_status, dogs.dog_firstname, bookings.service_fee, owners.suburb FROM ((((walkers INNER JOIN bookings ON walkers.walker_id = bookings.walker_assigned) INNER JOIN dogs ON bookings.owner_id = dogs.owner_id) INNER JOIN services ON bookings.service_id = services.service_id) INNER JOIN owners ON bookings.owner_id = owners.owner_id) WHERE walkers.credential_id = $1 AND booking_status = 'A';`,
 
     // walker_30WO INTEGER,
     // walker_30HV INTEGER,

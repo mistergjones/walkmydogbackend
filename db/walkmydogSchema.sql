@@ -214,3 +214,4 @@ SELECT count(*) FROM bookings;
 select  walkers.firstname, walkers.suburb, walkers.overall_rating from bookings, walkers where bookings.walker_assigned = walkers.walker_id and booking_status = 'A' and booking_id = 16
 
 
+SELECT walkers.walker_id, walkers.firstname, walkers.lastname, bookings.date, bookings.start_time, services.service_type, bookings.booking_status, dogs.dog_firstname, bookings.service_fee, owners.suburb FROM ((((walkers INNER JOIN bookings ON walkers.walker_id = bookings.walker_assigned) INNER JOIN dogs ON bookings.owner_id = dogs.owner_id) INNER JOIN services ON bookings.service_id = services.service_id) INNER JOIN owners ON bookings.owner_id = owners.owner_id) WHERE walkers.credential_id = $1 AND booking_status = 'A';
