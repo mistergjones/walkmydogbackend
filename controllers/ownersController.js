@@ -17,6 +17,16 @@ const getOwners = async () => {
     }
 };
 
+const getOwnerProfile = async (ownerId) => {
+    try {
+        const ownerProfile = await Owner.getOwnerProfile(ownerId);
+        return ownerProfile;
+    } catch (error) {
+        console.log("get owner profile controller" + error);
+        return error;
+    }
+};
+
 // This query obtains 1 owner from TABLE: owners
 const getOwnerByCredentialId = async (credentialId) => {
     console.log("CREDENTIAL ID: ", credentialId);
@@ -68,4 +78,5 @@ module.exports = {
     // updateOwner,
     getOwnerByCredentialId,
     updateProfile,
+    getOwnerProfile
 };

@@ -16,7 +16,7 @@ const getWalkerHistoricalCompletions = async (credential_id) => {
     } catch (error) {
         console.log(
             "walkerController.js => error from getWalkerHistoricalCompletins = " +
-                error
+            error
         );
         return { data: null, error };
     }
@@ -39,7 +39,7 @@ const getWalkerHistoricalIncomeAggregation = async (tempWalkerID) => {
     } catch (error) {
         console.log(
             "walkerController.js => error from getWalkerHistoricalCompletions = " +
-                error
+            error
         );
         return { data: null, error };
     }
@@ -72,10 +72,20 @@ const getWalkerPreferencesByCredentialId = async (credentialId) => {
         return error;
     }
 };
+const getWalkerProfile = async (credentialId) => {
+    try {
+        const walkerProfile = await Walker.getWalkerProfile(credentialId);
+        return walkerProfile;
+    } catch (error) {
+        console.log("error controller walker profile " + error);
+        return error;
+    }
+}
 
 module.exports = {
     updateProfile,
     getWalkerHistoricalCompletions,
     getWalkerHistoricalIncomeAggregation,
     getWalkerPreferencesByCredentialId,
+    getWalkerProfile
 };

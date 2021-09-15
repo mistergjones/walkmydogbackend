@@ -6,6 +6,7 @@ module.exports = {
         "SELECT dog_firstname, dog_photo, dog_breed, dog_size, dog_always_leashed FROM DOGS WHERE dog_id = $1;",
     INSERT_DOG:
         "INSERT INTO DOGS (dog_firstname,dog_photo,dog_breed,dog_size,dog_always_leashed,owner_id) VALUES ($1,'notfilled',$2,$3,$4,$5);",
+    UPDATE_DOG: "UPDATE dogs SET dog_firstname = $1, dog_photo = $2, dog_breed = $3, dog_size =$4, dog_always_leashed = $5 where owner_id = $6;",
     // UPDATE_USER: "UPDATE USERS SET email = $1 WHERE user_id = $2;",
     // DELETE_USER: "DELETE FROM USERS WHERE user_id = $1"
 };

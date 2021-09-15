@@ -3,7 +3,9 @@ const jwt = require("jsonwebtoken");
 const { runSql } = require("../db/runsSql");
 const SQL = require("../db/ownersSql.js");
 const ownerSql = require("../db/ownersSql.js");
-const dogSql = require("../db/dogsSql");
+const dogSql = require("../db/dogsSql.js");
+const dogsSql = require("../db/dogsSql.js");
+
 
 // USED FOR EXPORTING THE FUNCTIONS BELOW
 const Owner = {};
@@ -22,6 +24,8 @@ Owner.get = async () => {
 
 // GET 1 OWNER
 Owner.getOwnerByCredentialId = async (credentialId) => {
+
+    console.log("ID = ", credentialId);
     try {
         const { rows } = await runSql(SQL.GET_OWNER_BY_CREDENTIAL_ID, [
             credentialId,
@@ -110,8 +114,14 @@ Owner.updateProfile = async (profile) => {
         lat,
         lng,
         owner_id,
+        hasProfile
     } = profile;
+
+
     try {
+
+
+
         var insertingOwnerResponse = await runSql(ownerSql.UPDATE_OWNER, [
             firstname,
             lastname,
@@ -131,16 +141,27 @@ Owner.updateProfile = async (profile) => {
         ]);
         console.log("INSERTING OWNER", insertingOwnerResponse);
 
-        // Need to insert the dog information after the owner:
-        var insertingDogOwnerResponse = await runSql(dogSql.INSERT_DOG, [
-            dogName,
-            dogBreed,
-            dogSize,
-            requiresLeash,
-            owner_id,
-        ]);
-        console.log("INSERTING DOG", insertingDogOwnerResponse);
+        if (hasProfile) {
+            await runSql(dogsSql.UPDATE_DOG, [
+                dogName,
+                "dogPhoto",
+                dogBreed,
+                dogSize,
+                requiresLeash,
+                owner_id,
+            ])
 
+        } else {
+            // Need to insert the dog information after the owner:
+            var insertingDogOwnerResponse = await runSql(dogSql.INSERT_DOG, [
+                dogName,
+                dogBreed,
+                dogSize,
+                requiresLeash,
+                owner_id,
+            ]);
+            console.log("INSERTING DOG", insertingDogOwnerResponse);
+        }
         // set hasprofile to TRUE in TABLE: CREDENTIALS
         await runSql(ownerSql.UPDATE_USER_PROFILE, [id]);
         // TODO error checking update worked
@@ -155,6 +176,7 @@ Owner.updateProfile = async (profile) => {
         );
         console.log("user update profile token = ", token);
         return { data: { token }, error: null };
+
     } catch (error) {
         console.log(error);
         return { data: null, error };
@@ -172,4 +194,13 @@ Owner.generateAuthToken = (id, type, email, profile, firstname, lastname) => {
     return token;
 };
 
+Owner.getOwnerProfile = async (ownerId) => {
+    try {
+        const { rows } = await runSql(ownerSql.GET_OWNER_PROFILE_BY_CREDENTIAL_ID, [ownerId]);
+        return rows[0];
+    } catch (error) {
+        console.log("get owner profile model ", error)
+        return error;
+    }
+}
 module.exports = Owner;
