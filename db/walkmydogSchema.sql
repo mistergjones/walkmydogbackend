@@ -196,16 +196,12 @@ INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,se
 
 INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-09-05','1630922400','1630924200','1800','notapplied','notapplied',10,1,'FALSE','na','C','no notes',16,1,48);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-09-05','1630922400','1630924200','1800','notapplied','notapplied',10,1,'FALSE','na','C','no notes',18,1,48);
 
-=======
->>>>>>> d5902b4 (Implemented LAT / LNG for owner and walker. State length increased. Valiators Updated. Changes to the backend to incorporate Walker History DB queries etc)
-=======
 INSERT INTO BOOKINGS (date,start_time,end_time,duration,photo_proof,gps_image,service_fee,our_comission,is_cancelled,whom_cancelled,booking_status,booking_instructions,walker_assigned,service_id,owner_id) VALUES ('2021-09-05','1630922400','1630924200','1800','notapplied','notapplied',10,1,'FALSE','na','C','no notes',18,1,48);
 
->>>>>>> 6ce3bba (Changes to walkerSql, models and route walker to support the hostorial walker capability)
+
 Select walkers.firstname, walkers.lastname, bookings.date, bookings.start_time, bookings.duration, bookings.booking_status, dogs.dog_firstname, bookings.service_fee FROM ((walkers INNER JOIN bookings ON walkers.walker_id = bookings.walker_assigned) INNER JOIN dogs ON bookings.owner_id = dogs.owner_id) WHERE walker_id = 16;
 
 SELECT count(*) FROM bookings;
@@ -215,3 +211,5 @@ select  walkers.firstname, walkers.suburb, walkers.overall_rating from bookings,
 
 
 SELECT walkers.walker_id, walkers.firstname, walkers.lastname, bookings.date, bookings.start_time, services.service_type, bookings.booking_status, dogs.dog_firstname, bookings.service_fee, owners.suburb FROM ((((walkers INNER JOIN bookings ON walkers.walker_id = bookings.walker_assigned) INNER JOIN dogs ON bookings.owner_id = dogs.owner_id) INNER JOIN services ON bookings.service_id = services.service_id) INNER JOIN owners ON bookings.owner_id = owners.owner_id) WHERE walkers.credential_id = $1 AND booking_status = 'A';
+
+UPDATE bookings SET is_cancelled = 'TRUE', whom_cancelled = $1, booking_status = 'C', walker_assigned = NULL WHERE booking_id = $2
