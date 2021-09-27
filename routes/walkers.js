@@ -12,10 +12,10 @@ router.get("/assignedwalks/:credential_id", async (req, res) => {
             req.params.credential_id
         );
 
-        console.log("GLEN GLEN GLEN", result.data.verificationData.rows);
         res.send(result.data.verificationData.rows);
     } catch (error) {
-        console.log("WTF WTF");
+        console.log("There has been an error in obtaining an assigned walk");
+        res.status(403).send(error);
     }
 });
 
@@ -97,11 +97,13 @@ router.get("/preferences/:credentialId", async (req, res) => {
 
 router.get("/profile/:credentialId", async (req, res) => {
     try {
-        const walkerProfile = await controller.getWalkerProfile(req.params.credentialId);
+        const walkerProfile = await controller.getWalkerProfile(
+            req.params.credentialId
+        );
         res.send(walkerProfile);
     } catch (error) {
         console.log(error);
         res.status(403).send(error);
     }
-})
+});
 module.exports = router;

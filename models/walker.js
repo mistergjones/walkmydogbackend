@@ -173,11 +173,16 @@ Walker.getWalkerPreferencesByCredentialId = async (credentialId) => {
 
 Walker.getWalkerProfile = async (credentialId) => {
     try {
-        const { rows } = await runSql(walkerSql.GET_WALKER_POFILE_BY_CREDENTIAL_ID, [credentialId]);
-        return rows[0]
+        const {
+            rows,
+        } = await runSql(walkerSql.GET_WALKER_POFILE_BY_CREDENTIAL_ID, [
+            credentialId,
+        ]);
+
+        return rows[0];
     } catch (error) {
         console.log(error);
         return error;
     }
-}
+};
 module.exports = Walker;
