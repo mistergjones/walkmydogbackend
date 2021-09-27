@@ -9,6 +9,7 @@ module.exports = {
         "SELECT bookings.booking_id, bookings.owner_id, bookings.date, bookings.start_Time, bookings.service_fee, bookings.booking_status, owners.credential_id, walkers.firstname, walkers.lastname, services.service_type FROM (((bookings INNER JOIN owners ON bookings.owner_id = owners.owner_id) INNER JOIN walkers ON bookings.walker_assigned = walkers.walker_id) INNER JOIN services ON bookings.service_id = services.service_id) WHERE bookings.booking_status = 'A' AND owners.credential_id = $1;",
     GET_OPEN_BOOKINGS_WALKER:
         "SELECT booking_id, date, start_time, suburb, service_type, services.service_fee, booking_status, lat, lng, dog_size FROM owners,bookings, services, dogs WHERE owners.owner_id = bookings.owner_id AND bookings.service_id = services.service_id AND booking_status = 'O' AND dogs.owner_id = owners.owner_id order by start_time desc;",
+    // GET_OPEN_BOOKINGS_WALKER: "SELECT booking_id, date, start_time, suburb, service_type, services.service_fee, booking_status, lat, lng, dog_size FROM owners,bookings, services, dogs WHERE booking_status = 'O' AND owners.owner_id = bookings.owner_id AND bookings.service_id = services.service_id AND   dogs.owner_id = owners.owner_id order by start_time desc;",
     GET_USER_BY_EMAIL: "SELECT user_id, email FROM USERS WHERE email = $1;",
     GET_BOOKING_BY_ID:
         "select bookings.date, start_time, owners.suburb, services.service_type, services.service_fee from bookings, services,owners where booking_id = $1 and bookings.service_id = services.service_id AND bookings.owner_id = owners.owner_id;",
@@ -24,6 +25,7 @@ module.exports = {
         "SELECT service_id, service_fee from services where service_type = $1",
     //GJ 15/09: The below updates a booking to CANCELLED (C)
     CANCEL_BOOKING: `UPDATE bookings SET is_cancelled = 'TRUE', whom_cancelled = $1, booking_status = 'C', walker_assigned = NULL WHERE booking_id = $2;`,
+    UPDATE_BOOKING_STATUS: "UPDATE bookings set booking_status = $1, walker_assigned = $2 where booking_id = $3"
 };
 
 // CREATE TABLE bookings(

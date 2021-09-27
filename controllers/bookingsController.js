@@ -166,20 +166,18 @@ const createBooking = async (booking) => {
     }
 };
 
-// // UPDATE USER
-// const updateUser = async (id, email) => {
-//     // NEED VALIDATION LOGIC HERE
-//     if (!User.validate(email)) return "Validation error";
+// UPDATE BOOKING STATUS
+const updateBookingStatus = async (status, walkerAssigned, id) => {
 
-//     try {
-//         const user = await User.update(id, email);
-//         return user;
-//     } catch (error) {
-//         console.log("Error from updateUser()", error);
-//         return error
-//     }
+    try {
+        await Booking.update(status, walkerAssigned, id);
+        return "Booking updated";
+    } catch (error) {
+        console.log("Error from updateBooking Status", error);
+        return error
+    }
 
-// }
+}
 
 // // DELETE USER
 // const deleteUser = async (id) => {
@@ -203,6 +201,6 @@ module.exports = {
     getBookingById,
     getBookingByIdAndType,
     createBooking,
-    // updateUser,
+    updateBookingStatus
     // deleteUser
 };
