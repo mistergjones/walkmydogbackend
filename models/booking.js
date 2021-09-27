@@ -193,18 +193,21 @@ Booking.getBookingByIdAndType = async (id, type) => {
     }
 };
 
-// // UPDATE A USER
-// Booking.update = async (id, email) => {
-//     try {
-//         await runSql(SQL.UPDATE_USER, [email, id]);
-//         const { rows } = await runSql(SQL.GET_USER_BY_ID, [id]);
-//         return { user: rows[0] };
+// UPDATE A Booking
+Booking.update = async (status, walkerAssigned, id) => {
+    console.log("id = ", id);
+    console.log("Status = ", status);
+    console.log("walker Assigned = ", walkerAssigned);
+    try {
+        await runSql(SQL.UPDATE_BOOKING_STATUS, [status, walkerAssigned, id]);
 
-//     } catch (error) {
-//         console.log(error);
-//         return error;
-//     }
-// };
+        return "Updated booking status";
+
+    } catch (error) {
+        console.log(error);
+        return error;
+    }
+};
 
 // // DELETE A USER
 // Booking.delete = async (id) => {
