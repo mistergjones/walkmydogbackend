@@ -5,16 +5,6 @@ const router = express.Router();
 
 const controller = require("../controllers/walkersController");
 
-// GJ: 15/09: This route will CANCEL (i.e PATCH) to update a booking to cancelled
-router.patch("/:credential_id", async (req, res) => {
-    console.log("PATCHING IS PRESENT - now do the query");
-    try {
-    } catch (error) {
-        console.log("There was an error updating a cancellation by the walker");
-        res.send(403).send(error);
-    }
-});
-
 // GJ: 14/09: this route is to obtain walker assigned walks by passing the credential id
 router.get("/assignedwalks/:credential_id", async (req, res) => {
     try {

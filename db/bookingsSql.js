@@ -1,6 +1,12 @@
 module.exports = {
     CREATE_USER: "INSERT INTO USERS (email, password) VALUES($1, $2);",
     GET_BOOKINGS: "SELECT * FROM BOOKINGS;",
+    // GJ: 20/09: The below query obtains all completed jobs done by a walker FOR THE OWNER to see
+    GET_COMPLETED_JOBS_FOR_OWNER:
+        "SELECT bookings.owner_id, bookings.date, bookings.start_time, bookings.service_fee, bookings.booking_status, owners.credential_id, walkers.firstname, walkers.lastname, services.service_type FROM (((bookings INNER JOIN owners ON bookings.owner_id = owners.owner_id) INNER JOIN walkers ON bookings.walker_assigned = walkers.walker_id) INNER JOIN services ON bookings.service_id = services.service_id) WHERE bookings.booking_status = 'F' AND owners.credential_id = $1;",
+    // GJ: 22/09: The below query obtains all ASSIGNED JOBS for the owner to see
+    GET_ASSIGNED_JOBS_FOR_OWNER:
+        "SELECT bookings.booking_id, bookings.owner_id, bookings.date, bookings.start_Time, bookings.service_fee, bookings.booking_status, owners.credential_id, walkers.firstname, walkers.lastname, services.service_type FROM (((bookings INNER JOIN owners ON bookings.owner_id = owners.owner_id) INNER JOIN walkers ON bookings.walker_assigned = walkers.walker_id) INNER JOIN services ON bookings.service_id = services.service_id) WHERE bookings.booking_status = 'A' AND owners.credential_id = $1;",
     GET_OPEN_BOOKINGS_WALKER:
         "SELECT booking_id, date, start_time, suburb, service_type, services.service_fee, booking_status, lat, lng, dog_size FROM owners,bookings, services, dogs WHERE owners.owner_id = bookings.owner_id AND bookings.service_id = services.service_id AND booking_status = 'O' AND dogs.owner_id = owners.owner_id order by start_time desc;",
     GET_USER_BY_EMAIL: "SELECT user_id, email FROM USERS WHERE email = $1;",
