@@ -185,4 +185,17 @@ Walker.getWalkerProfile = async (credentialId) => {
         return error;
     }
 };
+
+Walker.getWalker = async (credentialId) => {
+    try {
+        console.log("***************************");
+        console.log("walker.getWalker ->", credentialId);
+        const { rows } = await runSql(walkerSql.GET_WALKER, [credentialId]);
+        return rows[0];
+    } catch (error) {
+        console.log(error);
+        return error;
+    }
+};
+
 module.exports = Walker;

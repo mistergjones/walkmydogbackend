@@ -1,7 +1,7 @@
 module.exports = {
     // CREATE_USER: "INSERT INTO USERS (email, password) VALUES($1, $2);",
     GET_WALKER:
-        "SELECT firstname, lastname FROM walkers WHERE credential_id = $1;",
+        "SELECT firstname, lastname, walker_id FROM walkers WHERE credential_id = $1;",
     UPDATE_WALKER: `UPDATE walkers SET firstname = $1,
             lastname = $2,
             street_address=$3,
