@@ -51,20 +51,27 @@ router.get("/", async (req, res) => {
     }
 });
 
-// GJ: 22/09: This will obtain the assigned jobs that an OWNER can then view
+// GJ: 22/09: This will obtain the ASSIGNED AND OPEN jobs that an OWNER can then view
 router.get("/assigned/:credentialID", async (req, res) => {
     // console.log("ARE WE HERE????? routes booking.js. PARAMS", req.params);
     // console.log("ARE WE HERE????? routes booking.js BODY", req.body);
     const ownerCredentialId = req.params.credentialID;
     try {
-        const result = await controller.getAssignedJobsForOwner(
+        // obatain any assigned Jobs
+        const assignedJobs = await controller.getAssignedJobsForOwner(
             ownerCredentialId
         );
-        console.log(
-            "Router.js -> assigned jobs -> ARE WE HERE????? Length Records: ",
-            result.length
+        // obtain any open jobs
+        const openJobs = await controller.getOpenJobsForOwner(
+            ownerCredentialId
         );
-        res.send(result);
+
+        // console.log(
+        //     "Router.js -> assigned jobs -> ARE WE HERE????? Length Records: ",
+        //     assignedJobs.length,
+        //     openJobs.length
+        // );
+        res.send({ assignedJobs, openJobs });
     } catch (error) {
         console.log(
             "ERROR: routes.js -> bookings.js -> ownerCredentialId",
@@ -121,14 +128,17 @@ router.put("/", async (req, res) => {
     const { status, bookingId, walkerAssigned } = req.body;
 
     try {
-        const response = await controller.updateBookingStatus(status, walkerAssigned, bookingId);
+        const response = await controller.updateBookingStatus(
+            status,
+            walkerAssigned,
+            bookingId
+        );
         res.send(response);
-
     } catch (error) {
         console.log(error);
         res.status(403).send(error);
     }
-})
+});
 
 // router.post("/:id", async (req, res) => {
 //     try {

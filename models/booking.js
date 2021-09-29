@@ -49,6 +49,27 @@ Booking.getAssignedJobsForOwner = async (credentialID) => {
     }
 };
 
+// GJ: 27/09: The below gets the OPEN bookings for the OWNER to view
+// NOTE: Credential ID is used to map to owner id
+Booking.getOpenJobsForOwner = async (credentialID) => {
+    // console.log(
+    //     "models.js -> getOpenJobsForOwner. Cred ID is: ",
+    //     credentialID
+    // );
+    try {
+        const result = await runSql(SQL.GET_OPEN_JOBS_FOR_OWNER, [
+            credentialID,
+        ]);
+        // console.log(
+        //     "models.js -> getOpenJobsForOwner. DB result:",
+        //     result
+        // );
+        return result.rows;
+    } catch (error) {
+        console.log("ERROR: models.js -> getOpenJobsForOwner ->: ", object);
+    }
+};
+
 Booking.cancelBooking = async (walkerBookingIDObj) => {
     // destructure the contens of the data object
     console.log("bookings.js =>cancelBooking", walkerBookingIDObj);
@@ -202,7 +223,6 @@ Booking.update = async (status, walkerAssigned, id) => {
         await runSql(SQL.UPDATE_BOOKING_STATUS, [status, walkerAssigned, id]);
 
         return "Updated booking status";
-
     } catch (error) {
         console.log(error);
         return error;

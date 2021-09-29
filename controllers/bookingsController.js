@@ -1,13 +1,36 @@
 // REQUIRE MODEL
 const Booking = require("../models/booking.js");
+const Walker = require("../models/walker.js");
+
+//GJ: 19/09: GET ASSIGNED JOBS FOR AN OWNER TO VIEW
+//NOTE: Credential ID is used to map this to the owner id
+const getOpenJobsForOwner = async (credentialID) => {
+    // console.log(
+    //     "bookingsController.js -> getOpenJobsForOwner, CRED ID:",
+    //     credentialID
+    // );
+    try {
+        const result = await Booking.getOpenJobsForOwner(credentialID);
+        // console.log(
+        //     "bookingsController.js -> getOpenJobsForOwner. RESULT Is:",
+        //     result
+        // );
+        return result;
+    } catch (error) {
+        console.log(
+            "ERROR: bookingsController.js -> getOpenJobsForOwner",
+            error
+        );
+    }
+};
 
 //GJ: 19/09: GET ASSIGNED JOBS FOR AN OWNER TO VIEW
 //NOTE: Credential ID is used to map this to the owner id
 const getAssignedJobsForOwner = async (credentialID) => {
-    console.log(
-        "bookingsController.js -> getAssignedJobsForOwner, CRED ID:",
-        credentialID
-    );
+    // console.log(
+    //     "bookingsController.js -> getAssignedJobsForOwner, CRED ID:",
+    //     credentialID
+    // );
     try {
         const result = await Booking.getAssignedJobsForOwner(credentialID);
         // console.log(
@@ -26,10 +49,10 @@ const getAssignedJobsForOwner = async (credentialID) => {
 //GJ: 22/09: GET COMPLETED JOBS FOR AN OWNER TO VIEW
 //NOTE: Credential ID is used to map this to the owner id
 const getCompletedJobsForOwner = async (credentialID) => {
-    console.log(
-        "bookingsController.js -> getCompletedJobsForOwner, CRED ID:",
-        credentialID
-    );
+    // console.log(
+    //     "bookingsController.js -> getCompletedJobsForOwner, CRED ID:",
+    //     credentialID
+    // );
     try {
         const result = await Booking.getCompletedJobsForOwner(credentialID);
         // console.log(
@@ -47,16 +70,16 @@ const getCompletedJobsForOwner = async (credentialID) => {
 
 //GJ: 17/09: CANCEL A BOOKING THAT ALREADY HAS BEEN ASSIGNED TO A WALKER
 const cancelBooking = async (dataObject) => {
-    console.log(
-        "bookingsController.js ->Cancel booking. Data rescevied:",
-        dataObject
-    );
+    // console.log(
+    //     "bookingsController.js ->Cancel booking. Data rescevied:",
+    //     dataObject
+    // );
     try {
         const cancelBookingResult = await Booking.cancelBooking(dataObject);
-        console.log(
-            "bookingsController.js -> cancelBooking",
-            cancelBookingResult
-        );
+        // console.log(
+        //     "bookingsController.js -> cancelBooking",
+        //     cancelBookingResult
+        // );
         return cancelBookingResult;
     } catch (error) {
         console.log(
@@ -167,17 +190,20 @@ const createBooking = async (booking) => {
 };
 
 // UPDATE BOOKING STATUS
-const updateBookingStatus = async (status, walkerAssigned, id) => {
-
+const updateBookingStatus = async (status, walkerAssigned, bookingId) => {
     try {
-        await Booking.update(status, walkerAssigned, id);
+        const result = await Walker.getWalker(walkerAssigned);
+        console.log(
+            "updateBookingStatus -> WHAT DOES RESULT LOOK LIKE",
+            result
+        );
+        await Booking.update(status, result.walker_id, bookingId);
         return "Booking updated";
     } catch (error) {
         console.log("Error from updateBooking Status", error);
-        return error
+        return error;
     }
-
-}
+};
 
 // // DELETE USER
 // const deleteUser = async (id) => {
@@ -195,12 +221,13 @@ const updateBookingStatus = async (status, walkerAssigned, id) => {
 module.exports = {
     getCompletedJobsForOwner,
     getAssignedJobsForOwner,
+    getOpenJobsForOwner,
     cancelBooking,
     getBookings,
     // getUserByEmail,
     getBookingById,
     getBookingByIdAndType,
     createBooking,
-    updateBookingStatus
+    updateBookingStatus,
     // deleteUser
 };
