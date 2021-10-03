@@ -70,6 +70,7 @@ Booking.getOpenJobsForOwner = async (credentialID) => {
     }
 };
 
+// GJ: This cancels a booking by the OWNER
 Booking.cancelBooking = async (walkerBookingIDObj) => {
     // destructure the contens of the data object
     console.log("bookings.js =>cancelBooking", walkerBookingIDObj);
@@ -81,7 +82,7 @@ Booking.cancelBooking = async (walkerBookingIDObj) => {
             booking_id,
         ]);
 
-        console.log("XXXXXXXXXX", result);
+        console.log("XXX - Cancelling by Owner", result);
         // If succesful query.....
         if (result.rowCount === 1) {
             return { data: true };
@@ -90,6 +91,57 @@ Booking.cancelBooking = async (walkerBookingIDObj) => {
         }
     } catch (error) {
         console.log("models -> booking.js. Bookings.patch error =" + error);
+        return error;
+    }
+};
+// GJ: This cancels a booking by the OWNER
+Booking.cancelBookingByWalker = async (walkerBookingIDObj) => {
+    // destructure the contens of the data object
+    console.log("bookings.js =>cancelBooking", walkerBookingIDObj);
+    const { walker_id, booking_id } = walkerBookingIDObj;
+
+    try {
+        const result = await runSql(SQL.CANCEL_BOOKING_BY_WALKER, [
+            walker_id,
+            booking_id,
+        ]);
+
+        console.log("XXX - Cancelling By Walker", result);
+        // If succesful query.....
+        if (result.rowCount === 1) {
+            return { data: true };
+        } else if (result.rowCount === 0) {
+            return { data: false };
+        }
+    } catch (error) {
+        console.log("models -> booking.js. Bookings.patch error =" + error);
+        return error;
+    }
+};
+
+// GJ 29/09: The below query is executed when a walker has completed their walk.abs// UPDATE A Booking
+Booking.updateBookingCompletedByWalker = async (walkBookInfo) => {
+    console.log("Booking id = ", walkBookInfo.bookingId);
+    console.log("walker Assigned = ", walkBookInfo.walkerId);
+
+    const { bookingId, walkerId } = walkBookInfo;
+
+    try {
+        const result = await runSql(SQL.UPDATE_BOOKING_COMPLETED_BY_WALKER, [
+            bookingId,
+            walkerId,
+        ]);
+
+        console.log("MODELS BOOKINGS: updateBookingCompletedByWalker", result);
+
+        // If succesful query.....
+        if (result.rowCount === 1) {
+            return { data: true };
+        } else if (result.rowCount === 0) {
+            return { data: false };
+        }
+    } catch (error) {
+        console.log(error);
         return error;
     }
 };

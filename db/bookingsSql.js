@@ -24,29 +24,13 @@ module.exports = {
         "INSERT INTO BOOKINGS (date, start_time, end_time, duration, service_fee, our_comission, booking_status, booking_instructions, service_id, owner_id ) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)",
     GET_SERVICE_DETAILS:
         "SELECT service_id, service_fee from services where service_type = $1",
-    //GJ 15/09: The below updates a booking to CANCELLED (C)
+    //GJ 15/09: The below updates a booking to CANCELLED (C) WHEN AN OWNER DOES THIS
     CANCEL_BOOKING: `UPDATE bookings SET is_cancelled = 'TRUE', whom_cancelled = $1, booking_status = 'C', walker_assigned = NULL WHERE booking_id = $2;`,
+    //GJ 29/09: The below updates a booking to CANCELLED (C) WHEN A WALKER DOES THIS
+    CANCEL_BOOKING_BY_WALKER: `UPDATE bookings SET is_cancelled = 'TRUE', whom_cancelled = $1, booking_status = 'O', walker_assigned = NULL WHERE booking_id = $2;`,
+    // GJ: 29/09: FOR A WALKER, The below query updates the Booking to Finished (F) and sets the has_walker_completed BOOLEAN To true.
+    UPDATE_BOOKING_COMPLETED_BY_WALKER:
+        "UPDATE bookings SET booking_status = 'F', has_walker_completed = 'TRUE' WHERE booking_id = $1 AND walker_assigned=$2;",
     UPDATE_BOOKING_STATUS:
         "UPDATE bookings set booking_status = $1, walker_assigned = $2 where booking_id = $3",
 };
-
-// CREATE TABLE bookings(
-//     booking_id SERIAL PRIMARY KEY NOT NULL,
-//     date DATE NOT NULL,
-//     start_time BIGINT NOT NULL,
-//     end_time BIGINT NOT NULL,
-//     duration INTEGER NOT NULL,
-//     photo_proof VARCHAR(100),
-//     gps_image VARCHAR(100),
-//     service_fee NUMERIC(8, 2) NOT NULL,
-//     our_comission NUMERIC(8, 2) NOT NULL,
-//     is_cancelled BOOLEAN DEFAULT FALSE,
-//     whom_cancelled VARCHAR(6),
-//     booking_status VARCHAR(1),
-//     booking_instructions VARCHAR(100),
-//     walker_assigned INTEGER,
-//     service_id INTEGER,
-//     FOREIGN KEY(service_id) REFERENCES services(service_id),
-//     owner_id INTEGER,
-//     FOREIGN KEY(owner_id) REFERENCES owners(owner_id)
-// );

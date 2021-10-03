@@ -24,18 +24,51 @@ router.patch("/:booking_id", async (req, res) => {
     console.log("CANCEL BOOKING PATCHING IS PRESENT - now do the query");
     const data = req.body;
     try {
-        console.log("The body si:", data);
-        // console.log("The params si:", req.params);
-        const bookings = await controller.cancelBooking(data);
-        console.log("bookings.js -> router.patch -> bookings", bookings.data);
-        // send back either TRUE or FALSE
-        res.send(bookings);
+        // If Cancelling via a Walker....
+        if (data.type === "W") {
+            // console.log("The params si:", req.params);
+            const bookings = await controller.cancelBookingByWalker(data);
+
+            // send back either TRUE or FALSE
+            res.send(bookings);
+            // ELSE...must be an OWNER CANCELLING
+        } else {
+            // console.log("The params si:", req.params);
+            const bookings = await controller.cancelBooking(data);
+
+            // send back either TRUE or FALSE
+            res.send(bookings);
+        }
     } catch (error) {
         console.log(
             "There was an error updating a cancellation by the walker",
             error
         );
         // res.status(403).send(error);
+    }
+});
+
+// GJ: 29/09: The below is to update the job to completed by the WALKER
+router.patch("/completedByWalker/:booking_id", async (req, res) => {
+    // 0. Obtain Walker ID and Booking ID
+    const walkBookInfo = {};
+    walkBookInfo.bookingId = req.params.booking_id;
+    walkBookInfo.walkerId = req.body.walker_id;
+
+    try {
+        console.log("WALKER WALKER WALKER WALKER", walkBookInfo);
+        const result = await controller.updateBookingCompletedByWalker(
+            walkBookInfo
+        );
+        console.log("Routes BOOKING: updateBookingCompletedByWalker", result);
+        // return data: true || data: false
+        res.send(result);
+    } catch (error) {
+        console.log(
+            "routes.js -> ERROR in: router.patch completedByWalker",
+            error
+        );
+        res.status(403).send(error);
     }
 });
 

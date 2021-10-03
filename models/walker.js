@@ -55,10 +55,10 @@ Walker.getWalkerAssignedWalks = async (tempWalkerID) => {
             walkerSql.GET_WALKER_ASSIGNED_WALKS,
             [tempWalkerID]
         );
-        console.log(
-            "Do we have ASSIGNED WALK VERIFICADTION?",
-            verificationData
-        );
+        // console.log(
+        //     "Do we have ASSIGNED WALK VERIFICADTION?",
+        //     verificationData
+        // );
         // return verificationData;
         return { data: { verificationData }, error: null };
     } catch (error) {

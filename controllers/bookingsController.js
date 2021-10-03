@@ -68,7 +68,7 @@ const getCompletedJobsForOwner = async (credentialID) => {
     }
 };
 
-//GJ: 17/09: CANCEL A BOOKING THAT ALREADY HAS BEEN ASSIGNED TO A WALKER
+//GJ: 17/09: CANCEL A BOOKING VIA THE OWNER
 const cancelBooking = async (dataObject) => {
     // console.log(
     //     "bookingsController.js ->Cancel booking. Data rescevied:",
@@ -86,6 +86,48 @@ const cancelBooking = async (dataObject) => {
             "Error from bookingsController.js -> canelBooking()",
             error
         );
+        return error;
+    }
+};
+
+//GJ: 17/09: CANCEL A BOOKING VIA THE WALKER
+const cancelBookingByWalker = async (dataObject) => {
+    // console.log(
+    //     "bookingsController.js ->Cancel booking. Data rescevied:",
+    //     dataObject
+    // );
+    try {
+        const cancelBookingResult = await Booking.cancelBookingByWalker(
+            dataObject
+        );
+        // console.log(
+        //     "bookingsController.js -> cancelBooking",
+        //     cancelBookingResult
+        // );
+        return cancelBookingResult;
+    } catch (error) {
+        console.log(
+            "Error from bookingsController.js -> canelBookingByWalker()",
+            error
+        );
+        return error;
+    }
+};
+
+//
+// UPDATE BOOKING STATUS
+const updateBookingCompletedByWalker = async (walkBookInfo) => {
+    try {
+        const result = await Booking.updateBookingCompletedByWalker(
+            walkBookInfo
+        );
+        console.log(
+            "BOOKINGS CONTORLLER: updateBookingCompletedByWalker",
+            result
+        );
+        return result;
+    } catch (error) {
+        console.log("Error from updateBooking Status", error);
         return error;
     }
 };
@@ -223,6 +265,8 @@ module.exports = {
     getAssignedJobsForOwner,
     getOpenJobsForOwner,
     cancelBooking,
+    cancelBookingByWalker,
+    updateBookingCompletedByWalker,
     getBookings,
     // getUserByEmail,
     getBookingById,
