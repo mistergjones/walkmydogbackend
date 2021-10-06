@@ -161,6 +161,8 @@ CREATE TABLE bookings (
     service_fee NUMERIC(8,2) NOT NULL,
     our_comission NUMERIC(8,2) NOT NULL,
     is_cancelled BOOLEAN DEFAULT FALSE,
+    has_walker_completed BOOLEAN DEFAULT FALSE,
+    has_owner_confirmed BOOLEAN DEFAULT FALSE,
     whom_cancelled VARCHAR(6),
     booking_status VARCHAR(1),
     booking_instructions VARCHAR(100),

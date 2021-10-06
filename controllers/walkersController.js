@@ -52,7 +52,7 @@ const getWalkerAssignedWalks = async (tempWalkerID) => {
             tempWalkerID
         );
 
-        console.log("walkerController.js => WalkerAssignedWalks = ", data);
+        // console.log("walkerController.js => WalkerAssignedWalks = ", data);
         if (error) return { data: null, error: error };
         return { data, error: null };
     } catch (error) {
