@@ -196,7 +196,7 @@ const getBookingData = (booking) => {
     const millisecondsInSecond = 1000;
     const secondsInMinute = 60;
     // if service type stars with 3 length is 30 mins otherwise its 60 mins
-    const serviceLengthInMinutes = serviceType.split("")[0] === 3 ? 30 : 60;
+    const serviceLengthInMinutes = serviceType.split("")[0] === "3" ? 30 : 60;
     const serviceDurationInMilliseconds =
         serviceLengthInMinutes * secondsInMinute * millisecondsInSecond;
 
