@@ -15,10 +15,6 @@ require("./startup/routes")(app);
 // require("./startup/validation")();
 // require("./startup/debug")(app);
 
-// GJ 02/09. USED FOR PRODUCTION
-// app.use(express.static(__dirname, { dotfiles: 'allow' }))
-// app.use(express.static(path.join(__dirname, "./client/build")));
-
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () =>
     console.log(`Listening on Port ${port}...`)
@@ -26,7 +22,12 @@ const server = app.listen(port, () =>
 
 module.exports = server;
 
+// ************************************************************************************
 // GJ: PRODUCTION SERVER DETAILS
+
+// GJ 02/09. USED FOR PRODUCTION
+// app.use(express.static(__dirname, { dotfiles: 'allow' }))
+// app.use(express.static(path.join(__dirname, "./client/build")));
 
 // const server = https
 //   .createServer(
