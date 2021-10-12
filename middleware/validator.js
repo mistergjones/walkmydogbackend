@@ -35,7 +35,7 @@ signUpSchema = Yup.object({
         .required("Email is required")
         .max(100, "Must be less than 100 characters"),
     password: Yup.string()
-        .min(3, "Password must be at least 3 characters or more")
+        .min(8, "Password must be at least 8 characters or more")
         .required("Password is required"),
     // type: Yup.string()
     //     .min(1, "Must select Owner or Walker")
@@ -200,13 +200,9 @@ const ownerProfileValidator = async (req, res, next) => {
 };
 
 const createBookingSchema = Yup.object({
-
-    bookingDate: Yup.date()
-        .required("Booking Date is required"),
-    bookingTime: Yup.string()
-        .required("Booking time required"),
-    serviceType: Yup.string()
-        .required("Service Type required"),
+    bookingDate: Yup.date().required("Booking Date is required"),
+    bookingTime: Yup.string().required("Booking time required"),
+    serviceType: Yup.string().required("Service Type required"),
     mobile: Yup.string()
         .min(10, "Mobile number must bet 10 digits")
         .max(10, "Mobile number must be 10 didits")
@@ -230,5 +226,5 @@ module.exports = {
     insertDogInfoSchemaValidator,
     walkerProfileValidator,
     ownerProfileValidator,
-    createBookingValidator
+    createBookingValidator,
 };
