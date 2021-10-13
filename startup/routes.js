@@ -25,10 +25,10 @@ module.exports = function (app) {
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
     // GJ 02/09. USED FOR DEPLOYMENT - UNCOMMENT THE BELOW LINE PRODUCTION
-    // app.use(express.static(path.join(__dirname, "../client/build")));
+    app.use(express.static(path.join(__dirname, "../client/build")));
 
     // GJ: COMMENT OUT THE BLEOW LINE FOR PRODUCTION
-    app.use(express.static("public"));
+    //app.use(express.static("public"));
     app.use(cors());
     // app.use(helmet());
     // app.use(logger);

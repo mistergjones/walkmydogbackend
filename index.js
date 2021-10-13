@@ -15,32 +15,38 @@ require("./startup/routes")(app);
 // require("./startup/validation")();
 // require("./startup/debug")(app);
 
-const port = process.env.PORT || 3000;
-const server = app.listen(port, () =>
-    console.log(`Listening on Port ${port}...`)
-);
+// const port = process.env.PORT || 3000;
+// const server = app.listen(port, () =>
+//     console.log(`Listening on Port ${port}...`)
+// );
 
-module.exports = server;
+// module.exports = server;
 
 // ************************************************************************************
 // GJ: PRODUCTION SERVER DETAILS
 
 // GJ 02/09. USED FOR PRODUCTION
-// app.use(express.static(__dirname, { dotfiles: 'allow' }))
-// app.use(express.static(path.join(__dirname, "./client/build")));
+app.use(express.static(__dirname, { dotfiles: "allow" }));
+app.use(express.static(path.join(__dirname, "./client/build")));
 
-// const server = https
-//   .createServer(
-//     {
-//       key: fs.readFileSync('/etc/letsencrypt/archive/walkmd.ddns.net/privkey1.pem'),
-//       cert: fs.readFileSync('/etc/letsencrypt/archive/walkmd.ddns.net/cert1.pem'),
-//       ca: fs.readFileSync('/etc/letsencrypt/archive/walkmd.ddns.net/chain1.pem'),
-//     },
-//     app
-//   )
-//   .listen(443, () => {
-//     console.log('Listening...')
-//   })
+const server = https
+    .createServer(
+        {
+            key: fs.readFileSync(
+                "/etc/letsencrypt/archive/walkmd.ddns.net/privkey1.pem"
+            ),
+            cert: fs.readFileSync(
+                "/etc/letsencrypt/archive/walkmd.ddns.net/cert1.pem"
+            ),
+            ca: fs.readFileSync(
+                "/etc/letsencrypt/archive/walkmd.ddns.net/chain1.pem"
+            ),
+        },
+        app
+    )
+    .listen(443, () => {
+        console.log("Listening...");
+    });
 
 // GJ: THE BELOW PORT IS USED WHEN ACCESSING THE SOLUTION LOCALLY
 
@@ -49,4 +55,4 @@ module.exports = server;
 // //    console.log(`Listening on Port ${port}...`)
 // //);
 
-// module.exports = server;
+module.exports = server;

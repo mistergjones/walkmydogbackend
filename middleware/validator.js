@@ -169,7 +169,7 @@ const ownerProfileSchema = Yup.object().shape({
         .max(20, "Bank name must be <= 20 digits")
         .required("Bank Name is qequired"),
     bsb: Yup.string()
-        // .max(6, "BSB must be <= 6 digits")
+        .max(6, "BSB must be <= 6 digits")
         .required("6 Digit BSB is Required"),
     accountNumber: Yup.string()
         .max(10, "Account Number must be <= 10 digits")
