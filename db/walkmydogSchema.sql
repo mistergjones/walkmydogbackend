@@ -119,6 +119,7 @@ CREATE TABLE walkers (
     active_membership BOOLEAN DEFAULT TRUE,
     lat NUMERIC(9,6),
     lng NUMERIC(9,6),
+    profileUrl VARCHAR(120),
     size_id INTEGER,
     FOREIGN KEY (size_id) REFERENCES sizepreferences(size_id),
     credential_id INTEGER, 
