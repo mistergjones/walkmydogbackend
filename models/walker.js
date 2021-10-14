@@ -92,6 +92,7 @@ Walker.updateProfile = async (profile) => {
         serviceType,
         lat,
         lng,
+        profileUrl,
     } = profile;
 
     // Need to make function
@@ -133,6 +134,7 @@ Walker.updateProfile = async (profile) => {
             walker60WO,
             lat,
             lng,
+            profileUrl,
             size.sort().join(""), // PREFERENCES ALPHABETICALLY"LMS".
             id,
         ]);

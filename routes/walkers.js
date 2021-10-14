@@ -75,6 +75,7 @@ router.get("/:walker_id", async (req, res) => {
 
 router.post("/profile", auth, walkerProfileValidator, async (req, res) => {
     const { data, error } = await controller.updateProfile(req.body.profile);
+
     if (error) res.status(400).send(error);
     // console.log("route profile data = ", data);
     res.header("x-auth-token", data.token)
