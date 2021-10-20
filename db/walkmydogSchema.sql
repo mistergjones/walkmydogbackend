@@ -136,9 +136,9 @@ CREATE TABLE walkers (
 -- THIS TABLE CREATE DOGS
 CREATE TABLE dogs (
 dog_id SERIAL PRIMARY KEY NOT NULL,
-dog_firstname VARCHAR(20) NOT NULL,
+dog_firstname VARCHAR(50) NOT NULL,
 dog_photo VARCHAR(100) NOT NULL,
-dog_breed VARCHAR(20) NOT NULL,
+dog_breed VARCHAR(50) NOT NULL,
 dog_size VARCHAR(1) NOT NULL,
 dog_always_leashed VARCHAR(3) NOT NULL,
 owner_id INTEGER,
@@ -166,9 +166,10 @@ CREATE TABLE bookings (
     has_owner_confirmed BOOLEAN DEFAULT FALSE,
     whom_cancelled VARCHAR(6),
     booking_status VARCHAR(1),
-    booking_instructions VARCHAR(100),
+    booking_instructions VARCHAR(50),
     walker_assigned INTEGER,
     service_id INTEGER,
+    walk_completed_proof VARCHAR(120),
     FOREIGN KEY (service_id) REFERENCES services (service_id),
     owner_id INTEGER,
     FOREIGN KEY (owner_id) REFERENCES owners (owner_id)

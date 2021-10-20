@@ -50,17 +50,17 @@ router.patch("/:booking_id", async (req, res) => {
 
 // GJ: 29/09: The below is to update the job to completed by the WALKER
 router.patch("/completedByWalker/:booking_id", async (req, res) => {
-    // 0. Obtain Walker ID and Booking ID
+    // 0. Obtain Walker ID and Booking ID and the Photo proof walker has uploaded walk map
     const walkBookInfo = {};
+    // put information into a data object and push further down the line...
     walkBookInfo.bookingId = req.params.booking_id;
     walkBookInfo.walkerId = req.body.walker_id;
-
+    walkBookInfo.walker_proof = req.body.walker_map_proof;
     try {
-        console.log("WALKER WALKER WALKER WALKER", walkBookInfo);
         const result = await controller.updateBookingCompletedByWalker(
             walkBookInfo
         );
-        console.log("Routes BOOKING: updateBookingCompletedByWalker", result);
+        // console.log("Routes BOOKING: updateBookingCompletedByWalker", result);
         // return data: true || data: false
         res.send(result);
     } catch (error) {

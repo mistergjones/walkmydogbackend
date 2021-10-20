@@ -121,10 +121,10 @@ const updateBookingCompletedByWalker = async (walkBookInfo) => {
         const result = await Booking.updateBookingCompletedByWalker(
             walkBookInfo
         );
-        console.log(
-            "BOOKINGS CONTORLLER: updateBookingCompletedByWalker",
-            result
-        );
+        // console.log(
+        //     "BOOKINGS CONTORLLER: updateBookingCompletedByWalker",
+        //     result
+        // );
         return result;
     } catch (error) {
         console.log("Error from updateBooking Status", error);
