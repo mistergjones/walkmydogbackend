@@ -28,9 +28,9 @@ module.exports = {
     CANCEL_BOOKING: `UPDATE bookings SET is_cancelled = 'TRUE', whom_cancelled = $1, booking_status = 'C', walker_assigned = NULL WHERE booking_id = $2;`,
     //GJ 29/09: The below updates a booking to CANCELLED (C) WHEN A WALKER DOES THIS
     CANCEL_BOOKING_BY_WALKER: `UPDATE bookings SET is_cancelled = 'TRUE', whom_cancelled = $1, booking_status = 'O', walker_assigned = NULL WHERE booking_id = $2;`,
-    // GJ: 29/09: FOR A WALKER, The below query updates the Booking to Finished (F) and sets the has_walker_completed BOOLEAN To true.
+    // GJ: 29/09: FOR A WALKER, The below query updates the Booking to Finished (F) and sets the has_walker_completed BOOLEAN To true. It also includes the uploaded proof that the walker has completed the walk
     UPDATE_BOOKING_COMPLETED_BY_WALKER:
-        "UPDATE bookings SET booking_status = 'F', has_walker_completed = 'TRUE' WHERE booking_id = $1 AND walker_assigned=$2;",
+        "UPDATE bookings SET booking_status = 'F', has_walker_completed = 'TRUE', walk_completed_proof = $3 WHERE booking_id = $1 AND walker_assigned=$2;",
     UPDATE_BOOKING_STATUS:
         "UPDATE bookings set booking_status = $1, walker_assigned = $2 where booking_id = $3",
 };

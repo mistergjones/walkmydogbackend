@@ -121,18 +121,16 @@ Booking.cancelBookingByWalker = async (walkerBookingIDObj) => {
 
 // GJ 29/09: The below query is executed when a walker has completed their walk.abs// UPDATE A Booking
 Booking.updateBookingCompletedByWalker = async (walkBookInfo) => {
-    console.log("Booking id = ", walkBookInfo.bookingId);
-    console.log("walker Assigned = ", walkBookInfo.walkerId);
-
-    const { bookingId, walkerId } = walkBookInfo;
+    const { bookingId, walkerId, walker_proof } = walkBookInfo;
 
     try {
         const result = await runSql(SQL.UPDATE_BOOKING_COMPLETED_BY_WALKER, [
             bookingId,
             walkerId,
+            walker_proof,
         ]);
 
-        console.log("MODELS BOOKINGS: updateBookingCompletedByWalker", result);
+        // console.log("MODELS BOOKINGS: updateBookingCompletedByWalker", result);
 
         // If succesful query.....
         if (result.rowCount === 1) {
