@@ -50,7 +50,7 @@ const server = https
 
 module.exports = server;
 
-// GJ: THE BELOW PORT IS USED WHEN ACCESSING THE SOLUTION LOCALLY
+// GJ: THE BELOW PORT IS USED WHEN ACCESSING THE SOLUTION LOCALLY.
 
 // //const port = process.env.PORT || 80;
 // //const server = app.listen(port, () =>
