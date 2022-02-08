@@ -7,15 +7,17 @@ const { ownerProfileValidator } = require("../middleware/validator");
 const controller = require("../controllers/ownersController");
 
 router.get("/profile/:ownerId", async (req, res) => {
-    console.log("get owner profile = ", req.params)
+    console.log("get owner profile = ", req.params);
     try {
-        const ownerProfile = await controller.getOwnerProfile(req.params.ownerId);
+        const ownerProfile = await controller.getOwnerProfile(
+            req.params.ownerId
+        );
         res.send(ownerProfile);
     } catch (error) {
         console.log("error route get owner profile " + error);
         res.status(403).send("error get owner profile" + error);
     }
-})
+});
 // THIS WILL RETRIVE ALL OWNERS
 router.get("/", async (req, res) => {
     try {
@@ -43,7 +45,7 @@ router.get("/:credentialId", async (req, res) => {
 
 router.post("/profile", auth, ownerProfileValidator, async (req, res) => {
     // now need to update the owner and dog info
-    console.log("profile routes = *********************", req.body.profile)
+    console.log("profile routes = *********************", req.body.profile);
     const { data, error } = await controller.updateProfile(req.body.profile);
     if (error) res.status(400).send(error);
     console.log("route profile data = ", data);
