@@ -23,6 +23,7 @@
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "pg": "^8.6.0",
+    "stripe": "^8.184.0",
     "yup": "^0.32.9"
   },
   "devDependencies": {
