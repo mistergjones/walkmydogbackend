@@ -15,6 +15,8 @@ const walkers = require("../routes/walkers");
 // const logger = require("../middleware/logger");
 // const error = require("../middleware/error");
 
+// GJ: 11/02/22 - Used for stripe
+const bodyParser = require("body-parser");
 var cors = require("cors");
 // GJ: the bleow is really used for PRODUCTION
 const path = require("path");
@@ -22,8 +24,12 @@ const fs = require("fs");
 const https = require("https");
 
 module.exports = function (app) {
+    // GJ 11/02/22 - used for stripe
+    app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(bodyParser.json());
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
+
     // GJ 02/09. USED FOR DEPLOYMENT - UNCOMMENT THE BELOW LINE PRODUCTION
     // app.use(express.static(path.join(__dirname, "../client/build")));
 
