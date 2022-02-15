@@ -6,6 +6,9 @@ const { ownerProfileValidator } = require("../middleware/validator");
 
 const controller = require("../controllers/ownersController");
 
+// establish link to test account. PK
+const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
+
 router.get("/profile/:ownerId", async (req, res) => {
     console.log("get owner profile = ", req.params);
     try {
@@ -32,10 +35,10 @@ router.get("/", async (req, res) => {
 // attempting the stripe stuff
 // TODO: need to pass in the price object and the destination (dog walker) account
 router.post("/makestripepayment", async (req, res) => {
-    // establish link to test account
-    const stripe = require("stripe")(
-        "sk_test_51JU3mOKYhB8sv9zuMx1M0BbVTu7zV542lZ9BnTHwXtcaamNceVYRVd13e1yFa8X1w4GuTcOxYmX1tU8geVi8MxVt00IGqB7CCQ"
-    );
+    // const account = await stripe.accounts.create({ type: "express" });
+
+    // console.log("Accout is", account);
+    // res.send(account);
 
     // const accountLink = await stripe.accountLinks.create({
     //     account: "acct_1KRTSPQLtteRwdfn",
@@ -57,8 +60,8 @@ router.post("/makestripepayment", async (req, res) => {
             },
         ],
         mode: "payment",
-        success_url: "https://www.redbull.com",
-        cancel_url: "https://www.theage.com.au",
+        success_url: `${process.env.SERVER_URL}/successful_payment`,
+        cancel_url: `${process.env.SERVER_URL}/unsuccessful_payment`,
         payment_intent_data: {
             application_fee_amount: 249,
             transfer_data: {

@@ -18,6 +18,7 @@ const walkers = require("../routes/walkers");
 // GJ: 11/02/22 - Used for stripe
 const bodyParser = require("body-parser");
 var cors = require("cors");
+
 // GJ: the bleow is really used for PRODUCTION
 const path = require("path");
 const fs = require("fs");
