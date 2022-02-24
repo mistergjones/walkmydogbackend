@@ -64,9 +64,11 @@ const getWalkerAssignedWalks = async (tempWalkerID) => {
     }
 };
 
+// updaet the walker table with the inputted form data when a Walker Signs up and provides details
 const updateProfile = async (profile) => {
     try {
         const { data, error } = await Walker.updateProfile(profile);
+        console.log("ARE WE UPADTING THE WALKER TABLE HERE????", data);
         if (error) return { data: null, error: error };
         return { data, error: null };
     } catch (error) {

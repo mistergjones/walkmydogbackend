@@ -29,7 +29,7 @@ const getOwnerProfile = async (ownerId) => {
 
 // This query obtains 1 owner from TABLE: owners
 const getOwnerByCredentialId = async (credentialId) => {
-    console.log("CREDENTIAL ID: ", credentialId);
+    console.log("OWNER CREDENTIAL ID: ", credentialId);
     try {
         const owner = await Owner.getOwnerByCredentialId(credentialId);
         console.log("DO I HAVE AN OWNER???", owner);
@@ -78,5 +78,5 @@ module.exports = {
     // updateOwner,
     getOwnerByCredentialId,
     updateProfile,
-    getOwnerProfile
+    getOwnerProfile,
 };

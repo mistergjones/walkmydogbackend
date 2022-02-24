@@ -123,7 +123,7 @@ router.get("/completed/:credentialID", async (req, res) => {
             ownerCredentialId
         );
         console.log(
-            "Router.js -> completed jobs -> ARE WE HERE????? Length Records: ",
+            "Router.js -> Owner completed jobs ->  Length Records: ",
             result.length
         );
         res.send(result);

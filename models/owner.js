@@ -23,7 +23,7 @@ Owner.get = async () => {
 
 // GET 1 OWNER
 Owner.getOwnerByCredentialId = async (credentialId) => {
-    console.log("ID = ", credentialId);
+    console.log("Models-> owner.js -> OWNER ID = ", credentialId);
     try {
         const { rows } = await runSql(SQL.GET_OWNER_BY_CREDENTIAL_ID, [
             credentialId,

@@ -1,19 +1,10 @@
 const express = require("express");
-// const genres = require("../routes/genres");
-// const customers = require("../routes/customers");
-// const movies = require("../routes/movies");
-// const rentals = require("../routes/rentals");
+
 const users = require("../routes/users");
 const bookings = require("../routes/bookings");
 const dogs = require("../routes/dogs");
 const owners = require("../routes/owners");
 const walkers = require("../routes/walkers");
-// const auth = require("../routes/auth");
-// const returns = require("../routes/returns");
-
-// const helmet = require("helmet");
-// const logger = require("../middleware/logger");
-// const error = require("../middleware/error");
 
 // GJ: 11/02/22 - Used for stripe
 const bodyParser = require("body-parser");
@@ -26,31 +17,32 @@ const https = require("https");
 
 module.exports = function (app) {
     // GJ 11/02/22 - used for stripe
-    app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(cors());
+
+    // transforms the text-based JSON input into JS-accessible variables under req.body.
     app.use(bodyParser.json());
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
+    app.use(bodyParser.urlencoded({ extended: true }));
 
     // GJ 02/09. USED FOR DEPLOYMENT - UNCOMMENT THE BELOW LINE PRODUCTION
     // app.use(express.static(path.join(__dirname, "../client/build")));
 
     // GJ: COMMENT OUT THE BLEOW LINE FOR PRODUCTION
     app.use(express.static("public"));
-    app.use(cors());
-    // app.use(helmet());
-    // app.use(logger);
-    // app.use(auth);
-    // app.use("/api/genres", genres);
-    // app.use("/api/customers", customers);
-    // app.use("/api/movies", movies);
-    // app.use("/api/rentals", rentals);
+
     app.use("/api/users", users);
     app.use("/api/bookings", bookings);
     app.use("/api/dogs", dogs);
     app.use("/api/owners", owners);
     app.use("/api/walkers", walkers);
 
-    // app.use("/api/auth", auth);
-    // app.use("/api/returns", returns);
-    // app.use(error);
+    // app.use(function (req, res, next) {
+    //     res.header("Access-Control-Allow-Origin", "*");
+    //     res.header(
+    //         "Access-Control-Allow-Headers",
+    //         "Origin, X-Requested-With, Content-Type, Authorization"
+    //     );
+    //     next();
+    // });
 };
