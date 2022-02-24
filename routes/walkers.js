@@ -74,6 +74,7 @@ router.get("/:walker_id", async (req, res) => {
 });
 
 router.post("/profile", auth, walkerProfileValidator, async (req, res) => {
+    console.log("routes -> walkers.js -> post/profile-> Inserting a user");
     const { data, error } = await controller.updateProfile(req.body.profile);
 
     if (error) res.status(400).send(error);

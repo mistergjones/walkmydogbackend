@@ -1,6 +1,10 @@
 const express = require("express");
 const auth = require("../middleware/auth");
-const { loginValidator, signupValidator, walkerProfileValidator } = require("../middleware/validator");
+const {
+    loginValidator,
+    signupValidator,
+    walkerProfileValidator,
+} = require("../middleware/validator");
 const router = express.Router();
 
 const controller = require("../controllers/usersController");
@@ -25,6 +29,25 @@ router.post("/", signupValidator, async (req, res) => {
             console.log("inside error");
             return res.status(400).send(error);
         }
+
+        //
+        if (type === "W") {
+            const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
+            const account = await stripe.accounts.create({ type: "express" });
+
+            const accountLink = await stripe.accountLinks.create({
+                account: account.id,
+                refresh_url: "https://www.redbull.com",
+                return_url: "http://localhost:3001/dashboard/owner",
+                type: "account_onboarding",
+            });
+
+            // console.log("IT WORKS", accountLink);
+
+            console.log("Accout is", account, accountLink);
+        }
+
+        // res.send(account);
 
         console.log("users post token = ", data.token);
         // ***** Changes for jwt token in response
@@ -101,7 +124,6 @@ router.post("/login", loginValidator, async (req, res) => {
             error: emailErrorMsg,
         } = await controller.getUserByEmail(email);
 
-
         if (emailErrorMsg) return res.status(400).send(emailErrorMsg);
 
         // COMPARE PASSWORD IF NO ERROR WILL RECEIVE TOKEN AND USER OBJECT WITHOUT PASSWORD.
@@ -131,7 +153,6 @@ router.put("/", async (req, res) => {
         res.status(403).send(error);
     }
 });
-
 
 router.post("/:id", async (req, res) => {
     try {

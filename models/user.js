@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const { runSql } = require("../db/runsSql");
 const SQL = require("../db/usersSql.js");
 const walkerSql = require("../db/walkerSql.js");
-const ownerSql = require("../db/ownersSql")
+const ownerSql = require("../db/ownersSql");
 
 // USED FOR EXPORTING THE FUNCTIONS BELOW
 const User = {};
@@ -15,8 +15,6 @@ User.create = async (email, hashedPassword, type) => {
         const { rows: rowsBefore } = await runSql(SQL.GET_USER_BY_EMAIL, [
             email,
         ]);
-
-        // console.log("rows before = ", rowsBefore.length);
         // 2.0 If the email does EXIST, return an error message
         if (rowsBefore.length > 0)
             return { user: null, token: null, error: "email already exists" };
@@ -182,7 +180,9 @@ User.getUserDetails = async (id, type) => {
         }
     } else if (type === "O") {
         //TODO:
-        const { rows } = await runSql(ownerSql.GET_OWNER_BY_CREDENTIAL_ID, [id]);
+        const { rows } = await runSql(ownerSql.GET_OWNER_BY_CREDENTIAL_ID, [
+            id,
+        ]);
 
         // SQL CALL SHOULD RETURN ONE ROW
         if (rows.length !== 1) {
