@@ -23,10 +23,11 @@ module.exports = {
             walker_60WO = $16,
             lat = $17,
             lng = $18,
-            profileUrl = $19 
+            stripeAccountid = $19,
+            profileUrl = $20 
             FROM sizepreferences
-            where sizepreferences.size_preference = $20
-            AND credential_id=$21;`,
+            where sizepreferences.size_preference = $21
+            AND credential_id=$22;`,
     // GJ: The below query gets all "bookings" for an individual walker that has completed.
     GET_WALKER_HISTORICAL_COMPLETIONS: `Select walkers.walker_id, walkers.firstname, walkers.lastname, bookings.booking_id, bookings.date, bookings.start_time, services.service_type, bookings.booking_status, dogs.dog_firstname, bookings.service_fee FROM (((walkers INNER JOIN bookings ON walkers.walker_id = bookings.walker_assigned) INNER JOIN dogs ON bookings.owner_id = dogs.owner_id) INNER JOIN services ON bookings.service_id = services.service_id) WHERE credential_id = $1 AND booking_status = 'F';`,
     // GJ: The below query aggregates the walker's incomce by each service type

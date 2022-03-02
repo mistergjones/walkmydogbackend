@@ -92,6 +92,7 @@ Walker.updateProfile = async (profile) => {
         serviceType,
         lat,
         lng,
+        stripeID,
         profileUrl,
     } = profile;
 
@@ -109,6 +110,7 @@ Walker.updateProfile = async (profile) => {
         walker30HV = 3;
         walker60HV = 5;
     }
+
     console.log("30WO = ", walker30WO);
     console.log("60WO = ", walker60WO);
     console.log("30HV = ", walker30HV);
@@ -134,6 +136,7 @@ Walker.updateProfile = async (profile) => {
             walker60WO,
             lat,
             lng,
+            stripeID,
             profileUrl,
             size.sort().join(""), // PREFERENCES ALPHABETICALLY"LMS".
             id,
