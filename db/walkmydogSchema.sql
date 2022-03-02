@@ -15,15 +15,16 @@ create database walkmydog;
 CREATE TABLE services (
     service_id SERIAL PRIMARY KEY NOT NULL,
     service_type VARCHAR(4) NOT NULL,
-    service_fee NUMERIC(4,2) NOT NULL
+    service_fee NUMERIC(4,2) NOT NULL,
+    service_stripe_fee_id VARCHAR(30) NOT NULL
 );
 
 -- SERVICES DATA
-insert into services (service_type, service_fee) VALUES ('na', 0);
-insert into services (service_type, service_fee) VALUES ('30WO', 25);
-insert into services (service_type, service_fee) VALUES ('30HV', 20);
-insert into services (service_type, service_fee) VALUES ('60WO', 40);
-insert into services (service_type, service_fee) VALUES ('60HV', 35);
+insert into services (service_type, service_fee,service_stripe_fee_id) VALUES ('na', 0,'0');
+insert into services (service_type, service_fee,service_stripe_fee_id) VALUES ('30WO', 25,'price_1KYJqKKYhB8sv9zu8WUO4cmM');
+insert into services (service_type, service_fee,service_stripe_fee_id) VALUES ('30HV', 20,'price_1KYLQ8KYhB8sv9zufNpG11aZ');
+insert into services (service_type, service_fee,service_stripe_fee_id) VALUES ('60WO', 40,'price_1KYLQeKYhB8sv9zuUSxCD3ay');
+insert into services (service_type, service_fee,service_stripe_fee_id) VALUES ('60HV', 35,'price_1KYLQyKYhB8sv9zuHe7uIJdZ');
 SELECT count(*) FROM services;
 
 
@@ -120,6 +121,7 @@ CREATE TABLE walkers (
     lat NUMERIC(9,6),
     lng NUMERIC(9,6),
     profileUrl VARCHAR(120),
+    stripeAccountId VARCHAR(30),
     size_id INTEGER,
     FOREIGN KEY (size_id) REFERENCES sizepreferences(size_id),
     credential_id INTEGER, 

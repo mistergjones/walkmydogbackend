@@ -34,43 +34,28 @@ router.get("/", async (req, res) => {
 
 // attempting the stripe stuff
 // TODO: need to pass in the price object and the destination (dog walker) account
-router.get("/makestripepayment", async (req, res) => {
-    // const account = await stripe.accounts.create({ type: "standard" });
-
-    // console.log("Accout is", account);
-    // // res.send(account);
-
-    // const accountLink = await stripe.accountLinks.create({
-    //     account: "acct_1KRTSPQLtteRwdfn",
-    //     refresh_url: "https://www.redbull.com",
-    //     return_url: "http://localhost:3001/dashboard/walker",
-    //     type: "account_onboarding",
-    // });
-
-    // console.log("IT WORKS", accountLink);
-    // res.send(accountLink);
-
+router.post("/makestripepayment", async (req, res) => {
     // create a checkout payment session for the dog owner
-    console.log("Dog owner about to make a payment");
-    // const session = await stripe.checkout.sessions.create({
-    //     line_items: [
-    //         {
-    //             price: "price_1KRpYkKYhB8sv9zuMnDurDcV",
-    //             quantity: 1,
-    //         },
-    //     ],
-    //     mode: "payment",
-    //     success_url: `${process.env.SERVER_URL}/successful_payment`,
-    //     cancel_url: `${process.env.SERVER_URL}/unsuccessful_payment`,
-    //     payment_intent_data: {
-    //         application_fee_amount: 949,
-    //         transfer_data: {
-    //             destination: "acct_1KRTSPQLtteRwdfn",
-    //         },
-    //     },
-    // });
-    // console.log("ARE WE HERE 2", session);
-    // res.send(session);
+    console.log("Dog owner about to make a payment", req.body);
+    const session = await stripe.checkout.sessions.create({
+        line_items: [
+            {
+                price: req.body.priceid,
+                quantity: 1,
+            },
+        ],
+        mode: "payment",
+        success_url: `${process.env.SERVER_URL}/successful_payment`,
+        cancel_url: `${process.env.SERVER_URL}/unsuccessful_payment`,
+        payment_intent_data: {
+            application_fee_amount: 949,
+            transfer_data: {
+                destination: req.body.walkerid,
+            },
+        },
+    });
+    console.log("ARE WE HERE 2", session);
+    res.send(session);
 });
 
 // OWNER TABLE: THIS WILL RETREIVE 1 SPECIFIC OWNER BASED ON THEIR CREDENTIAL ID

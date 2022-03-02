@@ -30,25 +30,6 @@ router.post("/", signupValidator, async (req, res) => {
             return res.status(400).send(error);
         }
 
-        //
-        if (type === "W") {
-            const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
-            const account = await stripe.accounts.create({ type: "express" });
-
-            const accountLink = await stripe.accountLinks.create({
-                account: account.id,
-                refresh_url: "https://www.redbull.com",
-                return_url: "http://localhost:3001/dashboard/owner",
-                type: "account_onboarding",
-            });
-
-            // console.log("IT WORKS", accountLink);
-
-            console.log("Accout is", account, accountLink);
-        }
-
-        // res.send(account);
-
         console.log("users post token = ", data.token);
         // ***** Changes for jwt token in response
         res.header("x-auth-token", data.token)
